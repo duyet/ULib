@@ -4,6 +4,7 @@ var _ = require('lodash');
 var passport = require('passport');
 var Promise  = require('bluebird');
 var bcrypt   = Promise.promisifyAll(require('bcrypt'));
+var crypto	= require('crypto');
 var nodemailer = require('nodemailer');
 var async = require('async');
 
@@ -22,28 +23,65 @@ exports.signin = function(req, res, next) {
 	// For security measurement we remove the roles from the req.body object
 	delete req.body.roles;
 
+	req.assert('username', 'Username is empty.').notEmpty();
+	req.assert('password', 'Password is empty.').notEmpty();
+
+	var err = req.validationErrors();
+	if (err) {
+		return res.status(400).send({message: err});
+	}
+
 	console.log(req.body);
 
-	staff.login(req.body.username, req.body.password).then(function(staff_user) {
+	passport.authenticate('local-login', function(err, user, info) {
+		if (err) { return next(err); }
+		
+		if (!user) {
+			return res.status(400).send({message: req.flash('loginMessage')});
+		}
+		
+		req.logIn(user, function(err) {
+			if (err) { return next(err); }
+			//return res.redirect('/users/' + user.username);
+			res.json(user);
+		});
+	})(req, res, next);
+
+	/*
+	var staffLogin = new staff();
+	staffLogin.login(username, password).then(function(staff_user) {
 		// Login success
 		//res.json(staff_user.omit('password'));
-		req.login(staff_user, function(err) {
-			if (err) {
-				res.status(400).send({message:err});
-			} else {
-				res.json(staff_user);
-			}
-		});
-
+		if (staff_user) {
+			req.login(staff_user, function(err) {
+				if (err) {
+					res.status(400).send({message:err});
+				} else {
+					res.json(staff_user);
+				}
+			});	
+		}
   	}).catch(staff.NotFoundError, function() {
 		res.json(400, {message: req.body.username + ' not found'});
 	}).catch(function(err) {
 		res.status(400).send({message: 'Password was wrong!'});
 		console.error(err);
 	});
+
+*/
 };
 
 exports.signup = function(req, res, next) {
+
+	req.assert('username', 'Username is empty.').notEmpty();
+	req.assert('password', 'Password is empty.').notEmpty();
+	req.assert('email', 'Invalid email.').notEmpty().isEmail();
+
+	var err = req.validationErrors();
+	if (err) {
+		return res.status(400).send({message: err});
+	}
+
 	var name = req.body.yourName;
 	var username = req.body.username;
 	var email = req.body.email;
@@ -73,7 +111,7 @@ exports.signup = function(req, res, next) {
 				bcrypt.hash(password, salt, function(err, hash) {
 					 new staff({username: username.toLowerCase().trim(), email: email, password:hash}).save({}, {isNew:true})
 					.catch(function(e) {
-						console.error('Error when save!');
+						console.error(e);
 						res.status(400).send({message: 'Error when save, please try again later!'});
 					})
 					.then(function(new_staff) {
@@ -93,7 +131,8 @@ exports.signup = function(req, res, next) {
 
 		}
 	});
-}
+
+};
 
 exports.signout = function(req, res, next) {
 	if(req.isAuthenticated()){
@@ -101,7 +140,7 @@ exports.signout = function(req, res, next) {
 	}
 
 	res.redirect('/');
-}
+};
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -167,6 +206,7 @@ exports.update = function(req, res) {
  * Forgot for reset password (forgot POST)
  */
 exports.forgot = function(req, res, next) {
+	/*
 	async.waterfall([
 		// Generate random token
 		function(done) {
@@ -235,12 +275,14 @@ exports.forgot = function(req, res, next) {
 	], function(err) {
 		if (err) return next(err);
 	});
+*/
 };
 
 /**
  * Reset password GET from email token
  */
 exports.validateResetToken = function(req, res) {
+/*
 	User.findOne({
 		resetPasswordToken: req.params.token,
 		resetPasswordExpires: {
@@ -253,6 +295,7 @@ exports.validateResetToken = function(req, res) {
 
 		res.redirect('/#!/password/reset/' + req.params.token);
 	});
+*/	
 };
 
 /**

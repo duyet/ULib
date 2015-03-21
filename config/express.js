@@ -10,6 +10,7 @@ var fs = require('fs'),
 	morgan = require('morgan'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
+	expressValidator = require('express-validator'),
 	compress = require('compression'),
 	passport = require('passport'),
 	methodOverride = require('method-override'),
@@ -83,6 +84,12 @@ module.exports = function(db) {
 	}));
 	app.use(bodyParser.json());
 	app.use(methodOverride());
+	
+	app.use(expressValidator({
+		errorFormatter: function(param, msg, value) {
+			return msg;
+		}
+	}));
 
 	// CookieParser should be above session
 	app.use(cookieParser());
@@ -90,21 +97,14 @@ module.exports = function(db) {
 	// Express MongoDB session storage
 	app.use(session({
 		saveUninitialized: true,
-		resave: true,
 		secret: config.sessionSecret,
 		cookie: { secure: true }
-		/*
-			store: new mongoStore({
-				db: db.connection.db,
-				collection: config.sessionCollection
-			})
-		*/
 	}));
 
 	// use passport session
 	app.use(passport.initialize());
 	app.use(passport.session());
-	app.set('passport', passport);
+	//app.set('passport', passport);
 
 	// connect flash for flash messages
 	app.use(flash());

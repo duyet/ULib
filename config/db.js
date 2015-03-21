@@ -8,4 +8,4 @@ module.exports = {
 	    database : 'ULib',
 	    charset  : 'utf8'
   }
-}
+};
