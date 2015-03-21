@@ -11,13 +11,13 @@ module.exports = function(app) {
 	var staff = require('../../app/controllers/staff.server.controller');
 
 	// Setting up the users profile api
-	app.route('/users/me').get(users.me);
+	app.route('/users/me').get(staff.me);
 	app.route('/users').put(staff.update);
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
 
 	// Setting up the users password api
 	app.route('/users/password').post(users.changePassword);
-	app.route('/auth/forgot').post(users.forgot);
+	app.route('/auth/forgot').post(staff.forgot);
 	app.route('/auth/reset/:token').get(users.validateResetToken);
 	app.route('/auth/reset/:token').post(users.reset);
 
