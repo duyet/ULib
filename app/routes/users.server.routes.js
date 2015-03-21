@@ -12,7 +12,7 @@ module.exports = function(app) {
 
 	// Setting up the users profile api
 	app.route('/users/me').get(users.me);
-	app.route('/users').put(users.update);
+	app.route('/users').put(staff.update);
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
 
 	// Setting up the users password api
@@ -22,9 +22,9 @@ module.exports = function(app) {
 	app.route('/auth/reset/:token').post(users.reset);
 
 	// Setting up the users authentication api
-	app.route('/auth/signup').post(users.signup);
+	app.route('/auth/signup').post(staff.signup);
 	app.route('/auth/signin').post(staff.signin);
-	app.route('/auth/signout').get(users.signout);
+	app.route('/auth/signout').get(staff.signout);
 
 	// Setting the facebook oauth routes
 	app.route('/auth/facebook').get(passport.authenticate('facebook', {
