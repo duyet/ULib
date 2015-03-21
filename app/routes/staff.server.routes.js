@@ -14,12 +14,6 @@ module.exports = function(app) {
 
 	// Setting up the users profile api
 	app.route('/users/me').get(staff.me);
-	app.get('/users/me2',
-		passport.authenticate('local-login', { session: false }),
-		function(req, res) {
-			res.json({ id: req.user.id, username: req.user.username });
-	});
-
 
 	app.route('/users').put(staff.update);
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
