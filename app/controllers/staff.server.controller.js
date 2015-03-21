@@ -82,7 +82,7 @@ exports.signup = function(req, res, next) {
 		return res.status(400).send({message: err});
 	}
 
-	var name = req.body.yourName;
+	var name = req.body.yourName || '';
 	var username = req.body.username;
 	var email = req.body.email;
 	var password = req.body.password;
@@ -97,7 +97,7 @@ exports.signup = function(req, res, next) {
 		return res.status(400).json({message: 'Password length must be >= 5.'});
 	}	
 
-	new staff({email: email}).fetch().then(function(user) {
+	new staff({username: username}).fetch().then(function(user) {
 		console.log(user);
 		if (user) {
 			// This username aldready exists.
@@ -106,29 +106,25 @@ exports.signup = function(req, res, next) {
 			// Register new user
 			
 			// TODO: missing name on db, fix later
-			
-			bcrypt.genSalt(10, function(err, salt) {
-				bcrypt.hash(password, salt, function(err, hash) {
-					 new staff({username: username.toLowerCase().trim(), email: email, password:hash}).save({}, {isNew:true})
-					.catch(function(e) {
-						console.error(e);
-						res.status(400).send({message: 'Error when save, please try again later!'});
-					})
-					.then(function(new_staff) {
-						console.log('Add new staff success!', new_staff.attributes);
+			bcrypt.hash(password, 8, function(err, hash) {
+				new staff({username: username.toLowerCase().trim(), email: email, name: name.trim(), password:hash}).save({}, {isNew:true})
+				.then(function(new_staff) {
+					console.log('Add new staff success!', new_staff.attributes);
 
-						// Login
-						req.login(new_staff.attributes, function(err) {
-							if (err) {
-								res.status(400).send(err);
-							} else {
-								res.json(new_staff.attributes);
-							}
-						});
-					});	
+					// Login
+					req.login(new_staff.attributes, function(err) {
+						if (err) {
+							res.status(400).send(err);
+						} else {
+							res.json(new_staff.attributes);
+						}
+					});
+				})
+				.catch(function(e) {
+					console.error(e);
+					res.status(400).send({message: 'Error when save, please try again later!'});
 				});
 			});
-
 		}
 	});
 
