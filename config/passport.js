@@ -28,9 +28,18 @@ module.exports = function(passport) {
 
 	// Deserialize sessions
 	passport.deserializeUser(function(id, done) {
-		connection.query('SELECT * FROM Staff WHERE id = ? ', [id], function(err, rows){
-			done(err, rows[0]);
+		new staff({id: id}).fetch()
+		.then(function(new_staff) {
+			if (new_staff) {
+				done(null, new_staff.attributes);
+			}
+		}).catch(function(e) {
+			done(e, null);
 		});
+
+//		connection.query('SELECT * FROM Staff WHERE id = ? ', [id], function(err, rows){
+//			done(err, rows[0]);
+//		});
 
 	});
 
@@ -121,8 +130,12 @@ module.exports = function(passport) {
         		new staff({username: username.toLowerCase().trim()}).fetch({require: true}).then(function(staff) {
 					console.log(staff);
 
-					bcrypt.compare(staff.get('password'), password, function(err, res) {
-						if (res === false) {
+					console.log('Compare password....');
+					console.log('Password is ', password, bcrypt.hashSync(password, 8));
+					console.log('Hash is ', staff.get('password'));
+
+					bcrypt.compare(password, staff.get('password'), function(err, res) {
+						if (res == false) {
 							return done(null, false, req.flash('loginMessage', 'Password was wrong.')); 
 						} else {
 							console.log('Login success');

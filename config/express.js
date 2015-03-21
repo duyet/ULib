@@ -98,6 +98,7 @@ module.exports = function(db) {
 	app.use(session({
 		saveUninitialized: true,
 		secret: config.sessionSecret,
+		resave: true,
 		cookie: { secure: true }
 	}));
 
