@@ -44,12 +44,17 @@
 </head>
 
 <body class="ng-cloak">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-	<section class="content">
-		<section class="container">
-			{% block content %}{% endblock %}
-		</section>
-	</section>
+	<div id="wrapper">
+		<!--header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header-->
+
+		<nav data-ng-include="'/modules/core/views/nav.client.view.html'" class="navbar-default navbar-static-side" role="navigation"></nav>
+
+		<div id="page-wrapper" class="gray-bg">
+			<div class="wrapper wrapper-content animated fadeInRight">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</div>
 
 	<!--Embedding The User Object-->
 	<script type="text/javascript">
