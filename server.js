@@ -17,6 +17,7 @@ var db = mysql.createConnection(config.db).connect(function(err) {
 	if (err) {
 		console.error(chalk.red('Could not connect to MySQL Server!'));
 		console.log(chalk.red(err));
+		
 	}
 });
 

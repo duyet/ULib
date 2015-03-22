@@ -94,18 +94,23 @@ module.exports = function(db) {
 	// CookieParser should be above session
 	app.use(cookieParser());
 
-	// Express MongoDB session storage
+	// Session
+	/*
 	app.use(session({
 		saveUninitialized: true,
 		secret: config.sessionSecret,
 		resave: true,
 		cookie: { secure: true }
 	}));
+	*/
+	app.use(session({
+	    secret: 'LvDuit_Session_Secret',
+	    cookie: {maxAge: 24*60*60*1000}
+	}));
 
 	// use passport session
 	app.use(passport.initialize());
 	app.use(passport.session());
-	//app.set('passport', passport);
 
 	// connect flash for flash messages
 	app.use(flash());

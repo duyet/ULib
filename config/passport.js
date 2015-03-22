@@ -23,11 +23,13 @@ connection.query('USE ' + config.db.database);
 module.exports = function(passport) {
 	// Serialize sessions
     passport.serializeUser(function(user, done) {
+    	console.log('serializeUser ...', user);
         done(null, user.id);
     });
 
 	// Deserialize sessions
 	passport.deserializeUser(function(id, done) {
+		console.log('deserializeUser...', id);
 		new staff({id: id}).fetch()
 		.then(function(new_staff) {
 			if (new_staff) {
