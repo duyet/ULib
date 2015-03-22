@@ -152,6 +152,7 @@ function isLoggedIn(req, res, next) {
 /**
  * Send User
  */
+
 exports.me = function(req, res) {
 	res.json(req.user || null);
 };
@@ -172,14 +173,24 @@ exports.update = function(req, res) {
 	if (user) {
 		// Merge existing user
 		user = _.extend(user, req.body);
-		user.updated = Date.now();
-		user.displayName = user.firstName + ' ' + user.lastName;
 
+		console.log("Update user profile...");
+		console.log(user);
+
+		new staff(user).save().then(function(model) {
+			return res.json(model);
+		}).catch(function(err) {
+			console.log(err);
+
+			return res.status(400).send({
+				message: 'Cannot save, please try again!'
+			});
+		});
+
+		/*
 		user.save(function(err) {
 			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
+				
 			} else {
 				req.login(user, function(err) {
 					if (err) {
@@ -190,6 +201,8 @@ exports.update = function(req, res) {
 				});
 			}
 		});
+		*/
+
 	} else {
 		res.status(400).send({
 			message: 'User is not signed in!'
@@ -382,6 +395,7 @@ exports.changePassword = function(req, res) {
 
 	if (req.user) {
 		if (passwordDetails.newPassword) {
+			staff.
 			User.findById(req.user.id, function(err, user) {
 				if (!err && user) {
 					if (user.authenticate(passwordDetails.currentPassword)) {

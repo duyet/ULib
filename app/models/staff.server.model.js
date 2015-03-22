@@ -5,8 +5,23 @@ var checkit  = require('checkit');
 var Promise  = require('bluebird');
 var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
+var rules = {
+	username: 'required',
+	email: ['required', 'email'],
+	password: 'required'
+};
+
 var Staff = Model.extend({
-  tableName: 'Staff',
+	tableName: 'Staff',
+	
+	initialize: function() {
+		this.on('saving', this.validateSave);
+	},
+
+	validateSave: function() {
+		return checkit(rules).run(this.attributes);
+	},
+
 },
 {
 	login: Promise.method(function(username, password) {

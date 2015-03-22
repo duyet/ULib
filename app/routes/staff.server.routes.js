@@ -13,13 +13,21 @@ module.exports = function(app) {
 	var staff = require('../../app/controllers/staff.server.controller');
 
 	// Setting up the users profile api
+	function ensureAuthenticated(req, res, next) {
+		if (req.isAuthenticated()) { return next(); }
+		res.redirect('/#!/signup');
+	}
+
+	app.get('/account', ensureAuthenticated, function(req, res){
+		res.json(req.user || null);
+	});
 	app.route('/users/me').get(staff.me);
 
 	app.route('/users').put(staff.update);
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
 
 	// Setting up the users password api
-	app.route('/users/password').post(users.changePassword);
+	app.route('/users/password').post(staff.changePassword);
 	app.route('/auth/forgot').post(staff.forgot);
 	app.route('/auth/reset/:token').get(users.validateResetToken);
 	app.route('/auth/reset/:token').post(users.reset);
