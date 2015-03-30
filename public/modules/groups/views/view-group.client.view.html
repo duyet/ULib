@@ -1,0 +1,33 @@
+<section data-ng-controller="GroupsController" data-ng-init="findOne()">
+	<div class="row">
+		<div class="col-sm-12 col-md-8 col-lg-8">
+			<div class="ibox-content">
+				<a data-ng-href="/#!/groups" title="Go back" class="go-back">Back</a>
+				
+				<h1 data-ng-bind="'Group: ' + group.name"></h1>
+
+				<div>
+					Content
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-4 col-lg-4" data-ng-init="getListStaff()">
+			<div class="ibox-content">
+			<h1>List of users</h1>
+				<div class="chat-users">
+					<div class="users-list">
+						<div class="chat-user" data-ng-repeat="staff in staffs">
+							<div class="chat-user-name">
+								<a href="#" ng-bind="staff.name"></a> 
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+
+		</div>
+	</div>
+</section>
