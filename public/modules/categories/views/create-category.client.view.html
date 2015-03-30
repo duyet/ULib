@@ -1,0 +1,47 @@
+<section data-ng-controller="CategoriesController">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <a data-ng-href="/#!/categories" title="Go back" class="go-back">Back</a>
+            <h1>Create new Category</h1>
+
+            <div class="ibox-content">
+                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                    <fieldset>
+                        
+                        <div data-ng-show="error" class="alert alert-danger">
+                            <span data-ng-bind="error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="name">Name</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="description">Description</label>
+                            <div class="controls">
+                                <textarea name="description" id="description" data-ng-model="description" class="form-control">
+                                    
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="loan_time">Loan time (days)</label>
+                            <div class="controls">
+                                <input type="number" data-ng-model="loan_time" id="loan_time" class="form-control" placeholder="15 days" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

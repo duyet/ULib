@@ -1,0 +1,22 @@
+<section data-ng-controller="CategoriesController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            
+            <div class="ibox-content">
+                <h1 class="animated fadeInDown">Categories</h1>
+                <div class="list-group animated fadeInDown">
+                    <a data-ng-repeat="category in categories" data-ng-href="#!/categories/{{category.id}}" class="list-group-item">
+                        <h2 class="list-group-item-heading" data-ng-bind="category.name"></h2>
+                        <small class="list-group-item-text">
+                            <span data-ng-bind="category.description"></span>    
+                        </small>
+                    </a>
+                </div>
+                <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
+                    No Categories yet, why don't you <a href="/#!/categories/create">create one</a>?
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

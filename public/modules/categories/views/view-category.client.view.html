@@ -1,0 +1,16 @@
+<section data-ng-controller="CategoriesController" data-ng-init="findOne()">
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h1 data-ng-bind="category.name"></h1>
+
+			<div class="ibox-content">
+				<label>Name</label> <span data-ng-bind="category.name"></span> <br>
+				<label>Description</label> <span data-ng-bind="category.description"></span> <br>
+				<label>Loan time</label> <span data-ng-bind="category.loan_time"></span><br>
+				
+
+				<a href="/#!/categories/{{category.id}}/edit" class="btn btn-primary">edit</a>
+			</div>
+		</div>
+	</div>
+</section>
