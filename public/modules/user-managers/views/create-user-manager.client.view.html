@@ -1,0 +1,52 @@
+<section data-ng-controller="UserManagersController">
+    <div class="ibox col-xs-offset-1 col-xs-8 col-md-offset-1 col-md-4">
+        <h1>New user</h1>
+
+        <div class="ibox-content">
+            <form data-ng-submit="create()" class="signin form-horizontal" autocomplete="off">
+                <fieldset>
+                    <div data-ng-show="success" class="alert alert-success">
+                        Profile Created Successfully.
+                    </div>
+                    <div data-ng-show="error" class="alert alert-danger">
+                        <span data-ng-bind="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="username">Username</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="username" id="username" class="form-control" placeholder="Username" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="email" id="email" class="form-control" placeholder="Email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="password" id="password" class="form-control" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div class="text-center form-group">
+                        <button type="submit" class="btn btn-large btn-primary">Create</button>
+                        <button type="submit" class="btn btn-large">Cancle</button>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
