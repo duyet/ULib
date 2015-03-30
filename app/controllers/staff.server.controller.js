@@ -46,29 +46,6 @@ exports.signin = function(req, res, next) {
 			res.json(user);
 		});
 	})(req, res, next);
-
-	/*
-	var staffLogin = new staff();
-	staffLogin.login(username, password).then(function(staff_user) {
-		// Login success
-		//res.json(staff_user.omit('password'));
-		if (staff_user) {
-			req.login(staff_user, function(err) {
-				if (err) {
-					res.status(400).send({message:err});
-				} else {
-					res.json(staff_user);
-				}
-			});	
-		}
-  	}).catch(staff.NotFoundError, function() {
-		res.json(400, {message: req.body.username + ' not found'});
-	}).catch(function(err) {
-		res.status(400).send({message: 'Password was wrong!'});
-		console.error(err);
-	});
-
-*/
 };
 
 exports.signup = function(req, res, next) {
@@ -186,22 +163,6 @@ exports.update = function(req, res) {
 				message: 'Cannot save, please try again!'
 			});
 		});
-
-		/*
-		user.save(function(err) {
-			if (err) {
-				
-			} else {
-				req.login(user, function(err) {
-					if (err) {
-						res.status(400).send(err);
-					} else {
-						res.json(user);
-					}
-				});
-			}
-		});
-		*/
 
 	} else {
 		res.status(400).send({
