@@ -51,32 +51,11 @@ var Staff = Model.extend({
 				});	
 			});
 		});
+	}),
+
+	findById: Promise.method(function(id) {	
+		return this({id:id}).fetch();
 	})
 });
 
 module.exports = Staff;
-
-/*
-var Staff = Model.extend({
-	
-	initialize: function() {
-		this.on('saving', this.validateSave);
-	},
-
-	validateSave: function() {
-		return checkit(rules).run(this.attributes);
-	},
-
-	account: function() {
-		return this.belongsTo(Account);
-	},
-}, {
-	login: Promise.method(function(email, password) {
-		if (!email || !password) throw new Error('Email and password are both required');
-			return new this({email: email.toLowerCase().trim()}).fetch({require: true}).tap(function(customer) {
-			return bcrypt.compareAsync(customer.get('password'), password);
-		});
-	})
-
-});
-*/
