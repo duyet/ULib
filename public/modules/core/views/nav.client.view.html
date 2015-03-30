@@ -1,66 +1,67 @@
 <div class="sidebar-collapse" data-ng-controller="HeaderController">
 
-<div class="nav-header">
-    <div class="dropdown profile-element" data-ng-hide="authentication.user">
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <span class="clear"></span>
-                <span class="block m-t-xs">
-                    <strong class="font-bold">
-                    ULib
-                    </strong>
-            </span>
-        </a>
-    </div>
-        <div class="dropdown profile-element" data-ng-show="authentication.user">
-            
-            <!--span>
-            <img alt="image" class="img-circle" src="https://s.gravatar.com/avatar/ec039c99cdf4a8694f436abed28a23cd?s=100" />
-        </span-->
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <span class="clear">
-                <span class="block m-t-xs">
-                    <strong class="font-bold">Hi, <span data-ng-bind="authentication.user.name"></span> <b class="caret"></b></strong>
-                </span>
-            </a>
-            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                <li><a href="/#!/settings/profile">Edit Profile</a></li>
-                <li><a href="/#!/settings/accounts">Manage Social Accounts</a></li>
-                <li data-ng-show="authentication.user.provider === 'local'"><a href="/#!/settings/password">Change Password</a></li>
-                <li class="divider"></li>
-                <li><a href="/auth/signout">Signout</a></li>
-            </ul>
-        </div>
-        <div class="logo-element">
-            IN+
-        </div>
-    </div>
+        <nav class="sidebar-nav">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element" data-ng-hide="authentication.user">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="/#!/">
+                            <span class="clear"></span>
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold">
+                                    ULib
+                                    </strong>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="dropdown profile-element" data-ng-show="authentication.user">
+                            <!--span>
+                            <img alt="image" class="img-circle" src="https://s.gravatar.com/avatar/ec039c99cdf4a8694f436abed28a23cd?s=100" />
+                        </span-->
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold">
+                                        Hi, <span data-ng-bind="authentication.user.name"></span> <b class="caret"></b>
+                                    </strong>
+                                </span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="/#!/settings/profile">Edit Profile</a></li>
+                            <li><a href="/#!/settings/accounts">Manage Social Accounts</a></li>
+                            <li data-ng-show="authentication.user.provider === 'local'"><a href="/#!/settings/password">Change Password</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/auth/signout">Signout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
 
-
-<nav class="sidebar-nav">
-    <ul class="nav" id="side-menu">
-        <li ui-route="/signin" ng-class="{active: $uiRoute}" data-ng-hide="authentication.user">
-            <a href="/#!/signin">Login to System</a>
-        </li>
-        
-        <li class="divider-vertical"></li>
-        <li ui-route="/signup" ng-class="{active: $uiRoute}" data-ng-hide="authentication.user">
-            <a href="/#!/signup">Sign Up</a>
-        </li>
-        <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);"  ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
-            <a ng-switch-when="dropdown" class="dropdown-toggle">
-                <span data-ng-bind="item.title" class="nav-label"></span>
-                <span class="fa arrow"></span>
-            </a>
-            <ul ng-switch-when="dropdown" aria-expanded="false">
-                <li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
-                    <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
+                <li ui-route="/signin" ng-class="{active: $uiRoute}" data-ng-hide="authentication.user">
+                    <a href="/#!/signin">Login to System</a>
+                </li>
+                
+                <li class="divider-vertical"></li>
+                <li ui-route="/signup" ng-class="{active: $uiRoute}" data-ng-hide="authentication.user">
+                    <a href="/#!/signup">Sign Up</a>
+                </li>
+                <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);"  ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
+                    <a ng-switch-when="dropdown" class="dropdown-toggle">
+                        <span data-ng-bind="item.title" class="nav-label"></span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul ng-switch-when="dropdown" aria-expanded="false">
+                        <li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
+                            <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
+                        </li>
+                    </ul>
+                    <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
+                </li>
+                <li ui-route="/about" ng-class="{active: $uiRoute}">
+                    <a href="/#!/about">About</a>
                 </li>
             </ul>
-            <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
-        </li>
-        <li ui-route="/about" ng-class="{active: $uiRoute}">
-            <a href="/#!/about">About</a>
-        </li>
-    </ul>
-</nav>
+        </nav>
 </div>

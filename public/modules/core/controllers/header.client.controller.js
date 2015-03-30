@@ -15,6 +15,6 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 			$scope.isCollapsed = false;
 		});
 
-		$('#side-menu').metisMenu();
+		//$('#side-menu').metisMenu();
 	}
 ]);
