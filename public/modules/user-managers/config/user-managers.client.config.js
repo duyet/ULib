@@ -4,7 +4,13 @@
 angular.module('user-managers').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'User managers', 'user-managers', 'dropdown', '/user-managers(/create)?');
+		Menus.addMenuItem('topbar', 'Users and Groups', 'user-managers', 'dropdown', '/user-managers(/create)?');
+
+		// Groups
+		Menus.addSubMenuItem('topbar', 'user-managers', 'List Groups', 'groups');
+		Menus.addSubMenuItem('topbar', 'user-managers', 'New Group', 'groups/create');
+		
+		// Users
 		Menus.addSubMenuItem('topbar', 'user-managers', 'List User managers', 'user-managers');
 		Menus.addSubMenuItem('topbar', 'user-managers', 'New User manager', 'user-managers/create');
 	}

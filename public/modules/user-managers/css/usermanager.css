@@ -1,0 +1,17 @@
+.userManagerBox { 
+	margin-bottom: 10px;
+}
+
+.userManagerBox:hover > .ibox-content { 
+	background-color: #1ab394;
+	color: #ffffff;
+}
+
+.userManagerBox:hover > .ibox-content a { 
+	color: #fff;
+	font-weight: 500;
+}
+
+.userManagerBox a.btn { 
+	color: #676a6c;
+}

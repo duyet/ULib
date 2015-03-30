@@ -5,6 +5,10 @@ angular.module('user-managers').controller('UserManagersController', ['$scope', 
 	function($scope, $stateParams, $location, Authentication, UserManagers) {
 		$scope.authentication = Authentication;
 
+		$scope.go = function (path) {
+			$location.path(path);
+		};
+
 		// Create new User manager
 		$scope.create = function() {
 			// Create new User manager object
@@ -17,7 +21,7 @@ angular.module('user-managers').controller('UserManagersController', ['$scope', 
 
 			// Redirect after save
 			userManager.$save(function(response) {
-				$location.path('user-managers/' + response._id);
+				$location.path('user-managers/' + response.id);
 
 				// Clear form fields
 				$scope.name = '';
@@ -28,7 +32,7 @@ angular.module('user-managers').controller('UserManagersController', ['$scope', 
 
 		// Remove existing User manager
 		$scope.remove = function(userManager) {
-			if ( userManager ) { 
+			if ( userManager ) {
 				userManager.$remove();
 
 				for (var i in $scope.userManagers) {
@@ -36,6 +40,8 @@ angular.module('user-managers').controller('UserManagersController', ['$scope', 
 						$scope.userManagers.splice(i, 1);
 					}
 				}
+
+				$location.path('user-managers');
 			} else {
 				$scope.userManager.$remove(function() {
 					$location.path('user-managers');
