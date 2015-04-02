@@ -30,7 +30,7 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var loanTime = req.body.loan_time || 15;
 
-	new categoryModel({name:categoryName, description:description, loan_time:loanTime}).save().then(function(model) { 
+	new categoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		return res.status(400).send({
