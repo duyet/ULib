@@ -10,6 +10,7 @@ var fs = require('fs'),
 	morgan = require('morgan'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
+	sessionStore = require('express-mysql-session'),
 	expressValidator = require('express-validator'),
 	compress = require('compression'),
 	passport = require('passport'),
@@ -103,9 +104,15 @@ module.exports = function(db) {
 		cookie: { secure: true }
 	}));
 	*/
+
+	var sqlSession = new sessionStore(require('./db').db);
 	app.use(session({
+		key: 'LvDuit_Session_Key',
 	    secret: 'LvDuit_Session_Secret',
-	    cookie: {maxAge: 24*60*60*1000}
+	    resave: true,
+	    saveUninitialized: true,
+	    cookie: {maxAge: 24*60*60*1000},
+	    store: sqlSession
 	}));
 
 	// use passport session
