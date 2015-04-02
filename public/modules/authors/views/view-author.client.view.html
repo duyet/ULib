@@ -1,0 +1,15 @@
+<section data-ng-controller="AuthorsController" data-ng-init="findOne()">
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h1 data-ng-bind="author.name"></h1>
+
+			<div class="ibox-content">
+				<label>Name</label> <span data-ng-bind="author.name"></span> <br>
+				<label>Description</label> <span data-ng-bind="author.description"></span> <br>
+				
+				<a href="/#!/authors/{{author.id}}/edit" class="btn btn-primary">edit</a>
+				<a href="javascipt:void(0)" class="btn btn-warning" data-ng-click="remove();">remove</a>
+			</div>
+		</div>
+	</div>
+</section>
