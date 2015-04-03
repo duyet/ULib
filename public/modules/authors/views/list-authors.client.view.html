@@ -1,0 +1,18 @@
+<section data-ng-controller="AuthorsController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 ibox-content">
+            <h1>Authors</h1>
+            <div class="list-group">
+                <a data-ng-repeat="author in authors" data-ng-href="#!/authors/{{author.id}}" class="list-group-item">
+                    <h4 class="list-group-item-heading" data-ng-bind="author.name"></h4>
+                    <p ng-bind="author.description"></p>
+                </a>
+            </div>
+            <div class="alert alert-warning text-center" data-ng-hide="!authors.$resolved || authors.length">
+                No Authors yet, why don't you <a href="/#!/authors/create">create one</a>?
+            </div>
+        </div>
+    </div>
+
+
+</section>

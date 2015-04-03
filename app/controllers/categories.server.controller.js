@@ -13,7 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var category = require('../models/category.server.model');
+var categoryModel = require('../models/category.server.model');
 
 /**
  * Create a Category
@@ -30,7 +30,7 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var loanTime = req.body.loan_time || 15;
 
-	new category({name:categoryName, description:description, loan_time:loanTime}).save().then(function(model) { 
+	new categoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -44,7 +44,6 @@ exports.create = function(req, res) {
  * Show the current Category
  */
 exports.read = function(req, res) {
-	console.log('Reading...');
 	res.jsonp(req.category);
 };
 
@@ -52,18 +51,20 @@ exports.read = function(req, res) {
  * Update a Category
  */
 exports.update = function(req, res) {
-	var category = req.category ;
+	var category = req.category.attributes;
 
-	category = _.extend(category , req.body);
+	category.description = req.body.description;
+	category.loan_time = req.body.loan_time;
+	category.name = req.body.name;
 
-	category.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(category);
-		}
+	console.log('Update category with data:', category);
+
+	new categoryModel({id:req.category.id}).save(category).then(function(model) {
+		res.jsonp(model);
+	}).error(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
@@ -71,16 +72,16 @@ exports.update = function(req, res) {
  * Delete an Category
  */
 exports.delete = function(req, res) {
-	var category = req.category ;
+	var category = req.category.attributes;
 
-	category.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
+	new categoryModel({id:category.id}).then(function(model) {
+		model.destroy().then(function() {
 			res.jsonp(category);
-		}
+		});
+	}).otherwise(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
@@ -88,7 +89,7 @@ exports.delete = function(req, res) {
  * List of Categories
  */
 exports.list = function(req, res) { 
-	new category({status:1}).fetchAll().then(function(categories){ 
+	new categoryModel({status:1}).fetchAll().then(function(categories){ 
 		res.jsonp(categories);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -101,7 +102,7 @@ exports.list = function(req, res) {
  * Category middleware
  */
 exports.categoryByID = function(req, res, next, id) { 
-	new category({id:id}).fetch().then(function(cat) { 
+	new categoryModel({id:id}).fetch().then(function(cat) { 
 		if (! cat) return next(new Error('Failed to load Category ' + id));
 
 		req.category = cat;
