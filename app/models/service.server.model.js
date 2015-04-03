@@ -9,7 +9,7 @@ var rules = {
 	name: 'required',
 };
 
-var Services = Model.extend({
+var Service = Model.extend({
 	tableName: 'Services',
 	
 	initialize: function() {
@@ -22,4 +22,4 @@ var Services = Model.extend({
 
 })
 
-module.exports = Services;
+module.exports = Service;
