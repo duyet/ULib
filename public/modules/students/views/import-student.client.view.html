@@ -1,0 +1,31 @@
+<section data-ng-controller="StudentsController">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <a data-ng-href="/#!/languages" title="Go back" class="go-back">Back</a>
+            <h1>New Students</h1>
+
+            <div class="ibox-content">
+                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                    <fieldset>
+                        
+                        <div data-ng-show="error" class="alert alert-danger">
+                            <span data-ng-bind="error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="file">Import from file</label>
+                            <div class="controls">
+                                <input type="file" ng-model="importfile" class="btn btn-default" value="Select file ..." placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

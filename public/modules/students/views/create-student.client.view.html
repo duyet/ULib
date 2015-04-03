@@ -1,0 +1,75 @@
+<section data-ng-controller="StudentsController">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <a data-ng-href="/#!/languages" title="Go back" class="go-back">Back</a>
+            <h1>New Students</h1>
+
+            <div class="ibox-content">
+                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                    <fieldset>
+                        
+                        <div data-ng-show="error" class="alert alert-danger">
+                            <span data-ng-bind="error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="student_id">Student ID</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="student_id" id="student_id" class="form-control" placeholder="13520171" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="name">Student Name</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Van-Duyet Le" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="subject">Student Subject</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="subject" id="subject" class="form-control" placeholder="HTTT" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="sex">Sex</label>
+                            <div class="controls">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" data-ng-model="sex" name="sex" value="1" checked="checked">
+                                        Boy
+                                    </label>
+
+                                    <label>
+                                        <input type="radio" data-ng-model="sex" name="sex" value="0" checked="checked">
+                                        Girl
+                                    </label>
+
+                                    <label>
+                                        <input type="radio" data-ng-model="sex" name="sex" value="-1" checked="checked">
+                                        None
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="email">Email</label>
+                            <div class="controls">
+                                <input type="email" data-ng-model="email" id="email" class="form-control" placeholder="lvduit08@gmail.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
