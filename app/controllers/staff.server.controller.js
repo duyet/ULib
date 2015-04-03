@@ -356,7 +356,6 @@ exports.changePassword = function(req, res) {
 
 	if (req.user) {
 		if (passwordDetails.newPassword) {
-			staff.
 			User.findById(req.user.id, function(err, user) {
 				if (!err && user) {
 					if (user.authenticate(passwordDetails.currentPassword)) {
