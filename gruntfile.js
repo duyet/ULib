@@ -57,6 +57,7 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		/*
 		csslint: {
 			options: {
 				csslintrc: '.csslintrc',
@@ -65,6 +66,7 @@ module.exports = function(grunt) {
 				src: watchFiles.clientCSS
 			}
 		},
+		*/
 		uglify: {
 			production: {
 				options: {
