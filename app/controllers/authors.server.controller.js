@@ -28,9 +28,8 @@ exports.create = function(req, res) {
 
 	var authorName = req.body.name || '';
 	var description = req.body.description || '';
-	var loanTime = req.body.loan_time || 15;
 
-	new authorModel({name:authorName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
+	new authorModel({name:authorName.trim(), description:description.trim()}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		return res.status(400).send({
