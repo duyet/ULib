@@ -8,4 +8,4 @@ app/tests/coverage/
 .bower-*/
 .idea/
 *~
-*.bak
+*.mwb.bak
