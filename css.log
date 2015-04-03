@@ -1,0 +1,653 @@
+[4mRunning "jshint:all" (jshint) task[24m
+
+[1m   public/modules/core/js/main.js[22m
+      4 |[90m    console.log('Init MetsiMenu...');[39m
+             ^ Missing "use strict" statement.
+      2 |[90m$(document).ready(function () {[39m
+         ^ '$' is not defined.
+      5 |[90m    $('#side-menu').metisMenu();[39m
+             ^ '$' is not defined.
+[1m   config/passport.js[22m
+     13 |[90mvar Promise  = require('bluebird');[39m
+             ^ Redefinition of 'Promise'.
+    140 |[90m                        if (res == false) {[39m
+                                           ^ Expected '===' and instead saw '=='.
+[1m   app/controllers/staff.server.controller.js[22m
+      5 |[90mvar Promise  = require('bluebird');[39m
+             ^ Redefinition of 'Promise'.
+    177 |[90m        console.log("Update user profile...");[39m
+                                                     ^ Strings must use singlequote.
+    320 |[90m            User.findOne({[39m
+                     ^ 'User' is not defined.
+[1m   app/controllers/users/users.authentication.server.controller.js[22m
+     32 |[90m    var user = new User(req.body);[39m
+                            ^ 'User' is not defined.
+    165 |[90m        User.findOne(searchQuery, function(err, user) {[39m
+                 ^ 'User' is not defined.
+    172 |[90m                    User.findUniqueUsername(possibleUsername, null, function(availableUsername) {[39m
+                             ^ 'User' is not defined.
+    173 |[90m                        user = new User({[39m
+                                            ^ 'User' is not defined.
+[1m   app/models/staff.server.model.js[22m
+      5 |[90mvar Promise  = require('bluebird');[39m
+             ^ Redefinition of 'Promise'.
+     42 |[90m                return new _this({username: username.toLowerCase().trim(), email: email, password:hash}).save({}, {isNew:true})[39m
+                                    ^ A constructor name should start with an uppercase letter.
+     33 |[90m            return bcrypt.compareAsync(staff.get('password'), password);[39m
+                                                ^ 'staff' is not defined.
+
+[31m>> [39m15 errors in 67 files
+[33mWarning: Task "jshint:all" failed. [4mUsed --force, continuing.[24m[39m
+
+[4mRunning "csslint:all" (csslint) task[24m
+Linting public/modules/core/css/core.css...[31mERROR[39m
+[L1:C1]
+WARNING: @import prevents parallel downloads, use <link> instead. Don't use @import, use <link> instead. (import) Browsers: All
+Linting public/modules/core/css/style.css...[31mERROR[39m
+[L1:C1]
+WARNING: @import prevents parallel downloads, use <link> instead. Don't use @import, use <link> instead. (import) Browsers: All
+[L101:C3]
+WARNING: Duplicate property 'border-radius' found. Duplicate properties must appear one after the other. (duplicate-properties) Browsers: All
+[L204:C3]
+WARNING: Fallback background (hex or RGB) should precede RGBA background. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L252:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L261:C8]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L304:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L320:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L327:C16]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L350:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L354:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L356:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L366:C10]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L368:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L369:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L371:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L394:C9]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L407:C9]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L409:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L455:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L465:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L466:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L467:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L468:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L471:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L472:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L483:C26]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L483:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L894:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L897:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L900:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L903:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L906:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L909:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L912:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L915:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L918:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L921:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L924:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C29]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C42]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C50]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C54]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C67]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L927:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1010:C3]
+WARNING: Missing standard property 'user-select' to go along with '-webkit-user-select'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1011:C3]
+WARNING: Missing standard property 'user-select' to go along with '-moz-user-select'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1062:C11]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1079:C10]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1085:C3]
+WARNING: Missing standard property 'box-sizing' to go along with '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1085:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L1402:C9]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1403:C8]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1406:C3]
+WARNING: Fallback background-color (hex or RGB) should precede RGBA background-color. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L1461:C3]
+WARNING: Fallback color (hex or RGB) should precede RGBA color. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L1512:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L1548:C8]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1557:C9]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1583:C26]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1583:C30]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1740:C11]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1740:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1746:C3]
+WARNING: Missing standard property 'user-select' to go along with '-webkit-user-select'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1747:C3]
+WARNING: Missing standard property 'user-select' to go along with '-moz-user-select'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1801:C11]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1818:C10]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1822:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L1822:C3]
+WARNING: Missing standard property 'box-sizing' to go along with '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L1843:C16]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1844:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1845:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1852:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1853:C28]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1867:C18]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1886:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1933:C18]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1937:C11]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L1955:C3]
+WARNING: height can't be used with display: inline. Certain properties shouldn't be used with certain display property values. (display-property-grouping) Browsers: All
+[L1956:C3]
+WARNING: width can't be used with display: inline. Certain properties shouldn't be used with certain display property values. (display-property-grouping) Browsers: All
+[L2053:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2053:C3]
+WARNING: Standard property 'box-sizing' should come after vendor-prefixed property '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2093:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2099:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2102:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2113:C3]
+WARNING: Standard property 'box-sizing' should come after vendor-prefixed property '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2113:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2115:C1]
+WARNING: Missing vendor-prefixed CSS gradients for Old Webkit (Safari 4+, Chrome), Opera 11.1+. When using a vendor-prefixed gradient, make sure to use them all. (gradients) Browsers: All
+[L2134:C3]
+WARNING: The property -moz-box-shadow is compatible with -webkit-box-shadow and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2149:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2153:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2154:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2161:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2161:C3]
+WARNING: Standard property 'box-sizing' should come after vendor-prefixed property '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2163:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2169:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2169:C1]
+WARNING: Rule is empty. Rules without any properties specified should be removed. (empty-rules) Browsers: All
+[L2172:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2175:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2176:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2180:C3]
+WARNING: Standard property 'box-sizing' should come after vendor-prefixed property '-moz-box-sizing'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2180:C3]
+WARNING: The property -webkit-box-sizing is compatible with -moz-box-sizing and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2241:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2244:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2254:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2257:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2260:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2263:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2266:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2274:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2309:C3]
+WARNING: Standard property 'box-shadow' should come after vendor-prefixed property '-webkit-box-shadow'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2310:C3]
+WARNING: Standard property 'box-shadow' should come after vendor-prefixed property '-moz-box-shadow'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2446:C25]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2467:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2473:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2485:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2503:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2507:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2570:C5]
+WARNING: The property -ms-transform is compatible with -webkit-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2570:C5]
+WARNING: The property -moz-transform is compatible with -webkit-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2570:C5]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L2570:C5]
+WARNING: The property -o-transform is compatible with -webkit-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2718:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2722:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2722:C35]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2722:C23]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2723:C32]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2723:C20]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2723:C24]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2724:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2724:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2724:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2726:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2727:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2768:C3]
+WARNING: Fallback background-color (hex or RGB) should precede RGBA background-color. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L2795:C3]
+WARNING: Fallback border (hex or RGB) should precede RGBA border. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L2815:C3]
+WARNING: The property -moz-transform is compatible with -webkit-transform, -ms-transform, -o-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L2831:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2841:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2847:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L2916:C16]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2921:C12]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L2975:C3]
+WARNING: Fallback border-color (hex or RGB) should precede RGBA border-color. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L2998:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3014:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3096:C10]
+[31m>> [39mERROR: Unexpected token ';' at line 3096, col 10. This rule looks for recoverable syntax errors. (errors) Browsers: All
+[L3114:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3127:C21]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3172:C3]
+WARNING: float can't be used with display: inline-block. Certain properties shouldn't be used with certain display property values. (display-property-grouping) Browsers: All
+[L3180:C3]
+WARNING: float can't be used with display: inline-block. Certain properties shouldn't be used with certain display property values. (display-property-grouping) Browsers: All
+[L3284:C18]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3345:C23]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3345:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3345:C35]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3346:C20]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3346:C24]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3346:C32]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3347:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3347:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3347:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3684:C18]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3797:C26]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3819:C3]
+WARNING: The property -ms-transform is compatible with -webkit-transform, -o-transform, -moz-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L3819:C3]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3820:C3]
+WARNING: Missing standard property 'transform' to go along with '-o-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3821:C3]
+WARNING: Missing standard property 'transform' to go along with '-moz-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3824:C3]
+WARNING: The property -ms-transform is compatible with -o-transform, -webkit-transform, -moz-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L3824:C3]
+WARNING: Missing standard property 'transform' to go along with '-o-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3825:C3]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3826:C3]
+WARNING: Missing standard property 'transform' to go along with '-moz-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3831:C3]
+WARNING: The property -ms-transform is compatible with -o-transform, -webkit-transform, -moz-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L3831:C3]
+WARNING: Missing standard property 'transform' to go along with '-o-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3832:C3]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3833:C3]
+WARNING: Missing standard property 'transform' to go along with '-moz-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3838:C3]
+WARNING: The property -ms-transform is compatible with -o-transform, -webkit-transform, -moz-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L3838:C3]
+WARNING: Missing standard property 'transform' to go along with '-o-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3839:C3]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3840:C3]
+WARNING: Missing standard property 'transform' to go along with '-moz-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3846:C3]
+WARNING: The property -ms-transform is compatible with -webkit-transform, -moz-transform, -o-transform and should be included as well. Include all compatible vendor prefixes to reach a wider range of users. (compatible-vendor-prefixes) Browsers: All
+[L3846:C3]
+WARNING: Missing standard property 'transform' to go along with '-webkit-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3847:C3]
+WARNING: Missing standard property 'transform' to go along with '-moz-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3848:C3]
+WARNING: Missing standard property 'transform' to go along with '-o-transform'. When using a vendor-prefixed property, make sure to include the standard one. (vendor-prefix) Browsers: All
+[L3986:C10]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L3987:C11]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4051:C12]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4061:C15]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4186:C1]
+WARNING: Rule is empty. Rules without any properties specified should be removed. (empty-rules) Browsers: All
+[L4202:C18]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4276:C1]
+WARNING: Rule is empty. Rules without any properties specified should be removed. (empty-rules) Browsers: All
+[L4279:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4336:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4339:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4403:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4422:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4425:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4428:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4431:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4438:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4446:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4447:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4448:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4459:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4461:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4494:C10]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4504:C17]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4510:C27]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4510:C23]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4513:C9]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4601:C3]
+WARNING: Background image 'patterns/header-profile-skin-1.png' was used multiple times, first declared at line 4562, col 3. Every background-image should be unique. Use a common class for e.g. sprites. (duplicate-background-images) Browsers: All
+[L4643:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4704:C3]
+WARNING: Background image 'patterns/header-profile-skin-2.png' was used multiple times, first declared at line 4576, col 3. Every background-image should be unique. Use a common class for e.g. sprites. (duplicate-background-images) Browsers: All
+[L4717:C3]
+WARNING: Fallback background (hex or RGB) should precede RGBA background. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L4729:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4733:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4750:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4753:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4767:C3]
+WARNING: Fallback background (hex or RGB) should precede RGBA background. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L4776:C12]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4779:C3]
+WARNING: Fallback background (hex or RGB) should precede RGBA background. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L4784:C3]
+WARNING: Fallback background (hex or RGB) should precede RGBA background. For older browsers that don't support RGBA, HSL, or HSLA, provide a fallback color. (fallback-colors) Browsers: IE6,IE7,IE8
+[L4787:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4787:C1]
+WARNING: Missing vendor-prefixed CSS gradients for Firefox 3.6+, Old Webkit (Safari 4+, Chrome). When using a vendor-prefixed gradient, make sure to use them all. (gradients) Browsers: All
+[L4849:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4854:C3]
+WARNING: Background image 'patterns/header-profile-skin-3.png' was used multiple times, first declared at line 4569, col 3. Every background-image should be unique. Use a common class for e.g. sprites. (duplicate-background-images) Browsers: All
+[L4896:C1]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4938:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4954:C3]
+WARNING: Don't use IDs in selectors. Selectors should not contain IDs. (ids) Browsers: All
+[L4956:C19]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[L4975:C5]
+WARNING: display:inline has no effect on floated elements (but may be used to fix the IE6 double-margin bug). Certain properties shouldn't be used with certain display property values. (display-property-grouping) Browsers: All
+[L4984:C20]
+WARNING: Values of 0 shouldn't have units specified. You don't need to specify units when a value is 0. (zero-units) Browsers: All
+[33mWarning: Task "csslint:all" failed. [4mUsed --force, continuing.[24m[39m
+
+[4mRunning "concurrent:default" (concurrent) task[24m
+[4mRunning "watch" task[24m
+Waiting...
+[4mRunning "nodemon:dev" (nodemon) task[24m
+[33mWarning: watch ENOSPC[39m
+
+[32mDone, without errors.[39m
+[31mFatal error: watch ENOSPC[39m
+    
+    
+        [33mWarning:  [4mUsed --force, continuing.[24m[39m
+        
+    
+    
+[31mDone, but with warnings.[39m
