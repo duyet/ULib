@@ -1,0 +1,15 @@
+<section data-ng-controller="LanguagesController" data-ng-init="findOne()">
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h1 data-ng-bind="language.name"></h1>
+
+			<div class="ibox-content">
+				<label>Language</label> <span data-ng-bind="language.name"></span> <br>
+				<label>Description</label> <span data-ng-bind="language.description"></span> <br>
+				
+				<a href="/#!/languages/{{language.id}}/edit" class="btn btn-primary">edit</a>
+				<a class="btn btn-warning"data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
+			</div>
+		</div>
+	</div>
+</section>

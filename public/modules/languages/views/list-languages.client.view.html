@@ -1,0 +1,23 @@
+
+<section data-ng-controller="LanguagesController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            
+            <div class="ibox-content">
+                <h1 class="animated fadeInDown">Languages</h1>
+                <div class="list-group">
+                    <a data-ng-repeat="language in languages" data-ng-href="#!/languages/{{language.id}}" class="list-group-item">
+                        <h2 class="list-group-item-heading" data-ng-bind="language.name"></h2>
+                        <small class="list-group-item-text">
+                            <span data-ng-bind="language.description"></span>    
+                        </small>
+                    </a>
+                </div>
+                <div class="alert alert-warning text-center" data-ng-hide="!languages.$resolved || languages.length">
+                    No Languages yet, why don't you <a href="/#!/languages/create">create one</a>?
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
