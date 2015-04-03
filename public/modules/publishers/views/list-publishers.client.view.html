@@ -1,0 +1,23 @@
+
+<section data-ng-controller="PublishersController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            
+            <div class="ibox-content">
+                <h1 class="animated fadeInDown">Publishers</h1>
+                <div class="list-group">
+                    <a data-ng-repeat="publisher in publishers" data-ng-href="#!/publishers/{{publisher.id}}" class="list-group-item">
+                        <h2 class="list-group-item-heading" data-ng-bind="publisher.name"></h2>
+                        <small class="list-group-item-text">
+                            <span data-ng-bind="publisher.description"></span>    
+                        </small>
+                    </a>
+                </div>
+                <div class="alert alert-warning text-center" data-ng-hide="!publishers.$resolved || publishers.length">
+                    No Publisher yet, why don't you <a href="/#!/publishers/create">create one</a>?
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
