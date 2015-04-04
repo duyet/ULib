@@ -5,21 +5,36 @@ var checkit  = require('checkit');
 var Promise  = require('bluebird');
 var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
-var rules = {
-	name: 'required'
-};
+var Category = require('./category.server.model');
+var Publisher = require('./publisher.server.model');
+var Language = require('./language.server.model');
 
-var Groups = Model.extend({
-	tableName: 'Categories',
+var Book = Model.extend({
+	tableName: 'ServiceLogs',
+	
+	category: function () {
+		return this.belongsTo(Category, 'category_id');
+	},
+
+	publisher: function() {
+		return this.belongsTo(Publisher, 'publisher_id');
+	},
+
+	language: function() {
+		return this.belongsTo(Language, 'language_id');
+	},
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);
 	},
 
 	validateSave: function() {
-		return checkit(rules).run(this.attributes);
+		return checkit({
+			name: 'required',
+			number: 'number'
+		}).run(this.attributes);
 	},
 
 })
 
-module.exports = Groups;
+module.exports = Book;

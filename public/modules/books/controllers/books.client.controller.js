@@ -1,20 +1,32 @@
 'use strict';
 
 // Books controller
-angular.module('books').controller('BooksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Books',
-	function($scope, $stateParams, $location, Authentication, Books) {
+angular.module('books').controller('BooksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Books', 'Categories', 'Languages', 'Publishers', 'Authors',
+	function($scope, $stateParams, $location, Authentication, Books, Categories, Languages, Publishers, Authors) {
 		$scope.authentication = Authentication;
+		$scope.categories = Categories.query();
+		$scope.languages = Languages.query();
+		$scope.publishers = Publishers.query();
+		$scope.authors = Authors.query();
 
 		// Create new Book
 		$scope.create = function() {
 			// Create new Book object
 			var book = new Books ({
-				name: this.name
+				category_id: this.category_id,
+				language_id: this.language_id,
+				name: this.name,
+				publisher_id: this.publisher_id,
+				number: this.number,
+				description: this.description,
+				available_number: this.available_number,
+				publish_date: this.publish_date,
+				status: this.status,
 			});
 
 			// Redirect after save
 			book.$save(function(response) {
-				$location.path('books/' + response._id);
+				$location.path('books/' + response.id);
 
 				// Clear form fields
 				$scope.name = '';
@@ -45,7 +57,7 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 			var book = $scope.book;
 
 			book.$update(function() {
-				$location.path('books/' + book._id);
+				$location.path('books/' + book.id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

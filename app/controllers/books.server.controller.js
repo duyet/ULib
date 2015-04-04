@@ -13,101 +13,141 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var book = require('../models/book.server.model');
+var bookModel = require('../models/book.server.model');
+
 /**
- * Create a Book
+ * Create a Service
  */
 exports.create = function(req, res) {
-	var book = new Book(req.body);
-	book.user = req.user;
+	req.assert('category_id', 'Category is empty.').notEmpty().isInt();
+	req.assert('name', 'Name is wrong.').notEmpty();
+	req.assert('number', 'Number is wrong.').isInt();
 
-	book.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(book);
-		}
-	});
+	var err = req.validationErrors();
+	if (err) {
+		return res.status(400).send({message: err});
+	}
+
+	var category_id = req.body.category_id || 0;
+	var language_id = req.body.language_id || 0;
+	var name = req.body.name || '';
+	var publisher_id = req.body.publisher_id || 0;
+	var number = req.body.number || 0;
+	var description = req.body.description || '';
+	var available_number = req.body.available_number || number;
+	var publish_date = req.body.publish_date || null;
+	var status = req.body.status || 1;	
+
+	if (category_id == 0) {
+		return res.status(400).send({message: 'Please select service type.'});
+	}
+
+	new bookModel({
+		category_id: category_id,
+		language_id: language_id,
+		name: name,
+		publisher_id: publisher_id,
+		number: number,
+		description: description,
+		available_number: available_number,
+		publish_date: publish_date,
+		status: status
+	}).save().then(function(model) { 
+		res.jsonp(model);
+	}).error(function(err) { 
+		console.log(err);
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	})
 };
 
+
 /**
- * Show the current Book
+ * Show the current Service
  */
 exports.read = function(req, res) {
 	res.jsonp(req.book);
 };
 
 /**
- * Update a Book
+ * Update a Service
  */
 exports.update = function(req, res) {
-	var book = req.book ;
+	var book = req.book.attributes;
 
-	book = _.extend(book , req.body);
+	book.description = req.body.description;
+	book.name = req.body.name;
 
-	book.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(book);
-		}
+	book.category_id = req.body.category_id;
+	book.language_id = req.body.language_id;
+	book.name = req.body.name;
+	book.publisher_id = req.body.publisher_id;
+	book.number = req.body.number;
+	book.description = req.body.description;
+	book.available_number = req.body.available_number;
+	book.publish_date = req.body.publish_date;
+	book.status = req.body.status;
+
+	console.log('Update book with data:', book);
+
+	new bookModel({id:req.book.id}).save(book).then(function(model) {
+		res.jsonp(model);
+	}).error(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * Delete an Book
+ * Delete an Service
  */
 exports.delete = function(req, res) {
-	var book = req.book ;
+	console.log(req.book);
 
-	book.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(book);
-		}
+	new bookModel({id:req.book.id}).fetch().then(function(model) {
+		model.destroy().then(function() {
+			res.jsonp(model);
+		});
+	}).otherwise(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * List of Books
+ * List of Service
  */
 exports.list = function(req, res) { 
-	Book.find().sort('-created').populate('user', 'displayName').exec(function(err, books) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(books);
-		}
+	new bookModel({status:1}).fetchAll({withRelated: []}).then(function(book){ 
+		res.jsonp(book);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * Book middleware
+ * Service middleware
  */
 exports.bookByID = function(req, res, next, id) { 
-	Book.findById(id).populate('user', 'displayName').exec(function(err, book) {
-		if (err) return next(err);
-		if (! book) return next(new Error('Failed to load Book ' + id));
-		req.book = book ;
+	new bookModel({id:id}).fetch({withRelated: []}).then(function(book) { 
+		if (! book) return next(new Error('Failed to load book ' + id));
+
+		req.book = book;
 		next();
+	}).error(function(err) {
+		console.log('Not found book!');
+		return next(err);
 	});
 };
 
 /**
- * Book authorization middleware
+ * Service authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.book.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
 	next();
 };
