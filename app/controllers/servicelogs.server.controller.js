@@ -3,105 +3,130 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-	errorHandler = require('./errors.server.controller'),
-	Servicelog = mongoose.model('Servicelog'),
-	_ = require('lodash');
+var _ = require('lodash');
+var passport = require('passport');
+var Promise  = require('bluebird');
+var bcrypt   = Promise.promisifyAll(require('bcrypt'));
+var crypto	= require('crypto');
+var nodemailer = require('nodemailer');
+var async = require('async');
+
+var errorHandler = require('./errors.server.controller');
+var config = require('../../config/config');
+var servicelogModel = require('../models/servicelog.server.model');
 
 /**
- * Create a Servicelog
+ * Create a Service
  */
 exports.create = function(req, res) {
-	var servicelog = new Servicelog(req.body);
-	servicelog.user = req.user;
+	req.assert('service_type_id', 'Service is empty.').notEmpty();
+	req.assert('prices', 'Prices is wrong.').notEmpty().isInt();
 
-	servicelog.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(servicelog);
-		}
-	});
+	var err = req.validationErrors();
+	if (err) {
+		return res.status(400).send({message: err});
+	}
+
+	var service_type_id = req.body.service_type_id || 0;
+	var staff_id = req.body.staff_id || req.user.id;
+	var prices = req.body.prices || 0;
+	var note = req.body.note || '';
+
+	if (service_type_id == 0) {
+		return res.status(400).send({message: 'Please select service type.'});
+	}
+
+	new servicelogModel({
+		service_type_id: service_type_id,
+		staff_id: staff_id, 
+		prices: prices,
+		note: note
+	}).save().then(function(model) { 
+		res.jsonp(model);
+	}).error(function(err) { 
+		console.log(err);
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	})
 };
 
+
 /**
- * Show the current Servicelog
+ * Show the current Service
  */
 exports.read = function(req, res) {
 	res.jsonp(req.servicelog);
 };
 
 /**
- * Update a Servicelog
+ * Update a Service
  */
 exports.update = function(req, res) {
-	var servicelog = req.servicelog ;
+	var servicelog = req.servicelog.attributes;
 
-	servicelog = _.extend(servicelog , req.body);
+	servicelog.description = req.body.description;
+	servicelog.name = req.body.name;
 
-	servicelog.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(servicelog);
-		}
+	console.log('Update servicelog with data:', servicelog);
+
+	new servicelogModel({id:req.servicelog.id}).save(servicelog).then(function(model) {
+		res.jsonp(model);
+	}).error(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * Delete an Servicelog
+ * Delete an Service
  */
 exports.delete = function(req, res) {
-	var servicelog = req.servicelog ;
+	console.log(req.servicelog);
 
-	servicelog.remove(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(servicelog);
-		}
+	new servicelogModel({id:req.servicelog.id}).fetch().then(function(model) {
+		model.destroy().then(function() {
+			res.jsonp(model);
+		});
+	}).otherwise(function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * List of Servicelogs
+ * List of Service
  */
 exports.list = function(req, res) { 
-	Servicelog.find().sort('-created').populate('user', 'displayName').exec(function(err, servicelogs) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(servicelogs);
-		}
+	new servicelogModel({status:1}).fetchAll({withRelated: ['staff', 'service']}).then(function(servicelog){ 
+		res.jsonp(servicelog);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
 	});
 };
 
 /**
- * Servicelog middleware
+ * Service middleware
  */
 exports.servicelogByID = function(req, res, next, id) { 
-	Servicelog.findById(id).populate('user', 'displayName').exec(function(err, servicelog) {
-		if (err) return next(err);
-		if (! servicelog) return next(new Error('Failed to load Servicelog ' + id));
-		req.servicelog = servicelog ;
+	new servicelogModel({id:id}).fetch({withRelated: ['staff', 'service']}).then(function(servicelog) { 
+		if (! servicelog) return next(new Error('Failed to load servicelog ' + id));
+
+		req.servicelog = servicelog;
 		next();
+	}).error(function(err) {
+		console.log('Not found servicelog!');
+		return next(err);
 	});
 };
 
 /**
- * Servicelog authorization middleware
+ * Service authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.servicelog.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
 	next();
 };

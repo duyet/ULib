@@ -1,20 +1,29 @@
 'use strict';
 
 // Servicelogs controller
-angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Servicelogs',
-	function($scope, $stateParams, $location, Authentication, Servicelogs) {
+angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Servicelogs', 'Services',
+	function($scope, $stateParams, $location, Authentication, Servicelogs, Services) {
 		$scope.authentication = Authentication;
+		console.log($scope.authentication);
+		
+		// Load services
+		$scope.services = Services.query(function(data) {
+			$scope.service_type_id = data[0].id;
+		});
 
 		// Create new Servicelog
 		$scope.create = function() {
 			// Create new Servicelog object
 			var servicelog = new Servicelogs ({
-				name: this.name
+				service_type_id: this.service_type_id,
+				prices: this.prices,
+				note: this.note,
+				staff_id: $scope.authentication.user.id
 			});
 
 			// Redirect after save
 			servicelog.$save(function(response) {
-				$location.path('servicelogs/' + response._id);
+				$location.path('servicelogs/' + response.id);
 
 				// Clear form fields
 				$scope.name = '';
@@ -22,6 +31,12 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 				$scope.error = errorResponse.data.message;
 			});
 		};
+
+		// View modal service info 
+		$scope.viewServiceInfo = function(serviceData) {
+			$scope.serviceInfo = serviceData;
+			$('#serviceInfo').modal('show');
+		}
 
 		// Remove existing Servicelog
 		$scope.remove = function(servicelog) {

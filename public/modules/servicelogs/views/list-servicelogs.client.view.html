@@ -1,19 +1,55 @@
-<section data-ng-controller="ServicelogsController" data-ng-init="find()">
-    <div class="page-header">
-        <h1>Servicelogs</h1>
+<div data-ng-controller="ServicelogsController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            
+            <div class="ibox-content">
+                <h1 class="animated fadeInDown">Service Logs</h1>
+                <p>
+                    <a href="/#!/servicelogs/report" class="btn btn-primary">Report</a>
+                    <a href="/#!/servicelogs/create" class="btn btn-success">Add</a>
+                </p>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <tbody>
+                            <tr data-ng-repeat="servicelog in servicelogs | orderBy: ['create_time']">
+                                <td data-ng-bind="servicelog.id"></td>
+                                <td data-ng-bind="servicelog.create_time | date"></td>
+                                <td data-ng-bind="servicelog.service.name" ng-click="viewServiceInfo(servicelog.service)"></td>
+                                <td data-ng-bind="servicelog.staff.name"></td>
+                                <td data-ng-bind="servicelog.prices | number"></td>
+                                <td data-ng-bind="servicelog.note"></td>
+                                <td>
+                                   <a href="javascript:void(0)" title="Edit">edit</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="alert alert-warning text-center" data-ng-hide="!servicelogs.$resolved || servicelogs.length">
+                    Not service log!
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="servicelog in servicelogs" data-ng-href="#!/servicelogs/{{servicelog._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="servicelog.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="servicelog.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="servicelog.name"></h4>
-        </a>
+
+<div class="modal fade" id="serviceInfo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>{{serviceInfo}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
     </div>
-    <div class="alert alert-warning text-center" data-ng-hide="!servicelogs.$resolved || servicelogs.length">
-    	No Servicelogs yet, why don't you <a href="/#!/servicelogs/create">create one</a>?
-    </div>
-</section>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+</div>

@@ -5,16 +5,20 @@ var checkit  = require('checkit');
 var Promise  = require('bluebird');
 var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
-var rules = {
-	name: 'required',
-};
+//var Services = require('./service.server.model');
 
-var Services = require('../service.server.model');
+var Service = require('./service.server.model');
+var Staff = require('./staff.server.model');
 
 var ServiceLog = Model.extend({
 	tableName: 'ServiceLogs',
-	record: function() {
-		return this.hasOne(Services);
+	
+	service: function () {
+		return this.belongsTo(Service, 'service_type_id');
+	},
+
+	staff: function() {
+		return this.belongsTo(Staff, 'staff_id');
 	},
 	
 	initialize: function() {
@@ -22,7 +26,9 @@ var ServiceLog = Model.extend({
 	},
 
 	validateSave: function() {
-		return checkit(rules).run(this.attributes);
+		return checkit({
+			
+		}).run(this.attributes);
 	},
 
 })
