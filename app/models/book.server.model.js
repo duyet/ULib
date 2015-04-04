@@ -10,7 +10,7 @@ var Publisher = require('./publisher.server.model');
 var Language = require('./language.server.model');
 
 var Book = Model.extend({
-	tableName: 'ServiceLogs',
+	tableName: 'Books',
 	
 	category: function () {
 		return this.belongsTo(Category, 'category_id');
@@ -31,8 +31,13 @@ var Book = Model.extend({
 	validateSave: function() {
 		return checkit({
 			name: 'required',
-			number: 'number'
-		}).run(this.attributes);
+			number: 'number',
+			available_number: 'number'
+		}).run(this.attributes).then(function(validated) {
+  			console.log(validated);
+		}).catch(checkit.Error, function(err) {
+			console.log(err.toJSON());
+		});
 	},
 
 })

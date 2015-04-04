@@ -19,15 +19,18 @@ var bookModel = require('../models/book.server.model');
  * Create a Service
  */
 exports.create = function(req, res) {
+	req.assert('id', 'ID is invalid.').notEmpty().isInt();
 	req.assert('category_id', 'Category is empty.').notEmpty().isInt();
 	req.assert('name', 'Name is wrong.').notEmpty();
 	req.assert('number', 'Number is wrong.').isInt();
+	req.assert('available_number', 'Number is wrong.').isInt();
 
 	var err = req.validationErrors();
 	if (err) {
 		return res.status(400).send({message: err});
 	}
 
+	var id = req.body.id || 0;
 	var category_id = req.body.category_id || 0;
 	var language_id = req.body.language_id || 0;
 	var name = req.body.name || '';
@@ -43,6 +46,7 @@ exports.create = function(req, res) {
 	}
 
 	new bookModel({
+		id: id,
 		category_id: category_id,
 		language_id: language_id,
 		name: name,
@@ -52,7 +56,7 @@ exports.create = function(req, res) {
 		available_number: available_number,
 		publish_date: publish_date,
 		status: status
-	}).save().then(function(model) { 
+	}).save({},  {method: "insert"}).then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		console.log(err);
@@ -79,6 +83,7 @@ exports.update = function(req, res) {
 	book.description = req.body.description;
 	book.name = req.body.name;
 
+	book.id = req.body.id;
 	book.category_id = req.body.category_id;
 	book.language_id = req.body.language_id;
 	book.name = req.body.name;
@@ -121,7 +126,7 @@ exports.delete = function(req, res) {
  * List of Service
  */
 exports.list = function(req, res) { 
-	new bookModel({status:1}).fetchAll({withRelated: []}).then(function(book){ 
+	new bookModel({status:1}).fetchAll({withRelated: ['category', 'publisher', 'language']}).then(function(book){ 
 		res.jsonp(book);
 	}).error(function(err) { 
 		return res.status(400).send({
