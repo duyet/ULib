@@ -76,6 +76,10 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 			});
 		};
 
+		$scope.loadAuthors = function(query) {
+			return $scope.authors;
+		};
+
 		$scope.go = function(path) {
 			$location.path(path);
 		}

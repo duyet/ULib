@@ -6,6 +6,7 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/metisMenu/dist/metisMenu.min.css',
+				'public/lib/ng-tags-input/ng-tags-input.min.css',
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.min.js',
@@ -20,6 +21,7 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.min.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/metisMenu/dist/metisMenu.min.js'
+				'public/lib/ng-tags-input/ng-tags-input.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',

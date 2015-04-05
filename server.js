@@ -17,15 +17,11 @@ var db = mysql.createConnection(config.db).connect(function(err) {
 	if (err) {
 		console.error(chalk.red('Could not connect to MySQL Server!'));
 		console.log(chalk.red(err));
-		
 	}
 });
 
 // Init the express application
 var app = require('./config/express')(db);
-
-// Bootstrap passport config
-//require('./config/passport')();
 
 // Start the app by listening on <port>
 app.listen(config.port);

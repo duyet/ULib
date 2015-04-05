@@ -40,6 +40,17 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group">
+                            <label class="control-label" for="author">Authors</label>
+                            <div class="controls">
+                                <tags-input ng-model="author">
+                                    <auto-complete source="loadAuthors($query)"></auto-complete>
+                                </tags-input>
+                                <p>Model: {{author}}</p>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label" for="publisher">Publisher</label>
                             <div class="controls">
