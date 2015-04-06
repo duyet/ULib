@@ -13,7 +13,7 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 		$scope.create = function() {
 			// Create new Book object
 			var book = new Books ({
-				id: this.id,
+				book_id: this.book_id,
 				category_id: this.category_id,
 				language_id: this.language_id,
 				name: this.name,

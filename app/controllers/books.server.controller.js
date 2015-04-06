@@ -19,7 +19,7 @@ var bookModel = require('../models/book.server.model');
  * Create a Service
  */
 exports.create = function(req, res) {
-	req.assert('id', 'ID is invalid.').notEmpty().isInt();
+	req.assert('book_id', 'ID is invalid.').notEmpty().isInt();
 	req.assert('category_id', 'Category is empty.').notEmpty().isInt();
 	req.assert('name', 'Name is wrong.').notEmpty();
 	req.assert('number', 'Number is wrong.').isInt();
@@ -30,7 +30,7 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: err});
 	}
 
-	var id = req.body.id || 0;
+	var id = req.body.book_id || 0;
 	var category_id = req.body.category_id || 0;
 	var language_id = req.body.language_id || 0;
 	var name = req.body.name || '';

@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label class="control-label" for="id">Book ID</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="id" id="id" class="form-control" placeholder="100121001" required>
+                                <input type="text" data-ng-model="book_id" id="id" class="form-control" placeholder="100121001" required>
                             </div>
                         </div>
 
@@ -44,9 +44,20 @@
                         <div class="form-group">
                             <label class="control-label" for="author">Authors</label>
                             <div class="controls">
-                                <tags-input ng-model="author">
-                                    <auto-complete source="loadAuthors($query)"></auto-complete>
-                                </tags-input>
+                                
+                                <ui-select multiple ng-model="author" theme="select2" ng-disabled="disabled" style="width: 300px;">
+                                    <ui-select-match placeholder="Select author...">
+                                        {{$item.name}} 
+                                    </ui-select-match>
+                                    
+                                    <ui-select-choices repeat="author in authors | filter:$select.search">
+                                        <div ng-bind-html="author.name "></div>
+                                            <small>
+                                            description: {{author.description}}
+                                            </small>
+                                    </ui-select-choices>
+                                </ui-select>
+
                                 <p>Model: {{author}}</p>
                             </div>
                         </div>
