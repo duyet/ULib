@@ -1,0 +1,47 @@
+<section data-ng-controller="CategoriesController">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <a data-ng-href="/#!/categories" title="Go back" class="go-back">Back</a>
+            <h1>Import Categories</h1>
+
+            <div class="ibox-content">
+                <form class="form-horizontal" data-ng-submit="import()" novalidate>
+                    <fieldset>
+                        
+                        <div data-ng-show="error" class="alert alert-danger">
+                            <span data-ng-bind="error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="name">Select file (csv, json, xls, ...)</label>
+                            <div class="controls">
+                                 <div class="btn btn-default" 
+                                    ng-file-select 
+                                    ng-model="fileimport"  
+                                    ng-capture="'other'" 
+                                    ng-accept="'.json,.csv,.xls,.slsx'"
+                                    accept="'.json,.csv,.xls,.slsx'"
+                                    
+                                    ng-multiple="false">
+                                
+                                    <span data-ng-bind="uploadBtnStatus ? uploadBtnStatus : 'Select file ...'"></span>
+                                
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span data-ng-bind="uploadStatus" ng-show="uploadStatus"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

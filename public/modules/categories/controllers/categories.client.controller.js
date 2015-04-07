@@ -1,8 +1,8 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Categories',
-	function($scope, $stateParams, $location, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Categories',
+	function($scope, $stateParams, $location, $upload, Authentication, Categories) {
 		$scope.authentication = Authentication;
 
 		// Create new Category
@@ -22,6 +22,37 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+			});
+		};
+
+
+		$scope.$watch('fileimport', function () {
+			if ($scope.fileimport.length > 0 && $scope.fileimport[0].name.length > 0) $scope.uploadBtnStatus = $scope.fileimport[0].name;
+		});
+
+		// Import Categories
+		$scope.import = function() {
+			if (!$scope.fileimport || $scope.fileimport.length == 0) {
+				$scope.error = 'Please choose import file.';
+				return false;
+			}
+
+			$scope.uploadStatus = '';
+			$upload.upload({
+				url: 'categories/import',
+				fields: {
+
+				},
+				file: $scope.fileimport,
+			}).progress(function(evt) {
+				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+				$scope.uploadStatus = 'Uploading ' + progressPercentage + '%';
+
+				if (progressPercentage == 100) $scope.uploadStatus = 'Importing ...';
+
+				console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+			}).success(function(data, status, headers, config) {
+				$scope.uploadStatus = '';
 			});
 		};
 

@@ -13,6 +13,10 @@ angular.module('categories').config(['$stateProvider',
 			url: '/categories/create',
 			templateUrl: 'modules/categories/views/create-category.client.view.html'
 		}).
+		state('importCategory', {
+			url: '/categories/import',
+			templateUrl: 'modules/categories/views/import-category.client.view.html'
+		}).
 		state('viewCategory', {
 			url: '/categories/:categoryId',
 			templateUrl: 'modules/categories/views/view-category.client.view.html'
