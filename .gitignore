@@ -9,5 +9,5 @@ app/tests/coverage/
 .idea/
 *~
 *.mwb.bak
-tmp/*
+tmp/
 ULib_model.mwb.bak
