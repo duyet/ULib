@@ -44,32 +44,62 @@ exports.create = function(req, res) {
  * Import 
  */
 exports.importCategories = function(req, res) {
+	var headerLine = [ 'Status', 'Name', 'Description', 'Loan' ];
+
 	var data = _.pick(req.body, 'type'), 
     file = req.files.file;
 
 	console.log(data); //original name (ie: sunset.png)
-	console.log(file); //tmp path (ie: /tmp/12345-xyaz.png)
+	console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
 
 	var dataImport = false;
+	var numOfLineImported = 0;
 
 	// Xls file 
 	if (path.extname(file.path) == '.xls' || path.extname(file.path) == '.xlsx' || path.extname(file.path) == '.csv') {
-		dataImport = require('xlsjs').readFile(file.path);	
+		var node_xj = require('xls-to-json');
+		node_xj({
+			input: file.path,
+			output: null,
+		}, function(err, result) {
+			if(err) console.error('Parse error: ', err);
+			
+			if (!result || result.constructor !== Array) {
+				return res.status(400).send({message: 'Could not parse xls file.'});
+			}
 
-		console.log(dataImport);
+			console.log('The import data is: ', result);
 
-		if (dataImport.error) {
-			return res.status(400).send({message: 'Import file error!'});
-		}
+			for (var row in result) {
+				if (result[row] !== null && typeof result[row] === 'object') {
+					console.log('The current data of row ' + row + ' is: ', result[row]);
 
-		var sheet_name_list = dataImport.SheetNames;
-		var Sheet1 = dataImport.Sheets[sheet_name_list[0]];
+					var keys = Object.keys(result[row]);
 
-		console.log(Sheet1);
+					if (1 || keys.equals(headerLine)) { // TODO: check all key of current row include all the headerLine
+						new categoryModel({
+							name: result[row].Name.trim(), 
+							description: result[row].Description.trim(), 
+							loan_time: parseInt(result[row].Loan),
+							status: parseInt(result[row].Status)
+						}).save().then(function(model) { 
+							numOfLineImported += 1;
+
+						}).error(function(err) { 
+							// Skip error 
+							console.log(err);
+						});
+					}
+
+					console.log('Imported ' + numOfLineImported);
+
+				}
+			}
+
+			return res.status(200).send('Imported success.');
+
+		});
 	}
-	//console.log(dataImport);
-
-
 }
 
 /**
@@ -151,3 +181,30 @@ exports.categoryByID = function(req, res, next, id) {
 exports.hasAuthorization = function(req, res, next) {
 	next();
 };
+
+
+// =================================
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    //if (this.length != array.length)
+    //    return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+} 
