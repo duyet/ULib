@@ -10,6 +10,8 @@ var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 var crypto	= require('crypto');
 var nodemailer = require('nodemailer');
 var async = require('async');
+var path = require('path');
+var fs = require('fs');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
@@ -39,6 +41,7 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var available_number = req.body.available_number || number;
 	var publish_date = req.body.publish_date || null;
+	var image_url = req.body.image || '';
 	var status = req.body.status || 1;	
 
 	if (category_id == 0) {
@@ -55,6 +58,7 @@ exports.create = function(req, res) {
 		description: description,
 		available_number: available_number,
 		publish_date: publish_date,
+		image: image_url,
 		status: status
 	}).save({},  {method: "insert"}).then(function(model) { 
 		res.jsonp(model);
@@ -92,6 +96,7 @@ exports.update = function(req, res) {
 	book.description = req.body.description;
 	book.available_number = req.body.available_number;
 	book.publish_date = req.body.publish_date;
+	book.image = req.body.image;
 	book.status = req.body.status;
 
 	console.log('Update book with data:', book);
@@ -139,7 +144,7 @@ exports.list = function(req, res) {
  * Service middleware
  */
 exports.bookByID = function(req, res, next, id) { 
-	new bookModel({id:id}).fetch({withRelated: []}).then(function(book) { 
+	new bookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
 		if (! book) return next(new Error('Failed to load book ' + id));
 
 		req.book = book;
@@ -155,4 +160,43 @@ exports.bookByID = function(req, res, next, id) {
  */
 exports.hasAuthorization = function(req, res, next) {
 	next();
+};
+
+
+/**
+ * Upload image 
+ */
+exports.upload = function (req, res, next) {
+    var data = _.pick(req.body, 'type'), 
+    uploadPath = require('path').normalize(config.uploadPath),
+    file = req.files.file;
+
+	console.log(file.name); //original name (ie: sunset.png)
+	console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
+	console.log(uploadPath); //uploads directory: (ie: /home/user/data/uploads)
+
+	// New file name
+	var newFileName = (file.name).replace(/[^A-z0-9\.\-_]+/g, '');
+	
+	// New Path
+	var newPath = path.resolve(uploadPath + '/' + newFileName);
+
+	// Move file from /tmp to /uploads
+	var source = fs.createReadStream(file.path);
+	var dest = fs.createWriteStream(newPath);
+	source.pipe(dest, function() {
+		fs.unlinkSync(newPath);
+	});
+	
+	source.on('end', function() {
+		return res.send('uploads/' + newFileName);
+	});
+
+	source.on('error', function(err) {
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage('Could not upload')
+		});
+	});
+
+	
 };

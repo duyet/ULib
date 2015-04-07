@@ -22,6 +22,7 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/metisMenu/dist/metisMenu.min.js',
 				'public/lib/angular-ui-select/dist/select.min.js',
+				'public/lib/ng-file-upload/angular-file-upload.min.js',
 			]
 		},
 		css: 'public/dist/application.min.css',

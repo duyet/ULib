@@ -23,7 +23,8 @@ var fs = require('fs'),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
-	path = require('path');
+	path = require('path'),
+	multipart = require('connect-multiparty');
 
 require('./passport')(passport);
 
@@ -131,6 +132,11 @@ module.exports = function(db) {
 
 	// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
+
+	// Upload file
+	app.use(multipart({
+		uploadDir: path.resolve(config.tmpDir)
+	}));
 
 	// Globbing routing files
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {

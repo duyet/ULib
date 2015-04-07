@@ -1,21 +1,42 @@
 <section data-ng-controller="BooksController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="book.name"></h1>
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<a data-ng-href="/#!/books" title="Go back" class="go-back">Back</a>
+			<h1 data-ng-bind="publisher.name"></h1>
+
+			<div class="ibox-content">
+				<h1>
+					<span data-ng-bind="'#' + book.id + ' ' + book.name"></span>
+				</h1>
+
+				<ul class="list-group">
+					<li class="list-group-item"><strong>Book name:</strong> {{book.name}}</li>
+					<li class="list-group-item"><strong>Description:</strong> {{book.description}}</li>
+					<li class="list-group-item"><strong>Category:</strong> {{book.category.name}}</li>
+					<li class="list-group-item"><strong>Language:</strong> {{book.language.name}}</li>
+					<li class="list-group-item"><strong>Publisher:</strong> {{book.publisher.name}}</li>
+					<li class="list-group-item"><strong>Number:</strong> {{book.number}} <span class="label label-success">{{book.available_number}}</span></li>
+					<li class="list-group-item"><strong>Publish Date:</strong> {{book.publish_date | date}}</li>
+					
+				</ul>
+				
+				<a href="/#!/publishers/{{publisher.id}}/edit" class="btn btn-primary">edit</a>
+				<a class="btn btn-warning" data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-md-6">
+			<br /><br />
+			<div class="ibox-content text-center" ng-show="book.image">
+				<h1>
+					Screenshot	
+				</h1>
+
+				<img data-ng-src="{{book.image}}" alt="{{book.name}}" class="img-responsive" />
+			</div>
+			<div class="ibox-content text-center">
+				<img data-ng-src="https://api.qrserver.com/v1/create-qr-code/?size=300&amp;data={{currentUrl}}" class="img-responsive">
+			</div>
+		</div>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == book.user._id))">
-		<a class="btn btn-primary" href="/#!/books/{{book._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="book.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="book.user.displayName"></span>
-		</em>
-	</small>
 </section>

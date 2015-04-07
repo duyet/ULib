@@ -9,13 +9,13 @@
                     <fieldset>
                         
                         <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
+                            <span data-ng-bind-html="error"></span>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label" for="id">Book ID</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="book_id" id="id" class="form-control" placeholder="100121001" required>
+                                <input type="number" data-ng-model="book_id" id="id" class="form-control" placeholder="100121001" required>
                             </div>
                         </div>
 
@@ -45,20 +45,17 @@
                             <label class="control-label" for="author">Authors</label>
                             <div class="controls">
                                 
-                                <ui-select multiple ng-model="author" theme="select2" ng-disabled="disabled" style="width: 300px;">
+                                <ui-select multiple data-ng-model="bookauthor" class="form-control">
                                     <ui-select-match placeholder="Select author...">
                                         {{$item.name}} 
                                     </ui-select-match>
                                     
                                     <ui-select-choices repeat="author in authors | filter:$select.search">
                                         <div ng-bind-html="author.name "></div>
-                                            <small>
-                                            description: {{author.description}}
-                                            </small>
                                     </ui-select-choices>
                                 </ui-select>
 
-                                <p>Model: {{author}}</p>
+                                <p>Model: {{bookauthor}}</p>
                             </div>
                         </div>
 
@@ -70,16 +67,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="number">Number</label>
+                            <label class="control-label" for="description">Description</label>
                             <div class="controls">
-                                <input type="number" data-ng-model="number" id="number" class="form-control" placeholder="150" step="1" required>
+                                <textarea name="description" class="form-control" id="description" data-ng-model="description"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="description">Description</label>
+                            <label class="control-label" for="number">Number</label>
                             <div class="controls">
-                                <textarea name="description" class="form-control" id="description" data-ng-model="description"></textarea>
+                                <input type="number" data-ng-model="number" id="number" class="form-control" placeholder="150" step="1" required>
                             </div>
                         </div>
 
@@ -97,6 +94,25 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label" for="image">Screenshot</label>
+                            <div class="controls">
+                                <div class="btn btn-default" 
+                                    ng-file-select ng-model="image_upload"  
+                                    ng-capture="'other'" 
+                                    ng-accept="'.png,.jpg'"
+                                    accept="image/*" 
+                                    ng-accept="'image/*'"
+                                    ng-multiple="false" 
+                                    ng-file-change="generateThumb(image_upload[0], $files)">
+                                
+                                    <span data-ng-bind="uploadStatus ? uploadStatus : 'Select file ...'"></span>
+                                
+                                
+                                </div>
+                                <img ng-show="image_upload[0].dataUrl != null" ng-src="{{image_upload[0].dataUrl}}" class="screenshot img-responsive">
+                            </div>
+                        </div>
 
 
                         <div class="form-group">

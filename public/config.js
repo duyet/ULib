@@ -13,7 +13,8 @@ var ApplicationConfiguration = (function() {
 		'ui.router', 
 		'ui.bootstrap', 
 		'ui.utils', 
-		'ui.select'
+		'ui.select',
+		'angularFileUpload'
 	];
 
 	// Add a new vertical module

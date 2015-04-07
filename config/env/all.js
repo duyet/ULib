@@ -10,6 +10,8 @@ module.exports = {
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',
 	sessionCollection: 'sessions',
+	tmpDir: 'tmp/',
+	uploadPath: 'public/uploads',
 	assets: {
 		lib: {
 			css: [
@@ -31,6 +33,7 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/metisMenu/dist/metisMenu.js',
 				'public/lib/angular-ui-select/dist/select.min.js',
+				'public/lib/ng-file-upload/angular-file-upload.min.js',
 			]
 		},
 		css: [
