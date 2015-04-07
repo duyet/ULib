@@ -11,6 +11,6 @@ angular.module('import').config(['$stateProvider',
 		}).state('importForModule', {
 			url: '/books/:module',
 			templateUrl: 'modules/import/views/import-module.client.view.html'
-		}).;
+		});
 	}
 ]);
