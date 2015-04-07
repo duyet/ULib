@@ -27,7 +27,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 
 		$scope.$watch('fileimport', function () {
-			if ($scope.fileimport.length > 0 && $scope.fileimport[0].name.length > 0) $scope.uploadBtnStatus = $scope.fileimport[0].name;
+			if ($scope.fileimport && $scope.fileimport.length > 0 && $scope.fileimport[0].name.length > 0) $scope.uploadBtnStatus = $scope.fileimport[0].name;
 		});
 
 		// Import Categories
@@ -53,6 +53,8 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 				console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 			}).success(function(data, status, headers, config) {
 				$scope.uploadStatus = '';
+			}).error(function(err) {
+				$scope.error = err.message;
 			});
 		};
 

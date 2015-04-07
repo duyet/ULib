@@ -9,6 +9,10 @@ module.exports = function(app) {
 		.get(users.requiresLogin, categories.list)
 		.post(users.requiresLogin, categories.create);
 
+	app.route('/categories/import')
+		.get(function(req, res) { res.status(404); })
+		.post(users.requiresLogin, categories.importCategories);
+
 	app.route('/categories/:categoryId')
 		.get(users.requiresLogin, categories.read)
 		.put(users.requiresLogin, categories.hasAuthorization, categories.update)

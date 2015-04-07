@@ -197,6 +197,4 @@ exports.upload = function (req, res, next) {
 			message: errorHandler.getErrorMessage('Could not upload')
 		});
 	});
-
-	
 };

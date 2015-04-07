@@ -10,6 +10,7 @@ var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 var crypto	= require('crypto');
 var nodemailer = require('nodemailer');
 var async = require('async');
+var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
@@ -39,6 +40,37 @@ exports.create = function(req, res) {
 	})
 };
 
+/** 
+ * Import 
+ */
+exports.importCategories = function(req, res) {
+	var data = _.pick(req.body, 'type'), 
+    file = req.files.file;
+
+	console.log(data); //original name (ie: sunset.png)
+	console.log(file); //tmp path (ie: /tmp/12345-xyaz.png)
+
+	var dataImport = false;
+
+	// Xls file 
+	if (path.extname(file.path) == '.xls' || path.extname(file.path) == '.xlsx' || path.extname(file.path) == '.csv') {
+		dataImport = require('xlsjs').readFile(file.path);	
+
+		console.log(dataImport);
+
+		if (dataImport.error) {
+			return res.status(400).send({message: 'Import file error!'});
+		}
+
+		var sheet_name_list = dataImport.SheetNames;
+		var Sheet1 = dataImport.Sheets[sheet_name_list[0]];
+
+		console.log(Sheet1);
+	}
+	//console.log(dataImport);
+
+
+}
 
 /**
  * Show the current Category
