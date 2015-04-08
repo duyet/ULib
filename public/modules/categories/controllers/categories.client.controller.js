@@ -52,7 +52,9 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 				console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 			}).success(function(data, status, headers, config) {
+				console.log(data, status, headers, config);
 				$scope.uploadStatus = '';
+				$scope.success = data;
 			}).error(function(err) {
 				$scope.error = err.message;
 			});
