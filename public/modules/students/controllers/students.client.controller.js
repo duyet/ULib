@@ -1,8 +1,8 @@
 'use strict';
 
 // Students controller
-angular.module('students').controller('StudentsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Students',
-	function($scope, $stateParams, $location, Authentication, Students) {
+angular.module('students').controller('StudentsController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Students',
+	function($scope, $stateParams, $location, $upload, Authentication, Students) {
 		$scope.authentication = Authentication;
 
 		// Create new Student
@@ -24,6 +24,40 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		$scope.$watch('fileimport', function () {
+			if ($scope.fileimport && $scope.fileimport.length > 0 && $scope.fileimport[0].name.length > 0) $scope.uploadBtnStatus = $scope.fileimport[0].name;
+		});
+
+		// Import Students
+		$scope.import = function() {
+			if (!$scope.fileimport || $scope.fileimport.length == 0) {
+				$scope.error = 'Please choose import file.';
+				return false;
+			}
+
+			$scope.uploadStatus = '';
+			$upload.upload({
+				url: 'students/import',
+				fields: {
+
+				},
+				file: $scope.fileimport,
+			}).progress(function(evt) {
+				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+				$scope.uploadStatus = 'Uploading ' + progressPercentage + '%';
+
+				if (progressPercentage == 100) $scope.uploadStatus = 'Importing ...';
+
+				console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+			}).success(function(data, status, headers, config) {
+				console.log(data, status, headers, config);
+				$scope.uploadStatus = '';
+				$scope.success = data;
+			}).error(function(err) {
+				$scope.error = err.message;
 			});
 		};
 

@@ -25,7 +25,6 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 			});
 		};
 
-
 		$scope.$watch('fileimport', function () {
 			if ($scope.fileimport && $scope.fileimport.length > 0 && $scope.fileimport[0].name.length > 0) $scope.uploadBtnStatus = $scope.fileimport[0].name;
 		});

@@ -9,6 +9,10 @@ module.exports = function(app) {
 		.get(students.list)
 		.post(users.requiresLogin, students.create);
 
+	app.route('/students/import')
+		.get(function(req, res) { res.status(404); })
+		.post(users.requiresLogin, students.importStudents);
+
 	app.route('/students/:studentId')
 		.get(students.read)
 		.put(users.requiresLogin, students.hasAuthorization, students.update)

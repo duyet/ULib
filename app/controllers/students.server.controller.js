@@ -10,6 +10,7 @@ var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 var crypto	= require('crypto');
 var nodemailer = require('nodemailer');
 var async = require('async');
+var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
@@ -48,6 +49,71 @@ exports.create = function(req, res) {
 	})
 };
 
+
+/** 
+ * Import 
+ */
+exports.importStudents = function(req, res) {
+	var headerLine = [ 'ID', 'Name', 'Subject', 'Email' ];
+
+	var data = _.pick(req.body, 'type'), 
+    file = req.files.file;
+
+	console.log(data); //original name (ie: sunset.png)
+	console.log(file.path); //tmp path (ie: /tmp/12345-xyaz.png)
+
+	var dataImport = false;
+	var numOfLineImported = 0;
+
+	if (path.extname(file.path) == '.json') {
+
+	}
+
+	// Xls file 
+	if (path.extname(file.path) == '.xls' || path.extname(file.path) == '.xlsx') {
+		var node_xj = require('xls-to-json');
+		node_xj({
+			input: file.path,
+			output: null,
+		}, function(err, result) {
+			if(err) console.error('Parse error: ', err);
+			
+			if (!result || result.constructor !== Array) {
+				return res.status(400).send({message: 'Could not parse xls file.'});
+			}
+
+			console.log('The import data is: ', result);
+
+			for (var row in result) {
+				if (result[row] !== null && typeof result[row] === 'object') {
+					console.log('The current data of row ' + row + ' is: ', result[row]);
+
+					var keys = Object.keys(result[row]);
+
+					if (1 || keys.equals(headerLine)) { // TODO: check all key of current row include all the headerLine
+						new studentModel({
+							student_id: result[row].id, 
+							name: result[row].name.trim(), 
+							subject: result[row].subject.trim(), 
+						}).save().then(function(model) { 
+							numOfLineImported += 1;
+
+						}).error(function(err) { 
+							// Skip error 
+							console.log(err);
+						});
+					}
+
+					console.log('Imported ' + numOfLineImported);
+
+				}
+			}
+
+			return res.status(200).send('Imported success.');
+
+		});
+	}
+}
 
 /**
  * Show the current Student
