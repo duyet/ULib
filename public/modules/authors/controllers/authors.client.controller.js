@@ -61,7 +61,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 		$scope.findOne = function() {
 			$scope.author = Authors.get({ 
 				authorId: $stateParams.authorId
-			});
+			}).then(function(data) { console.log(data) });
 		};
 	}
 ]);

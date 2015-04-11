@@ -43,6 +43,10 @@ exports.create = function(req, res) {
  * Show the current Author
  */
 exports.read = function(req, res) {
+	if (!req.author) {
+		return res.status(400).send({message: 'Not found!'});
+	}
+
 	res.jsonp(req.author);
 };
 
@@ -70,11 +74,10 @@ exports.update = function(req, res) {
  * Delete an Author
  */
 exports.delete = function(req, res) {
-	var author = req.author.attributes;
-
-	new authorModel({id:author.id}).then(function(model) {
+	console.log('Delete author: ', req.author.id);
+	new authorModel({id: req.author.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
-			res.jsonp(category);
+			res.jsonp({message: 'Delete success'});
 		});
 	}).otherwise(function(err) {
 		return res.status(400).send({
@@ -101,7 +104,9 @@ exports.list = function(req, res) {
  */
 exports.authorByID = function(req, res, next, id) { 
 	new authorModel({id:id}).fetch().then(function(model) { 
-		if (! model) return next(new Error('Failed to load author ' + id));
+		if (! model) {
+			return res.status(400).send({message: 'Not found!'});
+		}
 
 		req.author = model;
 		next();
