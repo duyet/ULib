@@ -128,19 +128,20 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
 	var student = req.student.attributes;
 	
-	var studentId = req.body.student_id || 0;
-	var studentName = req.body.name || '';
-	var subject = req.body.subject || '';
-	var sex = req.body.sex || -1;
-	var email = req.body.email || '';
+	student.name = req.body.name;
+	student.subject = req.body.subject;
+	student.sex = req.body.sex;
+	student.email = req.body.email;
 
 	console.log('Update student with data:', student);
 
-	new studentModel({id:req.student.student_id}).save(student).then(function(model) {
+	new studentModel({student_id:req.student.student_id}).save(student).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
+		console.error(JSON.stringify(err, null, 4));
+
 		return res.status(400).send({
-			message: errorHandler.getErrorMessage(err)
+			message: errorHandler.getSQLErrorMessage(err)
 		});
 	});
 };
@@ -151,7 +152,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var student = req.student.attributes;
 
-	new studentModel({id:student.student_id}).then(function(model) {
+	new studentModel({student_id:student.student_id}).then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(student);
 		});
@@ -179,7 +180,7 @@ exports.list = function(req, res) {
  * Student middleware
  */
 exports.studentByID = function(req, res, next, id) { 
-	new studentModel({id:id}).fetch().then(function(stdt) { 
+	new studentModel({student_id:id}).fetch().then(function(stdt) { 
 		if (! stdt) return next(new Error('Failed to load Student ' + id));
 
 		req.student = stdt;

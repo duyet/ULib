@@ -82,6 +82,8 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 		$scope.update = function() {
 			var student = $scope.student;
 
+			console.log(student);
+
 			student.$update(function() {
 				$location.path('students/' + student.student_id);
 			}, function(errorResponse) {

@@ -40,3 +40,22 @@ exports.getErrorMessage = function(err) {
 
 	return message;
 };
+
+/**
+ * Get SQL Error Message 
+ */
+exports.getSQLErrorMessage = function(err) {
+	var message = '';
+
+	if (err.errno) {
+		switch (err.code) {
+			case 'ER_DUP_ENTRY':
+				message = 'Duplicate entry for key PRIMARY';
+
+			default:
+				message = 'Something went wrong';
+		}
+	}
+
+	return message;
+}

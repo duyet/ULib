@@ -1,21 +1,17 @@
 <section data-ng-controller="StudentsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="student.name"></h1>
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h1 data-ng-bind="student.student_id"></h1>
+
+			<div class="ibox-content">
+				<label>Name</label> <span data-ng-bind="student.name"></span> <br>
+				<label>Subject</label> <span data-ng-bind="student.subject"></span> <br>
+				<label>Email</label> <span data-ng-bind="student.email"></span> <br>
+				<label>Sex</label> <span data-ng-bind="student.sex == 1 ? 'Boy' : 'Girl'"></span> <br>
+				
+				<a href="/#!/students/{{student.student_id}}/edit" class="btn btn-primary">edit</a>
+				<a class="btn btn-warning"data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
+			</div>
+		</div>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == student.user._id))">
-		<a class="btn btn-primary" href="/#!/students/{{student._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="student.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="student.user.displayName"></span>
-		</em>
-	</small>
 </section>
