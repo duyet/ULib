@@ -7,7 +7,7 @@ var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
 var rules = {
 	name: 'required',
-	description: '',
+	//description: '',
 	status: 'numeric',
 };
 
