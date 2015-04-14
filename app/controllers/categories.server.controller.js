@@ -78,10 +78,10 @@ exports.importCategories = function(req, res) {
 
 					if (1 || keys.equals(headerLine)) { // TODO: check all key of current row include all the headerLine
 						new categoryModel({
-							name: result[row].Name.trim(), 
-							description: result[row].Description.trim(), 
-							loan_time: parseInt(result[row].Loan),
-							status: parseInt(result[row].Status)
+							name: result[row].Name || '', 
+							description: result[row].Description || '', 
+							loan_time: parseInt(result[row].Loan || 0),
+							status: parseInt(result[row].Status || 0)
 						}).save().then(function(model) { 
 							numOfLineImported += 1;
 

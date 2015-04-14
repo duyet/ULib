@@ -52,7 +52,7 @@
                         <span data-ng-bind="item.title" class="nav-label"></span>
                         <span class="fa arrow"></span>
                     </a>
-                    <ul ng-switch-when="dropdown" aria-expanded="false">
+                    <ul ng-switch-when="dropdown" aria-expanded="false" class="nav nav-second-level">
                         <li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
                             <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
                         </li>

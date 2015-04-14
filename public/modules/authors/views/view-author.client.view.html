@@ -1,14 +1,17 @@
 <section data-ng-controller="AuthorsController" data-ng-init="findOne()">
 	<div class="row">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+		<div class="col-xs-6 col-sm-6 col-md-8 ">
 			<h1 data-ng-bind="author.name"></h1>
-
 			<div class="ibox-content">
 				<label>Name</label> <span data-ng-bind="author.name"></span> <br>
 				<label>Description</label> <span data-ng-bind="author.description"></span> <br>
+				<label>Status</label> <span data-ng-bind="author.status == 1 ? 'Active' : 'Disable'" class="label" ng-class="{'label-active': author.status}"></span> <br><br>
 				
 				<a href="/#!/authors/{{author.id}}/edit" class="btn btn-primary">edit</a>
 				<a href="javascipt:void(0)" class="btn btn-warning" data-ng-click="remove();">remove</a>
+
+				<br /><br />
+				<a href="#">Show the books by {{author.name}}</a> | <a href="#">Add the book by {{author.name}}</a>
 			</div>
 		</div>
 	</div>

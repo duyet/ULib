@@ -5,6 +5,12 @@
             
             <div class="ibox-content">
                 <h1 class="animated fadeInDown">Services</h1>
+                <p>
+                    <a href="/#!/services/report" class="btn btn-default">Report</a>
+                    <a href="/#!/services/import" class="btn btn-default">Import</a>
+                    <a href="/#!/services/create" class="btn btn-primary">Add</a>
+                </p>
+
                 <div class="list-group">
                     <a data-ng-repeat="service in services" data-ng-href="#!/services/{{service.id}}" class="list-group-item">
                         <h2 class="list-group-item-heading" data-ng-bind="service.name"></h2>

@@ -1,21 +1,19 @@
 <section data-ng-controller="ServicelogsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="servicelog.name"></h1>
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h1>View logs #{{servicelog.id}}</h1>
+
+			<div class="ibox-content">
+				<label>Name</label> <span data-ng-bind="servicelog.name"></span> <br>
+				<label>Prices</label> <span data-ng-bind="servicelog.prices"></span> <br>
+				<label>Note</label> <span data-ng-bind="servicelog.note"></span> <br>
+
+				<br />
+				
+				<a href="/#!/servicelogs/{{servicelog.id}}/edit" class="btn btn-primary">edit</a>
+				<a class="btn btn-warning"data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
+			</div>
+		</div>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == servicelog.user._id))">
-		<a class="btn btn-primary" href="/#!/servicelogs/{{servicelog._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="servicelog.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="servicelog.user.displayName"></span>
-		</em>
-	</small>
 </section>
+

@@ -15,7 +15,7 @@
 					<span data-ng-bind="item.title"></span>
 					<b class="caret"></b>
 				</a>
-				<ul ng-switch-when="dropdown" class="dropdown-menu">
+				<ul ng-switch-when="dropdown" class="dropdown-menu" ng-class="nav nav-second-level">
 					<li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
 						<a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
 					</li>

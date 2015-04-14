@@ -1,57 +1,43 @@
-<section data-ng-controller="BooksController" data-ng-init="find()">
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated fadeInDown">List of Books</h1>
-                <p>
-                    <a href="/#!/books/report" class="btn btn-primary">Report</a>
-                    <a href="/#!/books/import" class="btn btn-primary">Import</a>
-                    <a href="/#!/books/create" class="btn btn-success">Add</a>
-                </p>
+<div data-ng-controller="BooksController" data-ng-init="find()">
+    <section>
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                
+                <div class="ibox-content">
+                    <h1 class="animated fadeInDown">List of Books</h1>
+                    <p>
+                        <a href="/#!/books/report" class="btn btn-default">Report</a>
+                        <a href="/#!/books/import" class="btn btn-default">Import</a>
+                        <a href="/#!/books/create" class="btn btn-primary">Add</a>
+                    </p>
 
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered">
-                        <tbody>
-                            <tr data-ng-repeat="book in books | orderBy: ['create_time']">
-                                <td data-ng-bind="book.id" ng-click="go('/books/' + book.id)"></td>
-                                <td data-ng-bind="book.name"></td>
-                                <td data-ng-bind="book.category.name"></td>
-                                <td data-ng-bind="book.language.name"></td>
-                                <td data-ng-bind="book.publisher.name"></td>
-                                <td data-ng-bind="book.number"></td>
-                                <td data-ng-bind="book.publish_date | date"></td>
-                                <td>
-                                   <a href="javascript:void(0)" title="Edit">edit</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered">
+                            <tbody>
+                                <tr data-ng-repeat="book in books | orderBy: ['create_time']">
+                                    <td data-ng-bind="book.id" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
+                                    <td data-ng-bind="book.name"></td>
+                                    <td data-ng-bind="book.category.name"></td>
+                                    <td data-ng-bind="book.language.name"></td>
+                                    <td data-ng-bind="book.publisher.name"></td>
+                                    <td data-ng-bind="book.number"></td>
+                                    <td data-ng-bind="book.publish_date | date"></td>
+                                    <td>
+                                       <a href="javascript:void(0)" title="Edit">edit</a> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!books.$resolved || books.length">
+                        No record!
+                    </div>
                 </div>
 
-                <div class="alert alert-warning text-center" data-ng-hide="!books.$resolved || books.length">
-                    No record!
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-<div class="modal fade" id="serviceInfo">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>{{serviceInfo}}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+    </section>
+
+
 </div>
-<!-- /.modal -->
-
-</section>

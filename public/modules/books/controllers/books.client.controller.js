@@ -143,5 +143,6 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 				}
 			}
 		};
+
 	}
 ]);
