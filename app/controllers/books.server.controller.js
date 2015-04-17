@@ -145,7 +145,9 @@ exports.list = function(req, res) {
  */
 exports.bookByID = function(req, res, next, id) { 
 	new bookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
-		if (! book) return next(new Error('Failed to load book ' + id));
+		if (! model) {
+			return res.status(400).send({message: 'Not found!'});
+		}
 
 		req.book = book;
 		next();
