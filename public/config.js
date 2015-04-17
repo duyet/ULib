@@ -14,7 +14,8 @@ var ApplicationConfiguration = (function() {
 		'ui.bootstrap', 
 		'ui.utils', 
 		'ui.select',
-		'angularFileUpload'
+		'angularFileUpload',
+		'angular-loading-bar'
 	];
 
 	// Add a new vertical module

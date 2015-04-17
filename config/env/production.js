@@ -7,6 +7,7 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/metisMenu/dist/metisMenu.min.css',
 				'public/lib/angular-ui-select/dist/select.min.css',
+				'public/lib/angular-loading-bar/build/loading-bar.min.css',
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.min.js',
@@ -23,6 +24,7 @@ module.exports = {
 				'public/lib/metisMenu/dist/metisMenu.min.js',
 				'public/lib/angular-ui-select/dist/select.min.js',
 				'public/lib/ng-file-upload/angular-file-upload.min.js',
+				'public/lib/angular-loading-bar/build/loading-bar.min.js',
 			]
 		},
 		css: 'public/dist/application.min.css',
