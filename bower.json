@@ -18,6 +18,7 @@
     "angular-ui-select": "~0.11.2",
     "ng-file-upload": "~3.2.4",
     "ng-file-upload-shim": "~3.2.4",
-    "angular-loading-bar": "~0.7.1"
+    "angular-loading-bar": "~0.7.1",
+    "angular-toggle-switch": "~1.2.1"
   }
 }

@@ -15,7 +15,8 @@ var ApplicationConfiguration = (function() {
 		'ui.utils', 
 		'ui.select',
 		'angularFileUpload',
-		'angular-loading-bar'
+		'angular-loading-bar',
+		'toggle-switch',
 	];
 
 	// Add a new vertical module
