@@ -24,16 +24,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="book_ids">Student ID</label>
+                            <label class="control-label" for="book_ids">Choosen Books</label>
                             <div class="controls">
-                                <ui-select multiple tagging data-ng-model="book_ids" theme="bootstrap" style="min-width: 300px;" title="Select Books">
-                                    <ui-select-match placeholder="Select Books">{{$select.selected.name}}</ui-select-match>
-                                    <ui-select-choices repeat="book.name as book in books">
-                                        <div ng-bind-html="book.name | highlight: $select.search"></div>
-                                    </ui-select-choices>
-                                </ui-select>
-
-                                {{book_ids}}
+                                <select data-ng-model="book_ids" class="form-control" ng-options="book.id as book.name for book in books"></select>
 
                             </div>
                         </div>
