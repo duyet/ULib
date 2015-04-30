@@ -5,20 +5,22 @@ angular.module('loans').controller('LoansController', ['$scope', '$stateParams',
 	function($scope, $stateParams, $location, Authentication, Loans, Books, Students) {
 		$scope.authentication = Authentication;
 		$scope.books = Books.query();
-		$scope.students = Students.query();
+		//$scope.students = Students.query();
 
 		// Create new Loan
 		$scope.create = function() {
+			console.log('Creating...');
+
 			// Create new Loan object
 			var loan = new Loans ({
-				student_id: this.student_id,
-				staff_id: this.user.id,
-				book_id: this.book_ids
+				student_id: this.student_id || 0,
+				staff_id: this.user || 0,
+				book_id: [this.book_ids] || [0]  // TODO: change book_ids to array of id of books.
 			});
 
 			// Redirect after save
 			loan.$save(function(response) {
-				$location.path('loans/' + response._id);
+				$location.path('loans/' + response.id);
 
 				// Clear form fields
 				$scope.name = '';

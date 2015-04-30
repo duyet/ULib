@@ -10,13 +10,13 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var staff = require('../models/staff.server.model');
+var StaffModel = require('../models/staff.server.model');
 
 /**
  * Create a article
  */
 exports.index = function(req, res) {
-	res.json(staff.fetchAll());
+	res.json(StaffModel.fetchAll());
 };
 
 exports.signin = function(req, res, next) {
@@ -74,7 +74,7 @@ exports.signup = function(req, res, next) {
 		return res.status(400).json({message: 'Password length must be >= 5.'});
 	}	
 
-	new staff({username: username}).fetch().then(function(user) {
+	new StaffModel({username: username}).fetch().then(function(user) {
 		console.log(user);
 		if (user) {
 			// This username aldready exists.
@@ -84,7 +84,7 @@ exports.signup = function(req, res, next) {
 			
 			// TODO: missing name on db, fix later
 			bcrypt.hash(password, 8, function(err, hash) {
-				new staff({username: username.toLowerCase().trim(), email: email, name: name.trim(), password:hash}).save({}, {isNew:true})
+				new StaffModel({username: username.toLowerCase().trim(), email: email, name: name.trim(), password:hash}).save({}, {isNew:true})
 				.then(function(new_staff) {
 					console.log('Add new staff success!', new_staff.attributes);
 
@@ -154,7 +154,7 @@ exports.update = function(req, res) {
 		console.log("Update user profile...");
 		console.log(user);
 
-		new staff(user).save().then(function(model) {
+		new StaffModel(user).save().then(function(model) {
 			return res.json(model);
 		}).catch(function(err) {
 			console.log(err);
@@ -278,7 +278,7 @@ exports.reset = function(req, res, next) {
 	async.waterfall([
 
 		function(done) {
-			User.findOne({
+			StaffModel.findOne({
 				resetPasswordToken: req.params.token,
 				resetPasswordExpires: {
 					$gt: Date.now()
@@ -356,7 +356,7 @@ exports.changePassword = function(req, res) {
 
 	if (req.user) {
 		if (passwordDetails.newPassword) {
-			User.findById(req.user.id, function(err, user) {
+			StaffModel.findById(req.user.id, function(err, user) {
 				if (!err && user) {
 					if (user.authenticate(passwordDetails.currentPassword)) {
 						if (passwordDetails.newPassword === passwordDetails.verifyPassword) {

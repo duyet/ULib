@@ -5,8 +5,9 @@
  */
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var group = require('../models/group.server.model');
-var async = require('async')
+var GroupModel = require('../models/group.server.model');
+var async = require('async');
+var _ = require('lodash');
 /**
  * Create a Group
  */
@@ -20,7 +21,7 @@ exports.create = function(req, res) {
 	var name = req.body.name || '';
 	var description = req.body.description || '';
 
-	new group({name: name, description:description}).save().then(function(model) {
+	new GroupModel({name: name, description:description}).save().then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -76,7 +77,7 @@ exports.delete = function(req, res) {
  * List of Groups
  */
 exports.list = function(req, res) { 
-	new group().fetchAll().then(function(groups){ 
+	new GroupModel().fetchAll().then(function(groups){ 
 		res.jsonp(groups);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -90,7 +91,7 @@ exports.list = function(req, res) {
  * Group middleware
  */
 exports.groupByID = function(req, res, next, id) {
-	return new group({id:id}).fetch().then(function(group) { 
+	return new GroupModel({id:id}).fetch().then(function(group) { 
 		if (! group) return next(new Error('Failed to load group ' + id));
 		req.group = group;
 		next();

@@ -13,7 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var languageModel = require('../models/language.server.model');
+var LanguageModel = require('../models/language.server.model');
 
 /**
  * Create a Language
@@ -29,7 +29,7 @@ exports.create = function(req, res) {
 	var languageName = req.body.name || '';
 	var description = req.body.description || '';
 
-	new languageModel({name:languageName.trim(), description:description.trim()}).save().then(function(model) { 
+	new LanguageModel({name:languageName.trim(), description:description.trim()}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		console.log(err);
@@ -58,7 +58,7 @@ exports.update = function(req, res) {
 
 	console.log('Update language with data:', language);
 
-	new languageModel({id:req.language.id}).save(language).then(function(model) {
+	new LanguageModel({id:req.language.id}).save(language).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -73,7 +73,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.language);
 
-	new languageModel({id:req.language.id}).fetch().then(function(model) {
+	new LanguageModel({id:req.language.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -88,7 +88,7 @@ exports.delete = function(req, res) {
  * List of Language
  */
 exports.list = function(req, res) { 
-	new languageModel({status:1}).fetchAll().then(function(language){ 
+	new LanguageModel({status:1}).fetchAll().then(function(language){ 
 		res.jsonp(language);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -101,7 +101,7 @@ exports.list = function(req, res) {
  * Language middleware
  */
 exports.languageByID = function(req, res, next, id) { 
-	new languageModel({id:id, status: 1}).fetch().then(function(language) { 
+	new LanguageModel({id:id, status: 1}).fetch().then(function(language) { 
 		if (! language) return next(new Error('Failed to load language ' + id));
 
 		req.language = language;

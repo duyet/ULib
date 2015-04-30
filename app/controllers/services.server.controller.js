@@ -13,7 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var serviceModel = require('../models/service.server.model');
+var ServiceModel = require('../models/service.server.model');
 
 /**
  * Create a Service
@@ -29,7 +29,7 @@ exports.create = function(req, res) {
 	var serviceName = req.body.name || '';
 	var description = req.body.description || '';
 
-	new serviceModel({name:serviceName.trim(), description:description.trim()}).save().then(function(model) { 
+	new ServiceModel({name:serviceName.trim(), description:description.trim()}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		console.log(err);
@@ -58,7 +58,7 @@ exports.update = function(req, res) {
 
 	console.log('Update service with data:', service);
 
-	new serviceModel({id:req.service.id}).save(service).then(function(model) {
+	new ServiceModel({id:req.service.id}).save(service).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -73,7 +73,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.service);
 
-	new serviceModel({id:req.service.id}).fetch().then(function(model) {
+	new ServiceModel({id:req.service.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -88,7 +88,7 @@ exports.delete = function(req, res) {
  * List of Service
  */
 exports.list = function(req, res) { 
-	new serviceModel({status:1}).fetchAll().then(function(service){ 
+	new ServiceModel({status:1}).fetchAll().then(function(service){ 
 		res.jsonp(service);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -101,7 +101,7 @@ exports.list = function(req, res) {
  * Service middleware
  */
 exports.serviceByID = function(req, res, next, id) { 
-	new serviceModel({id:id}).fetch().then(function(service) { 
+	new ServiceModel({id:id}).fetch().then(function(service) { 
 		if (! service) return next(new Error('Failed to load service ' + id));
 
 		req.service = service;
