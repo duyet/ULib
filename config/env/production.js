@@ -10,6 +10,7 @@ module.exports = {
 				'public/lib/angular-loading-bar/build/loading-bar.min.css',
 				'public/lib/angular-toggle-switch/angular-toggle-switch.css',
 				'public/lib/angular-toggle-switch/angular-toggle-switch-bootstrap.css',
+				'public/lib/material-design-iconic-font/css/material-design-iconic-font.min.css',	
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.min.js',

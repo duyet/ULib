@@ -19,6 +19,7 @@
     "ng-file-upload": "~3.2.4",
     "ng-file-upload-shim": "~3.2.4",
     "angular-loading-bar": "~0.7.1",
-    "angular-toggle-switch": "~1.2.1"
+    "angular-toggle-switch": "~1.2.1",
+    "material-design-iconic-font": "~1.1.1"
   }
 }
