@@ -15,7 +15,7 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 
 			// Redirect after save
 			publisher.$save(function(response) {
-				$location.path('publishers/' + response.id);
+				$location.path('publishers');
 
 				// Clear form fields
 				$scope.name = '';
