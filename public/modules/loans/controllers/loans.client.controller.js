@@ -12,13 +12,12 @@ angular.module('loans').controller('LoansController', ['$scope', '$stateParams',
 			// Create new Loan object
 			var loan = new Loans ({
 				student_id: this.student_id,
-				staff_id: this.user.id,
 				book_id: this.book_ids
 			});
 
 			// Redirect after save
 			loan.$save(function(response) {
-				$location.path('loans/' + response._id);
+				$location.path('loans/' + response.id);
 
 				// Clear form fields
 				$scope.name = '';

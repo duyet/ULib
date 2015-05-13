@@ -9,4 +9,5 @@ var knex = require('knex')({
 
 var bookshelf = require('bookshelf')(knex);
 
+exports.bookshelf = bookshelf;
 module.exports = bookshelf.Model;

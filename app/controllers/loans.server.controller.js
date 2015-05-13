@@ -3,26 +3,48 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-	errorHandler = require('./errors.server.controller'),
-	Loan = mongoose.model('Loan'),
-	_ = require('lodash');
+var _ = require('lodash');
+var passport = require('passport');
+var Promise  = require('bluebird');
+var bcrypt   = Promise.promisifyAll(require('bcrypt'));
+var crypto	= require('crypto');
+var nodemailer = require('nodemailer');
+var async = require('async');
+
+var bookshelf = require('bookshelf');
+
+var errorHandler = require('./errors.server.controller');
+var config = require('../../config/config');
+var loanModel = require('../models/loan.server.model');
+var studentModel = require('../models/student.server.model');
 
 /**
  * Create a Loan
  */
 exports.create = function(req, res) {
-	var loan = new Loan(req.body);
-	loan.user = req.user;
+	//req.assert('name', 'Language name is empty.').notEmpty();
 
-	loan.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(loan);
-		}
+	var err = req.validationErrors();
+	if (err) {
+		return res.status(400).send({message: err});
+	}
+
+	var studentId = req.body.student_id || 0;
+	studentId = parseInt(studentId);
+	if (studentId <= 0) {
+		return res.status(400).send('Please enter student ID');
+	}
+
+	var bookIds = req.body.book_ids || [];
+
+	bookshelf.transaction(function(t) {
+		// Check student ID
+		return new studentModel({student_id: studentId}).fetch().catch(function(err) {
+			return res.status(400).send({message: 'Student not found!'});
+		});
+
+	}).then(function(student) {
+
 	});
 };
 

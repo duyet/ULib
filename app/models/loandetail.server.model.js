@@ -5,24 +5,20 @@ var checkit  = require('checkit');
 var Promise  = require('bluebird');
 var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
-var Loandetail = require('./loandetail.server.model');
+var Loan = require('./loan.server.model');
+var Book = require('./book.server.model');
 
-var rules = {
-	//name: 'required',
-	//description: 'maxLength:250'
-};
+var Loandetail = Model.extend({
+	tableName: 'Loandetails',
 
-var Languages = Model.extend({
-	tableName: 'Loans',
+	loan: function() {
+		return this.belongsTo(Loan);
+	},
+
+	book: function() {
+		return this.belongsTo(Book);
+	},
 	
-	student: function() {
-		return this.belongTo(Author);
-	},
-
-	staff: function() {
-		return this.belongTo(Loandetail);
-	},
-
 	initialize: function() {
 		this.on('saving', this.validateSave);
 	},
@@ -33,4 +29,4 @@ var Languages = Model.extend({
 
 })
 
-module.exports = Languages;
+module.exports = Loandetail;
