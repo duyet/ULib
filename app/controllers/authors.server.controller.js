@@ -13,7 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var authorModel = require('../models/author.server.model');
+var AuthorModel = require('../models/author.server.model');
 
 /**
  * Create a Author
@@ -29,7 +29,7 @@ exports.create = function(req, res) {
 	var authorName = req.body.name || '';
 	var description = req.body.description || '';
 
-	new authorModel({name:authorName.trim(), description:description.trim()}).save().then(function(model) { 
+	new AuthorModel({name:authorName.trim(), description:description.trim()}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -61,7 +61,7 @@ exports.update = function(req, res) {
 
 	console.log('Update author with data:', author);
 
-	new authorModel({id:req.author.id}).save(author).then(function(model) {
+	new AuthorModel({id:req.author.id}).save(author).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -75,7 +75,7 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	console.log('Delete author: ', req.author.id);
-	new authorModel({id: req.author.id}).fetch().then(function(model) {
+	new AuthorModel({id: req.author.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp({message: 'Delete success'});
 		});
@@ -90,7 +90,7 @@ exports.delete = function(req, res) {
  * List of Authors
  */
 exports.list = function(req, res) { 
-	new authorModel({status:1}).fetchAll().then(function(authors){ 
+	new AuthorModel({status:1}).fetchAll().then(function(authors){ 
 		res.jsonp(authors);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -103,7 +103,7 @@ exports.list = function(req, res) {
  * Author middleware
  */
 exports.authorByID = function(req, res, next, id) { 
-	new authorModel({id:id}).fetch().then(function(model) { 
+	new AuthorModel({id:id}).fetch().then(function(model) { 
 		if (! model) {
 			return res.status(400).send({message: 'Not found!'});
 		}

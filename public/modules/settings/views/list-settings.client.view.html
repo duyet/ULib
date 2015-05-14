@@ -1,0 +1,19 @@
+<section data-ng-controller="SettingsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Settings</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="setting in settings" data-ng-href="#!/settings/{{setting._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="setting.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="setting.user.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="setting.name"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!settings.$resolved || settings.length">
+    	No Settings yet, why don't you <a href="/#!/settings/create">create one</a>?
+    </div>
+</section>

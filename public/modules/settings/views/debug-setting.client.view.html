@@ -1,0 +1,24 @@
+<section data-ng-controller="SettingsController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <h1 class="animated fadeInDown">Debug Option</h1>
+            <div class="ibox-content">
+                <form class="form-horizontal" data-ng-submit="setting_debug_save()" novalidate>
+                    <fieldset>
+                        
+                        <div data-ng-show="error" class="alert alert-danger">
+                            <span data-ng-bind="error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="name">Active debug</label>
+                            <div class="controls">
+                                <toggle-switch ng-model="activedebug" ng-click="debugToggle()"><toggle-switch>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

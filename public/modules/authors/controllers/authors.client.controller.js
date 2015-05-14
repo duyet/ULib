@@ -15,7 +15,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 
 			// Redirect after save
 			author.$save(function(response) {
-				$location.path('authors/' + response.id);
+				$location.path('authors');
 
 				// Clear form fields
 				$scope.name = '';

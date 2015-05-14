@@ -15,7 +15,7 @@ var fs = require('fs');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var bookModel = require('../models/book.server.model');
+var BookModel = require('../models/book.server.model');
 
 /**
  * Create a Service
@@ -48,7 +48,7 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: 'Please select service type.'});
 	}
 
-	new bookModel({
+	new BookModel({
 		id: id,
 		category_id: category_id,
 		language_id: language_id,
@@ -101,7 +101,7 @@ exports.update = function(req, res) {
 
 	console.log('Update book with data:', book);
 
-	new bookModel({id:req.book.id}).save(book).then(function(model) {
+	new BookModel({id:req.book.id}).save(book).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -116,7 +116,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.book);
 
-	new bookModel({id:req.book.id}).fetch().then(function(model) {
+	new BookModel({id:req.book.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -131,7 +131,7 @@ exports.delete = function(req, res) {
  * List of Service
  */
 exports.list = function(req, res) { 
-	new bookModel({status:1}).fetchAll({withRelated: ['category', 'publisher', 'language']}).then(function(book){ 
+	new BookModel({status:1}).fetchAll({withRelated: ['category', 'publisher', 'language']}).then(function(book){ 
 		res.jsonp(book);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -144,7 +144,7 @@ exports.list = function(req, res) {
  * Service middleware
  */
 exports.bookByID = function(req, res, next, id) { 
-	new bookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
+	new BookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
 		if (! model) {
 			return res.status(400).send({message: 'Not found!'});
 		}

@@ -14,7 +14,7 @@ var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var categoryModel = require('../models/category.server.model');
+var CategoryModel = require('../models/category.server.model');
 
 /**
  * Create a Category
@@ -31,7 +31,7 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var loanTime = req.body.loan_time || 15;
 
-	new categoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
+	new CategoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -77,7 +77,7 @@ exports.importCategories = function(req, res) {
 					var keys = Object.keys(result[row]);
 
 					if (1 || keys.equals(headerLine)) { // TODO: check all key of current row include all the headerLine
-						new categoryModel({
+						new CategoryModel({
 							name: result[row].Name || '', 
 							description: result[row].Description || '', 
 							loan_time: parseInt(result[row].Loan || 0),
@@ -121,7 +121,7 @@ exports.update = function(req, res) {
 
 	console.log('Update category with data:', category);
 
-	new categoryModel({id:req.category.id}).save(category).then(function(model) {
+	new CategoryModel({id:req.category.id}).save(category).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -136,7 +136,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var category = req.category.attributes;
 
-	new categoryModel({id:category.id}).then(function(model) {
+	new CategoryModel({id:category.id}).then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(category);
 		});
@@ -151,7 +151,7 @@ exports.delete = function(req, res) {
  * List of Categories
  */
 exports.list = function(req, res) { 
-	new categoryModel({status:1}).fetchAll().then(function(categories){ 
+	new CategoryModel({status:1}).fetchAll().then(function(categories){ 
 		res.jsonp(categories);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -164,7 +164,7 @@ exports.list = function(req, res) {
  * Category middleware
  */
 exports.categoryByID = function(req, res, next, id) { 
-	new categoryModel({id:id}).fetch().then(function(cat) { 
+	new CategoryModel({id:id}).fetch().then(function(cat) { 
 		if (! cat) return next(new Error('Failed to load Category ' + id));
 
 		req.category = cat;

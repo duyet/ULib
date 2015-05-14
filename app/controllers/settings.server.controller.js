@@ -13,52 +13,52 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var LanguageModel = require('../models/language.server.model');
+var SettingModel = require('../models/setting.server.model');
 
 /**
- * Create a Language
+ * Create a Setting
  */
 exports.create = function(req, res) {
-	req.assert('name', 'Language name is empty.').notEmpty();
+	req.assert('name', 'Setting name is empty.').notEmpty();
 
 	var err = req.validationErrors();
 	if (err) {
 		return res.status(400).send({message: err});
 	}
 
-	var languageName = req.body.name || '';
+	var settingName = req.body.name || '';
 	var description = req.body.description || '';
 
-	new LanguageModel({name:languageName.trim(), description:description.trim()}).save().then(function(model) { 
+	new SettingModel({name:settingName.trim(), description:description.trim()}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		console.log(err);
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});
-	})
+	});
 };
 
 
 /**
- * Show the current Language
+ * Show the current Setting
  */
 exports.read = function(req, res) {
-	res.jsonp(req.language);
+	res.jsonp(req.setting);
 };
 
 /**
- * Update a Language
+ * Update a Setting
  */
 exports.update = function(req, res) {
-	var language = req.language.attributes;
+	var setting = req.setting.attributes;
 
-	language.description = req.body.description;
-	language.name = req.body.name;
+	setting.description = req.body.description;
+	setting.name = req.body.name;
 
-	console.log('Update language with data:', language);
+	console.log('Update setting with data:', setting);
 
-	new LanguageModel({id:req.language.id}).save(language).then(function(model) {
+	new SettingModel({id:req.setting.id}).save(setting).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -68,12 +68,12 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an Language
+ * Delete an Setting
  */
 exports.delete = function(req, res) {
-	console.log(req.language);
+	console.log(req.setting);
 
-	new LanguageModel({id:req.language.id}).fetch().then(function(model) {
+	new SettingModel({id:req.setting.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -85,11 +85,11 @@ exports.delete = function(req, res) {
 };
 
 /**
- * List of Language
+ * List of Setting
  */
 exports.list = function(req, res) { 
-	new LanguageModel({status:1}).fetchAll().then(function(language){ 
-		res.jsonp(language);
+	new SettingModel({status:1}).fetchAll().then(function(setting){ 
+		res.jsonp(setting);
 	}).error(function(err) { 
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
@@ -98,22 +98,22 @@ exports.list = function(req, res) {
 };
 
 /**
- * Language middleware
+ * Setting middleware
  */
-exports.languageByID = function(req, res, next, id) { 
-	new LanguageModel({id:id, status: 1}).fetch().then(function(language) { 
-		if (! language) return next(new Error('Failed to load language ' + id));
+exports.settingByID = function(req, res, next, id) { 
+	new SettingModel({id:id}).fetch().then(function(setting) { 
+		if (! setting) return next(new Error('Failed to load setting ' + id));
 
-		req.language = language;
+		req.setting = setting;
 		next();
 	}).error(function(err) {
-		console.log('Not found language!');
+		console.log('Not found setting!');
 		return next(err);
 	});
 };
 
 /**
- * Language authorization middleware
+ * Setting authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
 	next();

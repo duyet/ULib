@@ -1,5 +1,267 @@
+<<<<<<< HEAD
 <section class="row" data-ng-controller="AuthenticationController">
 	<h1 class="col-md-12 text-center">Sign in</h1>
+=======
+<section class="row" data-ng-controller="AuthenticationController" data-ng-init="isloginpage=true">
+<style type="text/css">
+
+div#page-wrapper {
+  margin: 0;
+  padding: 0;
+}
+.wrapper-content {
+	margin: 0;
+	padding: 0;
+}
+.navbar-default {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.login-content {
+  overflow: hidden;
+  height: 100%;
+}
+
+.login-content .lc-block {
+  background: #fff;
+  box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
+  border-radius: 2px;
+  padding: 35px 55px 35px;
+  width: 500px;
+  display: inline-block;
+  margin-top: -60px;
+  vertical-align: middle;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .login-content .lc-block {
+    padding: 15px 35px 25px 20px;
+    width: calc(100% - 60px);
+  }
+}
+
+.login-content .lc-block .checkbox {
+  margin: 5px 0 0 42px;
+  text-align: left;
+}
+
+.login-content .lc-block .btn-login {
+  top: 50%;
+  margin-top: -25px;
+  right: -25px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+.login-content .lc-block:not(.toggled) {
+  display: none;
+}
+
+.login-content .lc-block.toggled {
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+  -webkit-animation-duration: 200ms;
+  animation-duration: 200ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  z-index: 10;
+  margin: 69px;
+}
+
+.login-content .login-navigation {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0%;
+  bottom: -45px;
+}
+
+.login-content .login-navigation > li {
+  display: inline-block;
+  margin: 0 2px;
+  -webkit-transition: all;
+  -o-transition: all;
+  transition: all;
+  -webkit-transition-duration: 150ms;
+  transition-duration: 150ms;
+  cursor: pointer;
+  vertical-align: top;
+  color: #fff;
+  line-height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  text-transform: uppercase;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.login-content .login-navigation > li > span {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.login-content .login-navigation > li:not(:hover) {
+  font-size: 0px;
+  border-radius: 100%;
+}
+
+.login-content .login-navigation > li:hover {
+  border-radius: 10px;
+  padding: 0 5px;
+  font-size: 8px;
+}
+
+.login-content .login-navigation > li:hover > span {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+form.login-content {
+  text-align: center;
+  font-weight: 400;
+  padding-top: 0;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1000ms;
+  animation-duration: 1000ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.login-content span.input-group-addon {
+  border: 0;
+}
+
+form.login-content:after {
+  content: "";
+  vertical-align: middle;
+  display: inline-block;
+  width: 1px;
+  height: 100%;
+}
+
+form.login-content:before {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #00bcd4;
+  content: "";
+  z-index: 0;
+}
+</style>
+<div>
+        <!-- Login -->
+        <form data-ng-submit="signin()" autocomplete="off" class="login-content">
+	        <div class="lc-block toggled" id="l-login">
+	            <div data-ng-show="error" class="alert alert-danger" role="alert">
+					<span data-ng-bind="error"></span>
+				</div>
+
+	            <div class="input-group m-b-20">
+	                <span class="input-group-addon"><i class="md md-person"></i></span>
+	                <div class="fg-line">
+	                    <input type="text" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+	                </div>
+	            </div>
+	            
+	            <div class="input-group m-b-20">
+	                <span class="input-group-addon"><i class="md md-accessibility"></i></span>
+	                <div class="fg-line">
+	                    <input type="password" class="form-control" data-ng-model="credentials.password" placeholder="Password" autocomplete="off" >
+	                </div>
+	            </div>
+	            
+	            <div class="clearfix"></div>
+	            
+	            <div class="checkbox">
+	                <label>
+	                    <input type="checkbox" value="">
+	                    <i class="input-helper"></i>
+	                    Keep me signed in
+	                </label>
+	            </div>
+
+	            <button type="submit" style="display:none"></button>
+	            
+	            <a href="" data-ng-click="signin()" class="btn btn-login btn-danger btn-float waves-effect waves-button waves-float"><i class="md md-arrow-forward"></i></a>
+	            
+	            <ul class="login-navigation">
+	                <li data-block="#l-register" class="bgm-red">Register</li>
+	                <li data-block="#l-forget-password" class="bgm-orange">Forgot Password?</li>
+	            </ul>
+	        </div>
+        </form>
+        
+        <!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">IE SUCKS!</h1>
+                <p>You are using an outdated version of Internet Explorer, upgrade to any of the following web browser <br/>in order to access the maximum functionality of this website. </p>
+                <ul class="iew-download">
+                    <li>
+                        <a href="http://www.google.com/chrome/">
+                            <img src="img/browsers/chrome.png" alt="">
+                            <div>Chrome</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.mozilla.org/en-US/firefox/new/">
+                            <img src="img/browsers/firefox.png" alt="">
+                            <div>Firefox</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.opera.com">
+                            <img src="img/browsers/opera.png" alt="">
+                            <div>Opera</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.apple.com/safari/">
+                            <img src="img/browsers/safari.png" alt="">
+                            <div>Safari</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                            <img src="img/browsers/ie.png" alt="">
+                            <div>IE (New)</div>
+                        </a>
+                    </li>
+                </ul>
+                <p>Upgrade your browser for a Safer and Faster web experience. <br/>Thank you for your patience...</p>
+            </div>   
+        <![endif]-->
+        
+        <!-- Javascript Libraries -->
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        
+        <script src="vendors/waves/waves.min.js"></script>
+        
+        <script src="js/functions.js"></script>
+        
+    
+</div>
+</section>
+
+
+
+
+
+
+
+<!--section class="row" data-ng-controller="AuthenticationController">
+	<h1 class="col-md-12 text-center">Sign me in</h1>
+>>>>>>> 8154c6715d1f3c285d82b404f76811cfa06635ff
 	<div class="col-xs-12 col-md-offset-3 col-md-6">
 		<form data-ng-submit="signin()" class="signin form-horizontal ibox-content animated fadeInDown" autocomplete="off">
 			<fieldset>
@@ -32,4 +294,4 @@
 		
 	</style>
 
-</section
+</section -->

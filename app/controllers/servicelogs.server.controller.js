@@ -13,7 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var servicelogModel = require('../models/servicelog.server.model');
+var ServicelogModel = require('../models/servicelog.server.model');
 
 /**
  * Create a Service
@@ -36,7 +36,7 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: 'Please select service type.'});
 	}
 
-	new servicelogModel({
+	new ServicelogModel({
 		service_type_id: service_type_id,
 		staff_id: staff_id, 
 		prices: prices,
@@ -70,7 +70,7 @@ exports.update = function(req, res) {
 
 	console.log('Update servicelog with data:', servicelog);
 
-	new servicelogModel({id:req.servicelog.id}).save(servicelog).then(function(model) {
+	new ServicelogModel({id:req.servicelog.id}).save(servicelog).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -85,7 +85,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.servicelog);
 
-	new servicelogModel({id:req.servicelog.id}).fetch().then(function(model) {
+	new ServicelogModel({id:req.servicelog.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -100,7 +100,7 @@ exports.delete = function(req, res) {
  * List of Service
  */
 exports.list = function(req, res) { 
-	new servicelogModel({status:1}).fetchAll({withRelated: ['staff', 'service']}).then(function(servicelog){ 
+	new ServicelogModel({status:1}).fetchAll({withRelated: ['staff', 'service']}).then(function(servicelog){ 
 		res.jsonp(servicelog);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -113,7 +113,7 @@ exports.list = function(req, res) {
  * Service middleware
  */
 exports.servicelogByID = function(req, res, next, id) { 
-	new servicelogModel({id:id}).fetch({withRelated: ['staff', 'service']}).then(function(servicelog) { 
+	new ServicelogModel({id:id}).fetch({withRelated: ['staff', 'service']}).then(function(servicelog) { 
 		if (! servicelog) return next(new Error('Failed to load servicelog ' + id));
 
 		req.servicelog = servicelog;

@@ -14,7 +14,7 @@ var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
-var studentModel = require('../models/student.server.model');
+var StudentModel = require('../models/student.server.model');
 
 /**
  * Create a Student
@@ -34,7 +34,7 @@ exports.create = function(req, res) {
 	var sex = req.body.sex || -1;
 	var email = req.body.email || '';
 
-	new studentModel({
+	new StudentModel({
 		student_id: studentId, 
 		name: studentName.trim(), 
 		subject: subject.trim(),
@@ -91,7 +91,7 @@ exports.importStudents = function(req, res) {
 					var keys = Object.keys(result[row]);
 
 					if (1 || keys.equals(headerLine)) { // TODO: check all key of current row include all the headerLine
-						new studentModel({
+						new StudentModel({
 							student_id: result[row].id, 
 							name: result[row].name.trim(), 
 							subject: result[row].subject.trim(), 
@@ -135,7 +135,7 @@ exports.update = function(req, res) {
 
 	console.log('Update student with data:', student);
 
-	new studentModel({student_id:req.student.student_id}).save(student).then(function(model) {
+	new StudentModel({student_id:req.student.student_id}).save(student).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		console.error(JSON.stringify(err, null, 4));
@@ -152,7 +152,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var student = req.student.attributes;
 
-	new studentModel({student_id:student.student_id}).then(function(model) {
+	new StudentModel({student_id:student.student_id}).then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(student);
 		});
@@ -167,7 +167,7 @@ exports.delete = function(req, res) {
  * List of Categories
  */
 exports.list = function(req, res) { 
-	new studentModel({status:1}).fetchAll().then(function(students){ 
+	new StudentModel({status:1}).fetchAll().then(function(students){ 
 		res.jsonp(students);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -180,7 +180,7 @@ exports.list = function(req, res) {
  * Student middleware
  */
 exports.studentByID = function(req, res, next, id) { 
-	new studentModel({student_id:id}).fetch().then(function(stdt) { 
+	new StudentModel({student_id:id}).fetch().then(function(stdt) { 
 		if (! stdt) return next(new Error('Failed to load Student ' + id));
 
 		req.student = stdt;
