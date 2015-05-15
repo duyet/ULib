@@ -1,48 +1,93 @@
-
 <section data-ng-controller="CategoriesController" data-ng-init="findOne()">
+
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Categorie</a></li>
+            <li><a href="#">Edit</a></li>
+            <li class="active" data-ng-bind="category.name"></li>
+    </ol>
+    </div>
+
+
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a data-ng-href="/#!/categories" title="Go back" class="go-back">Back</a>
-            <h1>Edit Category</h1>
+        <div class="col-sm-12 col-md-6">
 
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="update()" novalidate>
-                    <fieldset>
-                        
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Edit new<small>Edit new Categories</small></h2>
 
-                        <div class="form-group">
-                            <label class="control-label" for="name">Name</label>
-                            <div class="controls">
-                                <input type="text" data-ng-model="category.name" id="name" class="form-control" placeholder="Name" required>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/categories">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="update()" novalidate>
+                        <fieldset>
+                            
+                            <div data-ng-show="error" class="alert alert-danger">
+                                <span data-ng-bind="error"></span>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="description">Description</label>
-                            <div class="controls">
-                                <textarea name="description" id="description" data-ng-model="category.description" class="form-control">
-                                    
-                                </textarea>
+                            <div class="form-group">
+                                <label class="control-label" for="name">Name</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="category.name" id="name" class="form-control" placeholder="Name" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="loan_time">Loan time (days)</label>
-                            <div class="controls">
-                                <input type="number" data-ng-model="category.loan_time" id="loan_time" class="form-control" placeholder="15 days" required>
+                            <div class="form-group">
+                                <label class="control-label" for="description">Description</label>
+                                <div class="controls">
+                                    <textarea name="description" id="description" data-ng-model="category.description" class="form-control">
+                                        
+                                    </textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label" for="loan_time">Loan time (days)</label>
+                                <div class="controls">
+                                    <input type="number" data-ng-model="category.loan_time" id="loan_time" class="form-control" placeholder="15 days" required>
+                                </div>
+                            </div>
 
-                    </fieldset>
-                </form>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
             </div>
+
         </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="card">
+                <div class="card-body card-padding">
+                    Cras leo sem, egestas a accumsan eget, euismod at nunc. Praesent vel mi blandit, tempus ex gravida, accumsan dui. Sed sed aliquam augue. Nullam vel suscipit purus, eu facilisis ante. Mauris nec commodo felis. 
+                </div>
+            </div>
+        </div>  
+
+
     </div>
 </section>

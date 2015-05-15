@@ -1,29 +1,64 @@
 <section data-ng-controller="BooksController" data-ng-init="findOne()">
-	<div class="row">
-		<div class="col-xs-12 col-md-6">
-			<a data-ng-href="/#!/books" title="Go back" class="go-back">Back</a>
-			<h1 data-ng-bind="publisher.name"></h1>
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="/#!/books">Books</a></li>
+            <li class="active">View</li>
+    </ol>
+    </div>
 
-			<div class="ibox-content">
-				<h1>
-					<span data-ng-bind="'#' + book.id + ' ' + book.name"></span>
-				</h1>
 
-				<ul class="list-group">
-					<li class="list-group-item"><strong>Book name:</strong> {{book.name}}</li>
-					<li class="list-group-item"><strong>Description:</strong> {{book.description}}</li>
-					<li class="list-group-item"><strong>Category:</strong> {{book.category.name}}</li>
-					<li class="list-group-item"><strong>Language:</strong> {{book.language.name}}</li>
-					<li class="list-group-item"><strong>Publisher:</strong> {{book.publisher.name}}</li>
-					<li class="list-group-item"><strong>Number:</strong> {{book.number}} <span class="label label-success">{{book.available_number}}</span></li>
-					<li class="list-group-item"><strong>Publish Date:</strong> {{book.publish_date | date}}</li>
-					
-				</ul>
-				
-				<a href="/#!/publishers/{{publisher.id}}/edit" class="btn btn-primary">edit</a>
-				<a class="btn btn-warning" data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
-			</div>
-		</div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>{{book.name}} <small>View detail</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/books">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/books/{{book.id}}/edit">Edit</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-ng-click="remove(book)">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="card-body card-padding">
+						<h1>
+							<span data-ng-bind="'#' + book.id + ' ' + book.name"></span>
+						</h1>
+
+						<ul class="list-group">
+							<li class="list-group-item"><strong>Book name:</strong> {{book.name}}</li>
+							<li class="list-group-item"><strong>Description:</strong> {{book.description}}</li>
+							<li class="list-group-item"><strong>Category:</strong> {{book.category.name}}</li>
+							<li class="list-group-item"><strong>Language:</strong> {{book.language.name}}</li>
+							<li class="list-group-item"><strong>Publisher:</strong> {{book.publisher.name}}</li>
+							<li class="list-group-item"><strong>Number:</strong> {{book.number}} <span class="label label-success">{{book.available_number}}</span></li>
+							<li class="list-group-item"><strong>Publish Date:</strong> {{book.publish_date | date}}</li>
+							
+						</ul>
+						
+						<a href="/#!/publishers/{{publisher.id}}/edit" class="btn btn-primary">edit</a>
+						<a class="btn btn-warning" data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
+                </div>
+            </div>
+
+        </div>
 
 		<div class="col-xs-12 col-md-6">
 			<br /><br />
@@ -38,5 +73,9 @@
 				<img data-ng-src="https://api.qrserver.com/v1/create-qr-code/?size=300&amp;data={{currentUrl}}" class="img-responsive">
 			</div>
 		</div>
-	</div>
+
+    </div>
+
 </section>
+
+

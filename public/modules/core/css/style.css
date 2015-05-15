@@ -77,8 +77,8 @@ h5 {
 }
 .navbar-default {
   background-color: transparent;
-  border-color: #59bcdb;
-  background: #59bcdb;
+  border-color: #2588A8;
+  background: #2588A8;
   height: 100%;
   color: #fff !important;
 }
@@ -6910,4 +6910,14 @@ a.btn-icon {
   body.sw-toggled .breadcrumb {
     padding: 10px 0 11px 280px;
   }
+}
+
+.image-drop-area {
+  width: 100%;
+  border: 4px dashed #C7C7C7;
+  height: 200px;
+  font-size: 31px;
+  line-height: 200px;
+  text-align: center;
+  cursor: pointer;
 }
