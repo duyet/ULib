@@ -9,5 +9,6 @@ angular.module('categories').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'categories', 'Authors', 'authors');
 		Menus.addSubMenuItem('topbar', 'categories', 'Publishers', 'publishers');
 		Menus.addSubMenuItem('topbar', 'categories', 'Book Categories', 'categories');
+		Menus.addSubMenuItem('topbar', 'categories', 'Book Languages', 'languages');
 	}
 ]);
