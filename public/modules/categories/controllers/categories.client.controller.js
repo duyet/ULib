@@ -16,7 +16,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 			// Redirect after save
 			category.$save(function(response) {
-				$location.path('categories/' + response.id);
+				$location.path('categories');
 
 				// Clear form fields
 				$scope.name = '';
@@ -81,7 +81,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 			var category = $scope.category;
 
 			category.$update(function() {
-				$location.path('categories/' + category.id);
+				$location.path('categories');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -98,5 +98,10 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 				categoryId: $stateParams.categoryId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
