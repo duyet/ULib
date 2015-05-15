@@ -22,6 +22,7 @@ module.exports = {
 				'public/lib/angular-toggle-switch/angular-toggle-switch.css',
 				'public/lib/angular-toggle-switch/angular-toggle-switch-bootstrap.css',
 				'public/lib/material-design-iconic-font/css/material-design-iconic-font.min.css',
+				'public/lib/sweetalert/lib/sweet-alert.css',
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.js',
@@ -40,6 +41,7 @@ module.exports = {
 				'public/lib/ng-file-upload/angular-file-upload.min.js',
 				'public/lib/angular-loading-bar/build/loading-bar.min.js',
 				'public/lib/angular-toggle-switch/angular-toggle-switch.min.js',
+				'public/lib/sweetalert/lib/sweet-alert.min.js',
 			]
 		},
 		css: [
