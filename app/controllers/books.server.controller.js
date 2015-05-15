@@ -145,7 +145,7 @@ exports.list = function(req, res) {
  */
 exports.bookByID = function(req, res, next, id) { 
 	new BookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
-		if (! model) {
+		if (! book) {
 			return res.status(400).send({message: 'Not found!'});
 		}
 
