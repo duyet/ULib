@@ -13,14 +13,9 @@ angular.module('loans').controller('LoansController', ['$scope', '$stateParams',
 
 			// Create new Loan object
 			var loan = new Loans ({
-<<<<<<< HEAD
-				student_id: this.student_id,
-				book_id: this.book_ids
-=======
 				student_id: this.student_id || 0,
 				staff_id: this.user || 0,
 				book_id: [this.book_ids] || [0]  // TODO: change book_ids to array of id of books.
->>>>>>> 8154c6715d1f3c285d82b404f76811cfa06635ff
 			});
 
 			// Redirect after save

@@ -167,7 +167,7 @@ h5 {
   font-size: 12px;
 }
 .nav-header {
-  padding: 57px 37px;
+  padding: 40px 37px;
   background: url("../img/header-profile.png") no-repeat left;
 }
 .pace-done .nav-header {
@@ -2839,6 +2839,7 @@ video {
 #wrapper {
   width: 100%;
   overflow-x: hidden;
+  background: #2588A8;
 }
 .wrapper {
   padding: 0 20px;
@@ -6920,4 +6921,12 @@ a.btn-icon {
   line-height: 200px;
   text-align: center;
   cursor: pointer;
+}
+
+.profile-pic  {
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.14);
+  box-sizing: content-box;
 }
