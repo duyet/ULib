@@ -1,17 +1,35 @@
 <section data-ng-controller="StudentsController" data-ng-init="find()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated fadeInDown">Students</h1>
-                <p>
-                    <a href="/#!/students/import" class="btn btn-primary">Import</a>
-                    <a href="/#!/students/filter" class="btn btn-default">Filter</a>
-                    <a href="/#!/students/create" class="btn btn-primary">Add</a>
-                </p>
 
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered">
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Students <small>List of students</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/students/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/students/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/students/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-bordered table-vmiddle bootgrid-table">
                         <tbody>
                             <tr data-ng-repeat="student in students">
                                 <td data-ng-bind="student.student_id"></td>
@@ -22,13 +40,15 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
 
-                <div class="alert alert-warning text-center" data-ng-hide="!students.$resolved || students.length">
-                    No Languages yet, why don't you <a href="/#!/students/create">create one</a>?
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!students.$resolved || students.length">
+                        No Student yet.
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
 </section>

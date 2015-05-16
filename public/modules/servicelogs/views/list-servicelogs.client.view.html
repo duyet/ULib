@@ -1,55 +1,70 @@
-<div data-ng-controller="ServicelogsController" data-ng-init="find()">
+<section data-ng-controller="ServicelogsController" data-ng-init="find()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated fadeInDown">Service Logs</h1>
-                <p>
-                    <a href="/#!/servicelogs/report" class="btn btn-primary">Report</a>
-                    <a href="/#!/servicelogs/create" class="btn btn-success">Add</a>
-                </p>
 
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered">
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Servicelogs <small>List of servicelogs</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/servicelogs/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/servicelogs/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                                <tr>
+                                    <td>#</td>
+                                    <td>Datetime</td>
+                                    <td>Detail</td>
+                                    <td>Staff</td>
+                                    <td>Prices</td>
+                                    <td>Note</td>
+                                    <td></td>
+                                </tr>
+                        </thead>
+
                         <tbody>
-                            <tr data-ng-repeat="servicelog in servicelogs | orderBy: ['create_time']">
+                            
+                        <tr data-ng-repeat="servicelog in servicelogs | orderBy: ['create_time']" ng-click="viewLog(servicelog)">
                                 <td data-ng-bind="servicelog.id"></td>
                                 <td data-ng-bind="servicelog.create_time | date"></td>
-                                <td data-ng-bind="servicelog.service.name" ng-click="viewServiceInfo(servicelog.service)"></td>
+                                <td data-ng-bind="servicelog.service.name"></td>
                                 <td data-ng-bind="servicelog.staff.name"></td>
                                 <td data-ng-bind="servicelog.prices | number"></td>
                                 <td data-ng-bind="servicelog.note"></td>
                                 <td>
-                                   <a href="javascript:void(0)" title="Edit">edit</a>
+                                   <button type="button" class="btn btn-icon command-edit" data-ng-click="go('servicelogs/{{servicelog.id}}/edit')"><span class="md md-edit"></span></button>
+
+                                   <button type="button" class="btn btn-icon command-delete waves-effect waves-button waves-float" data-ng-click="remove(author)"><span class="md md-delete"></span></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
 
-                <div class="alert alert-warning text-center" data-ng-hide="!servicelogs.$resolved || servicelogs.length">
-                    Not service log!
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!servicelogs.$resolved || servicelogs.length">
+                        No Servicelog yet.
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
 
-<div class="modal fade" id="serviceInfo">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>{{serviceInfo}}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-</div>
+</section>

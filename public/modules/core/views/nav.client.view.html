@@ -50,18 +50,15 @@
                 </li>
                 <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);"  ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
                     <a ng-switch-when="dropdown" class="dropdown-toggle">
-                        <span data-ng-bind="item.title" class="nav-label"></span>
+                        <span data-ng-bind-html="item.title" class="nav-label"></span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul ng-switch-when="dropdown" aria-expanded="false" class="nav nav-second-level">
                         <li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}" ng-class="{active: $uiRoute}">
-                            <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
+                            <a href="/#!/{{subitem.link}}" data-ng-bind-html="subitem.title"></a>
                         </li>
                     </ul>
                     <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
-                </li>
-                <li ui-route="/about" ng-class="{active: $uiRoute}">
-                    <a href="/#!/about">About</a>
                 </li>
             </ul>
         </nav>
