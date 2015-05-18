@@ -1,11 +1,13 @@
 'use strict';
 
 // Loans controller
-angular.module('loans').controller('LoansController', ['$scope', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
-	function($scope, $stateParams, $location, Authentication, Loans, Books, Students) {
+angular.module('loans').controller('LoansController', ['$scope', '$filter', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
+	function($scope, $filter, $stateParams, $location, Authentication, Loans, Books, Students) {
 		$scope.authentication = Authentication;
 		$scope.books = Books.query();
 		//$scope.students = Students.query();
+
+		$scope.loan_time = $filter("date")(Date.now(), 'mm-dd-yyyy h:i:s');
 
 		// Create new Loan
 		$scope.create = function() {

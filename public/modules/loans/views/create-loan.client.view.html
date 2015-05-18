@@ -1,4 +1,4 @@
-<section data-ng-controller="LoansController">
+	<section data-ng-controller="LoansController">
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6">
             <a data-ng-href="/#!/loans" title="Go back" class="go-back">Back</a>
@@ -30,6 +30,14 @@
 
                             </div>
                         </div>
+
+						<div class="form-group">
+                            <label class="control-label" for="book_ids">Datetime</label>
+                            <div class="controls">
+                            	<input type="datetime-local" class="form-control" value="" data-ng-model="loan_time" required="required" title="">
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Add</button>
