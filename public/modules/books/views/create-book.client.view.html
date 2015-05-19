@@ -75,15 +75,15 @@
 
 
                         <div class="form-group">
-                            <label class="control-label" for="book">Books</label>
+                            <label class="control-label" for="book">Authors</label>
                             <div class="controls">
                                 
-                                <ui-select multiple data-ng-model="bookbook" class="form-control">
-                                    <ui-select-match placeholder="Select book...">
+                                <ui-select multiple data-ng-model="authors" class="form-control">
+                                    <ui-select-match placeholder="Select author...">
                                         {{$item.name}} 
                                     </ui-select-match>
                                     
-                                    <ui-select-choices repeat="book in books | filter:$select.search">
+                                    <ui-select-choices repeat="book in authors | filter:$select.search">
                                         <div ng-bind-html="book.name "></div>
                                     </ui-select-choices>
                                 </ui-select>

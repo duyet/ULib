@@ -34,7 +34,16 @@
 						<div class="form-group">
                             <label class="control-label" for="book_ids">Datetime</label>
                             <div class="controls">
-                            	<input type="datetime-local" class="form-control" value="" data-ng-model="loan_time" required="required" title="">
+                            	
+                                <input type="text" data-ng-model="loan_time" id="student_id" class="form-control" >
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="#">Click here to show calendar</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <datetimepicker data-ng-model="loan_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }"/>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
 

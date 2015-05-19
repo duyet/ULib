@@ -7,7 +7,7 @@ angular.module('loans').controller('LoansController', ['$scope', '$filter', '$st
 		$scope.books = Books.query();
 		//$scope.students = Students.query();
 
-		$scope.loan_time = $filter("date")(Date.now(), 'mm-dd-yyyy h:i:s');
+	//	$scope.loan_time = $filter("date")(Date.now(), 'mm-dd-yyyy h:i:s');
 
 		// Create new Loan
 		$scope.create = function() {
