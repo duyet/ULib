@@ -61,7 +61,7 @@ exports.update = function(req, res) {
 
 	console.log('Update author with data:', author);
 
-	new AuthorModel({id:req.author.id}).save(author).then(function(model) {
+	new AuthorModel({author_id:req.author.id}).save(author).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -75,7 +75,7 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	console.log('Delete author: ', req.author.id);
-	new AuthorModel({id: req.author.id}).fetch().then(function(model) {
+	new AuthorModel({author_id: req.author.id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp({message: 'Delete success'});
 		});
@@ -103,7 +103,7 @@ exports.list = function(req, res) {
  * Author middleware
  */
 exports.authorByID = function(req, res, next, id) { 
-	new AuthorModel({id:id}).fetch().then(function(model) { 
+	new AuthorModel({author_id:id}).fetch().then(function(model) { 
 		if (! model) {
 			return res.status(400).send({message: 'Not found!'});
 		}

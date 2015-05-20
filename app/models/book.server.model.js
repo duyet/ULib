@@ -11,7 +11,8 @@ var Language = require('./language.server.model');
 
 var Book = Model.extend({
 	tableName: 'Books',
-	
+	idAttribute: 'book_id',
+
 	category: function () {
 		return this.belongsTo(Category, 'category_id');
 	},

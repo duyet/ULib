@@ -46,28 +46,28 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="id">Book ID</label>
+                            <label class="control-label" for="id">Mã sách</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="book_id" id="id" class="form-control" placeholder="100121001" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="name">Book name</label>
+                            <label class="control-label" for="name">Tên sách</label>
                             <div class="controls">
                                 <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Book name..." required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="category">Category</label>
+                            <label class="control-label" for="category">Loại sách</label>
                             <div class="controls">
-                                <select ng-model="category_id" id="category" ng-options="category.id as category.name for category in categories" class="form-control" required></select>
+                                <select data-ng-model="category_id" ng-options="category.id as category.name for category in categories" class="form-control" required></select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="language">Language</label>
+                            <label class="control-label" for="language">Ngôn ngữ</label>
                             <div class="controls">
                                 <select ng-model="language_id" id="language" ng-options="language.id as language.name for language in languages" class="form-control" required></select>
                             </div>
@@ -75,7 +75,7 @@
 
 
                         <div class="form-group">
-                            <label class="control-label" for="book">Authors</label>
+                            <label class="control-label" for="book">Tác giả</label>
                             <div class="controls">
                                 
                                 <ui-select multiple data-ng-model="authors" class="form-control">
@@ -92,37 +92,30 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="publisher">Publisher</label>
+                            <label class="control-label" for="publisher">Nhà xuất bản</label>
                             <div class="controls">
                                 <select ng-model="publisher_id" id="publisher" ng-options="publisher.id as publisher.name for publisher in publishers" class="form-control" required></select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="description">Description</label>
+                            <label class="control-label" for="description">Mô tả</label>
                             <div class="controls">
                                 <textarea name="description" class="form-control" id="description" data-ng-model="description"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="number">Number</label>
+                            <label class="control-label" for="number">Số lượng</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="number" id="number" class="form-control" placeholder="150" step="1" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="available_number">Available Number</label>
+                            <label class="control-label" for="available_number">Số lượng tồn</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="available_number" id="available_number" class="form-control" placeholder="150" step="1" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="publish_date">Publish Date</label>
-                            <div class="controls">
-                                <input type="date" data-ng-model="publish_date" id="publish_date" class="form-control" required>
                             </div>
                         </div>
 

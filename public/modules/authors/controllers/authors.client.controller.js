@@ -28,14 +28,13 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 		$scope.remove = function(author) {
 			swal({
 				title: "Are you sure?",
-				text: "You will not be able to recover this.", 
 				type: "warning",
 				showCancelButton: true,   
 				confirmButtonColor: "#DD6B55",   
 				confirmButtonText: "Yes, delete",   
 				cancelButtonText: "Cancel",   
 				closeOnConfirm: false,   
-				closeOnCancel: false
+				closeOnCancel: true
 			}, function(isConfirm){
 				if (isConfirm) {
 					delete_submit();
@@ -68,7 +67,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 			var author = $scope.author;
 
 			author.$update(function() {
-				$location.path('authors/' + author.id);
+				$location.path('authors');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

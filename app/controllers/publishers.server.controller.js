@@ -53,14 +53,16 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
 	var publisher = req.publisher.attributes;
 
+	delete publisher.publisher_id;
 	publisher.description = req.body.description;
 	publisher.name = req.body.name;
 
 	console.log('Update publisher with data:', publisher);
 
-	new PublisherModel({id:req.publisher.id}).save(publisher).then(function(model) {
+	new PublisherModel({publisher_id:req.publisher.publisher_id}).save(publisher).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
+		console.log(err);
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});
@@ -73,7 +75,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.publisher);
 
-	new PublisherModel({id:req.publisher.id}).fetch().then(function(model) {
+	new PublisherModel({publisher_id:req.publisher.publisher_id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -88,7 +90,7 @@ exports.delete = function(req, res) {
  * List of Publisher
  */
 exports.list = function(req, res) { 
-	new PublisherModel({status:1}).fetchAll().then(function(publisher){ 
+	new PublisherModel().fetchAll().then(function(publisher){ 
 		res.jsonp(publisher);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -101,7 +103,7 @@ exports.list = function(req, res) {
  * Publisher middleware
  */
 exports.publisherByID = function(req, res, next, id) { 
-	new PublisherModel({id:id}).fetch().then(function(publisher) { 
+	new PublisherModel({publisher_id:id}).fetch().then(function(publisher) { 
 		if (! publisher) return next(new Error('Failed to load publisher ' + id));
 
 		req.publisher = publisher;

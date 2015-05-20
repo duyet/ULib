@@ -4,11 +4,10 @@
 angular.module('books').controller('BooksController', ['$scope', '$stateParams', '$location', '$upload', '$timeout', 'Authentication', 'Books', 'Categories', 'Languages', 'Publishers', 'Authors',
 	function($scope, $stateParams, $location, $upload, $timeout, Authentication, Books, Categories, Languages, Publishers, Authors) {
 		$scope.authentication = Authentication;
-		$scope.categories = Categories.query();
-		$scope.languages = Languages.query();
-		$scope.publishers = Publishers.query();
-		$scope.authors = Authors.query();
-
+			$scope.categories = Categories.query();
+			$scope.languages = Languages.query();
+			$scope.publishers = Publishers.query();
+			$scope.authors = Authors.query();
 		$scope.currentUrl = $location.absUrl();
 		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
@@ -16,6 +15,10 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 		$scope.$watch('number', function () {
 			$scope.available_number = $scope.number;
 		});
+
+		$scope.initData = function() {
+
+		}
 
 		// Create new Book
 		$scope.create = function() {
@@ -29,14 +32,13 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 				number: this.number,
 				description: this.description,
 				available_number: this.available_number,
-				publish_date: this.publish_date,
 				image: $scope.image_url || '',
 				status: this.status,
 			});
 
 			// Redirect after save
 			book.$save(function(response) {
-				$location.path('books/' + response.id);
+				$location.path('books');
 
 				// Clear form fields
 				$scope.name = '';

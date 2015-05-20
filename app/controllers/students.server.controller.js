@@ -20,7 +20,7 @@ var StudentModel = require('../models/student.server.model');
  * Create a Student
  */
 exports.create = function(req, res) {
-	req.assert('student_id', 'Student ID is Invalid.').isInt().notEmpty();
+	req.assert('uid', 'Student ID is Invalid.').isInt().notEmpty();
 	req.assert('name', 'Student name is empty.').notEmpty();
 	
 	var err = req.validationErrors();
@@ -28,7 +28,7 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: err});
 	}
 
-	var studentId = req.body.student_id || 0;
+	var studentId = req.body.uid || 0;
 	var studentName = req.body.name || '';
 	var subject = req.body.subject || '';
 	var sex = req.body.sex || -1;
@@ -38,11 +38,12 @@ exports.create = function(req, res) {
 		student_id: studentId, 
 		name: studentName.trim(), 
 		subject: subject.trim(),
-		sex: sex,
+		gender: sex,
 		email: email
 	}).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
+		console.log(err);
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});

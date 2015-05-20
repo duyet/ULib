@@ -41,15 +41,15 @@
                                 <td><span data-ng-bind="publisher.name"></span></td>
                                 <td><span data-ng-bind="publisher.description"></span> </td>
                                 <td>
-                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="#!/publishers/{{publisher.id}}"><span class="md md-edit"></span></button>
-                                    <button type="button" class="btn btn-icon command-delete"><span class="md md-delete"></span></button>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('publishers/{{publisher.publisher_id}}/edit')"><span class="md md-edit"></span></button>
+                                    <button type="button" class="btn btn-icon command-delete" data-ng-click="remove(publisher)"><span class="md md-delete"></span></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
 
-                    <div class="alert alert-warning text-center" data-ng-hide="!publishers.$resolved || publishers.length">
+                    <div class="alert text-center" data-ng-hide="!publishers.$resolved || publishers.length">
                         No Publisher yet.
                     </div>
                 </div>

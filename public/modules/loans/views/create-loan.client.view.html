@@ -1,60 +1,188 @@
-	<section data-ng-controller="LoansController">
+<section data-ng-controller="LoansController">
+
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Categorie</a></li>
+            <li class="active">Create</li>
+    </ol>
+    </div>
+
+
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a data-ng-href="/#!/loans" title="Go back" class="go-back">Back</a>
-            <h1>Add new Loans</h1>
+        <div class="col-sm-12 col-md-6">
 
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="create()" novalidate>
-                    <fieldset>
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Create new<small>Create new Categories</small></h2>
 
-                        <div data-ng-show="success" class="alert alert-success">
-                            <span data-ng-bind="success"></span>
-                        </div>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/loans">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
 
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                        <fieldset>
 
-                        <div class="form-group">
-                            <label class="control-label" for="student_id">Student ID</label>
-                            <div class="controls">
-                                <input type="number" data-ng-model="student_id" id="student_id" class="form-control" placeholder="13520xxx" required>
+                            <div data-ng-show="success" class="alert alert-success">
+                                <span data-ng-bind="success"></span>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="book_ids">Choosen Books</label>
-                            <div class="controls">
-                                <select data-ng-model="book_ids" class="form-control" ng-options="book.id as book.name for book in books"></select>
-
+                            <div data-ng-show="error" class="alert alert-danger">
+                                <span data-ng-bind="error"></span>
                             </div>
-                        </div>
 
-						<div class="form-group">
-                            <label class="control-label" for="book_ids">Datetime</label>
-                            <div class="controls">
-                            	
-                                <input type="text" data-ng-model="loan_time" id="student_id" class="form-control" >
+                            <div class="form-group">
+                                <label class="control-label" for="student_id">
+                                    Mã số sinh viên
+                                </label>
 
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="#">Click here to show calendar</a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <datetimepicker data-ng-model="loan_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }"/>
-                                    </ul>
+                                <div class="controls">
+                                    <input type="text" id="student_id" class="form-control" required="required" pattern="[0-9]" data-ng-model="student_id" ng-change="fetchStudentData()">
                                 </div>
-
                             </div>
-                        </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="book_ids"></label>
+                                <div class="controls">
+                                    <button data-ng-click="chooseBook()" class="btn btn-primary">Chọn sách</button>
+                                    
+                                    <table class="table table-striped" data-ng-hide="!selectedBook.length">
+                                        <thead>
+                                            <tr>
+                                                <td>Mã sách</td>
+                                                <td>Tên sách</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-ng-repeat="book in selectedBook">
+                                                <td data-ng-bind="book.book_id"></td>
+                                                <td data-ng-bind="book.name"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="book_ids">Datetime</label>
+                                
+
+<div class="input-group form-group">
+    <span class="input-group-addon"><i class="md md-event"></i></span>
+        <div class="dtp-container dropdown fg-line open">
+        <input type="text" class="form-control date-time-picker" data-toggle="dropdown" placeholder="Click here..." aria-expanded="true">
+    </div>
+</div>
 
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
+                                <div class="controls">
+                                    
+                                    <input type="text" data-ng-model="loan_time" id="student_id" class="form-control" >
 
-                    </fieldset>
-                </form>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="#">Click here to show calendar</a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <datetimepicker data-ng-model="loan_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }"/>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
             </div>
+
         </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card animated bounce" data-ng-hide="!isChooseBookActive">
+                <div class="card-header ch-alt">
+                    <h2>Nhập mã sách hoặc tên sách</h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#" data-ng-click="isChooseBookActive = false">
+                                <i class="md md-clear"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body card-padding">
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" data-ng-model="searchByKeyword">
+                        </div>
+                        
+                    </div>
+                    <button class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
+
+                    <div class="lv-body listview" data-ng-hide="!fiteredBooks.length">
+                        <a class="lv-item"  data-ng-repeat="b in fiteredBooks" data-ng-click="selectBook(b)">
+                            <div class="checkbox media">
+                                <div class="pull-left">
+                                    <input type="checkbox">
+                                </div>
+                                <div class="media-body">
+                                    <div class="lv-title" data-ng-bind="b.name"></div>
+                                    <small class="lv-small" data-ng-bind="b.description"></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card profile-view animated bounce" data-ng-hide="!student_info">
+                <div class="pv-header">
+                    <img src="modules/loans/images/pygx.png" class="pv-main" alt="">
+                </div>
+                
+                <div class="pv-body">
+                    <h2 data-ng-bind="student_info.name"></h2>
+                
+                    <ul class="pv-contact">
+                        <li><i class="md md-room"></i> {{student_info.student_id}}</li>
+                        <li><i class="md md-phone"></i> {{student_info.subject}}</li>
+                    </ul>
+                    
+                    <ul class="pv-follow">
+                        <li>{{student_info.email}}</li>
+                    </ul>
+                    
+                    <a href="" class="pv-follow-btn">View info</a>
+                </div>
+            </div>
+        </div>  
+
+
     </div>
 </section>
+

@@ -1,15 +1,72 @@
 'use strict';
 
 // Loans controller
-angular.module('loans').controller('LoansController', ['$scope', '$filter', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
-	function($scope, $filter, $stateParams, $location, Authentication, Loans, Books, Students) {
+angular.module('loans').controller('LoansController', ['$scope', '$resource', '$filter', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
+	function($scope, $resource, $filter, $stateParams, $location, Authentication, Loans, Books, Students) {
 		$scope.authentication = Authentication;
 		$scope.books = Books.query();
-		//$scope.students = Students.query();
 
-	//	$scope.loan_time = $filter("date")(Date.now(), 'mm-dd-yyyy h:i:s');
-
+		$scope.isChooseBookActive = false;
+		$scope.selectedBook = [];
+		
 		// Create new Loan
+		$scope.loan_time = $filter("date")(Date.now(), 'mm-dd-yyyy');
+
+		$scope.fetchStudentData = function() {
+			var uid = $scope.student_id || 0;
+			uid = parseInt(uid);
+
+			console.log(typeof uid);
+			if (uid.toString().length > 8) {
+				$scope.student_info = false;
+				return false;
+			}
+			if (uid.toString().length != 8) {
+				return false;
+			}
+
+			Students.get({ 
+				studentId: uid
+			}, function(u) {
+				$scope.student_info = u;
+			});
+
+			
+		}
+
+		$scope.chooseBook = function() {
+			$scope.isChooseBookActive = true;
+		}
+
+		$scope.searchBook = function() {
+			var keyword = $scope.searchByKeyword || '';
+			$scope.fiteredBooks = [];
+
+			if (!(keyword.toString().length > 0)) {
+				return swal("Error", "Vui lòng nhập mã sách hoặc tên sách", "error"); 
+			}
+
+			$resource('books/search').query({
+				keyword: keyword
+			}, function(books) {
+				console.log(books);
+				$scope.fiteredBooks = books;
+			});
+
+		}
+
+		$scope.selectBook = function(b) {
+			if (!b) return false;
+			
+			for (var i in $scope.fiteredBooks) {
+				if ($scope.fiteredBooks[i] === b) {
+					$scope.fiteredBooks.splice(i, 1);
+				}
+			}
+
+			$scope.selectedBook.push(b);
+		}
+
 		$scope.create = function() {
 			console.log('Creating...');
 

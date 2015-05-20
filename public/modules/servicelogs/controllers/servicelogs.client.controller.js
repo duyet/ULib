@@ -27,6 +27,7 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 
 				// Clear form fields
 				$scope.name = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

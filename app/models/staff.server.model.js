@@ -12,7 +12,8 @@ var rules = {
 };
 
 var Staff = Model.extend({
-	tableName: 'Staff',
+	tableName: 'Staffs',
+	idAttribute: 'staff_id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

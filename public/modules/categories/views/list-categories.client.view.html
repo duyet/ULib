@@ -35,18 +35,20 @@
                                 <td>#</td>
                                 <td>Name</td>
                                 <td>Thời gian mượn</td>
-                                <td>Desc</td>
-                                <td></td>
+                                <td style="width: 40%">Desc</td>
+                                <td style="width:15%"></td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="categorie in categories">
+                            <tr data-ng-repeat="category in categories">
                                 <td><span data-ng-bind="$index + 1"></span></td>
-                                <td><span data-ng-bind="categorie.name"></span></td>
-                                <td><span data-ng-bind="categorie.loan_time + ' ngày'"></span></td>
-                                <td><span data-ng-bind="categorie.description"></span> </td>
+                                <td><span data-ng-bind="category.name"></span></td>
+                                <td><span data-ng-bind="category.loan_time + ' ngày'"></span></td>
+                                <td><span data-ng-bind="category.description"></span> </td>
                                 <td>
-                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('categories/{{categorie.id}}/edit')"><span class="md md-edit"></span></button>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('categories/{{category.category_id}}/edit')"><span class="md md-edit"></span></button>
+
+                                    <button type="button" class="btn btn-icon command-delete" data-ng-click="remove(category)"><span class="md md-delete"></span></button>
                                     
                                 </td>
                             </tr>
