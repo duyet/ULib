@@ -9,6 +9,9 @@ module.exports = function(app) {
 		.get(loans.list)
 		.post(users.requiresLogin, loans.create);
 
+	app.route('/loans/test')
+		.get(loans.test);
+
 	app.route('/loans/:loanId')
 		.get(loans.read)
 		.put(users.requiresLogin, loans.hasAuthorization, loans.update)

@@ -6211,32 +6211,6 @@ a:hover, a:focus, a.link, .link {
   background-color: #ECF9FF !important;
 }
 
-.table-bordered {
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0;
-}
-
-.table-bordered > tbody > tr > td,
-.table-bordered > tbody > tr > th {
-  border-bottom: 0;
-  border-left: 0;
-  vertical-align: middle !important;
-}
-
-.table-bordered > tbody > tr > td:last-child,
-.table-bordered > tbody > tr > th:last-child {
-  border-right: 0;
-}
-
-.table-bordered > thead > tr > th {
-  border-left: 0;
-}
-
-.table-bordered > thead > tr > th:last-child {
-  border-right: 0;
-}
-
 .table-vmiddle td {
   vertical-align: middle !important;
 }

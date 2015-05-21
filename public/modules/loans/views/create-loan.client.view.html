@@ -62,42 +62,30 @@
                             <div class="form-group">
                                 <label class="control-label" for="book_ids"></label>
                                 <div class="controls">
-                                    <button data-ng-click="chooseBook()" class="btn btn-primary">Chọn sách</button>
+                                    <button data-ng-click="chooseBook()" type="button" class="btn btn-default">Chọn sách</button>
+
                                     
-                                    <table class="table table-striped" data-ng-hide="!selectedBook.length">
+                                    <table class="table table-bordered" style="margin-top:5px" data-ng-hide="!selectedBook.length">
                                         <thead>
                                             <tr>
                                                 <td>Mã sách</td>
                                                 <td>Tên sách</td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr data-ng-repeat="book in selectedBook">
                                                 <td data-ng-bind="book.book_id"></td>
                                                 <td data-ng-bind="book.name"></td>
+                                                <td class="text-center">
+                                                    <i class="md md-clear" data-ng-click="removeBookFromSelectedList(book)" style="cursor:pointer"></i>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label" for="book_ids">Datetime</label>
-                                <div class="controls">
-                                    
-                                    <input type="text" data-ng-model="loan_time" id="student_id" class="form-control" >
-
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="#">Click here to show calendar</a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <datetimepicker data-ng-model="loan_time" data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }"/>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Add</button>
@@ -125,13 +113,18 @@
                 </div>
                 
                 <div class="card-body card-padding">
-                    <div class="form-group fg-float">
-                        <div class="fg-line">
-                            <input type="text" class="form-control" data-ng-model="searchByKeyword">
+                    
+                    <form class="form-inline">
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
+                                <input type="text" class="form-control" data-ng-model="searchByKeyword" placeholder="Tên sách, mã sách ...">
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                    <button class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
+                        <button class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
+                    </form> 
+
+                    <div class="alert alert-warning" style="margin-top:5px" data-ng-show="isEmptyResult">Không tìm thấy dữ liệu</div>
 
                     <div class="lv-body listview" data-ng-hide="!fiteredBooks.length">
                         <a class="lv-item"  data-ng-repeat="b in fiteredBooks" data-ng-click="selectBook(b)">
@@ -140,7 +133,10 @@
                                     <input type="checkbox">
                                 </div>
                                 <div class="media-body">
-                                    <div class="lv-title" data-ng-bind="b.name"></div>
+                                    <div class="lv-title">
+                                        <span data-ng-bind="b.book_id" class="label label-default"></span>
+                                        <span data-ng-bind="b.name"></span>
+                                    </div>
                                     <small class="lv-small" data-ng-bind="b.description"></small>
                                 </div>
                             </div>
@@ -158,14 +154,11 @@
                 <div class="pv-body">
                     <h2 data-ng-bind="student_info.name"></h2>
                 
-                    <ul class="pv-contact">
+                    <ul class="pv-follow">
                         <li><i class="md md-room"></i> {{student_info.student_id}}</li>
                         <li><i class="md md-phone"></i> {{student_info.subject}}</li>
                     </ul>
                     
-                    <ul class="pv-follow">
-                        <li>{{student_info.email}}</li>
-                    </ul>
                     
                     <a href="" class="pv-follow-btn">View info</a>
                 </div>

@@ -10,6 +10,7 @@ var Book = require('./book.server.model');
 
 var Loandetail = Model.extend({
 	tableName: 'Loandetails',
+	idAttribute: 'loandetail_id',
 
 	loan: function() {
 		return this.belongsTo(Loan);
@@ -20,7 +21,8 @@ var Loandetail = Model.extend({
 	},
 	
 	initialize: function() {
-		this.on('saving', this.validateSave);
+		//Model.apply(this, arguments);
+		//this.on('saving', this.validateSave);
 	},
 
 	validateSave: function() {
