@@ -1,24 +1,53 @@
 <section data-ng-controller="SettingsController" data-ng-init="find()">
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            <h1 class="animated fadeInDown">Library Option</h1>
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="setting_debug_save()" novalidate>
-                    <fieldset>
-                        
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="name">Active debug</label>
-                            <div class="controls">
-                                
+    <div class="block-header">
+        <ol class="breadcrumb" style="margin-bottom: 5px;">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Setting</a></li>
+                <li class="active">LibRule</li>
+        </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Các quy định chung<small></small></h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/loans/create">
+                                <i class="md md-add"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!/loans">
+                                <i class="md md-format-list-bulleted"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="row" data-ng-repeat="rule in librules">
+                        <div class="col-xs-12">
+                            <div class="fg-line form-group">
+                                <label data-ng-bind="rule.description"></label>
+                                <input type="text" data-ng-model="rule.value" class="form-control input-sm" placeholder="Name">
                             </div>
                         </div>
-                    </fieldset>
-                </form>
+
+                    </div>
+
+                </div>
             </div>
+
         </div>
+
+
     </div>
 </section>
+

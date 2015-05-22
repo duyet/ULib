@@ -185,6 +185,46 @@ exports.list = function(req, res) {
 	});
 };
 
+exports.listNotReturn = function(req, res) {
+	var uid = parseInt(req.query.student_id) || 0;
+
+	var procedureString = 'CALL GetLoanNotReturn()';
+	if (uid > 0)  procedureString = 'CALL GetLoanNotReturnByUid(?)';
+
+	return connection.query(procedureString, [uid], function(err, rows, fields) {
+		if (err || !rows[0]) {
+			console.log(err);
+	        return res.jsonp([]);
+	    }
+
+	    return res.jsonp(rows[0]);
+	})
+};
+
+exports.returnBookSubmit = function(req, res) {
+	var books = req.query.books || [];
+	var loan_id = req.query.loan_id || 0;
+
+	if (loan_id > 0) {
+		books.forEach(function(book) {
+			var book_id = parseInt(book);
+			var returned_time = new Date().toMysqlFormat();
+
+			connection.query("CALL ReturnTheBook(?, ?)", [loan_id, book_id], function(err, rows, fields) {
+				if (err) {
+					console.log(err);
+			        
+			    }
+			});
+		});
+
+		return res.jsonp('ok');
+	}
+	
+
+	return res.status(400).send('Error!');
+};
+
 /**
  * Loan middleware
  */

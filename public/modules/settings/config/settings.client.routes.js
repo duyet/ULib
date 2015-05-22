@@ -20,14 +20,14 @@ angular.module('settings').config(['$stateProvider',
 		state('debugSetting', {
 			url: '/settings/debug',
 			templateUrl: 'modules/settings/views/debug-setting.client.view.html'
-		}).
-		state('viewSetting', {
-			url: '/settings/:settingId',
-			templateUrl: 'modules/settings/views/view-setting.client.view.html'
-		}).
-		state('editSetting', {
-			url: '/settings/:settingId/edit',
-			templateUrl: 'modules/settings/views/edit-setting.client.view.html'
 		});
+		//state('viewSetting', {
+		//	url: '/settings/:settingId',
+		//	templateUrl: 'modules/settings/views/view-setting.client.view.html'
+		//}).
+		//state('editSetting', {
+		//	url: '/settings/:settingId/edit',
+		//	templateUrl: 'modules/settings/views/edit-setting.client.view.html'
+		//});
 	}
 ]);

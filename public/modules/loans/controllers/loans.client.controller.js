@@ -16,6 +16,8 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 			var uid = $scope.student_id || 0;
 			uid = parseInt(uid);
 
+			$scope.student_info = false;
+
 			console.log(typeof uid);
 			if (uid.toString().length > 8) {
 				$scope.student_info = false;
