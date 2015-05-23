@@ -43,3 +43,12 @@ angular.module('core').run(['Menus',
 		
 	}
 ]);
+
+
+angular.module('core').run(['$rootScope', '$location', 'Authentication', function ($rootScope, $location, Authentication) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+
+        if (!Authentication.isAuthorized) $location.path('signin');
+        
+    });
+}]);
