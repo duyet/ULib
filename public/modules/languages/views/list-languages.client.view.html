@@ -1,23 +1,66 @@
-
 <section data-ng-controller="LanguagesController" data-ng-init="find()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated fadeInDown">Languages</h1>
-                <div class="list-group">
-                    <a data-ng-repeat="language in languages" data-ng-href="#!/languages/{{language.id}}" class="list-group-item">
-                        <h2 class="list-group-item-heading" data-ng-bind="language.name"></h2>
-                        <small class="list-group-item-text">
-                            <span data-ng-bind="language.description"></span>    
-                        </small>
-                    </a>
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2> <span class="md md-language"></span> Languages <small>List of languages</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/languages/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/languages/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/languages/create"><i class="md md-add"></i></a>
                 </div>
-                <div class="alert alert-warning text-center" data-ng-hide="!languages.$resolved || languages.length">
-                    No Languages yet, why don't you <a href="/#!/languages/create">create one</a>?
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Desc</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="language in languages">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="language.name"></span></td>
+                                <td><span data-ng-bind="language.description"></span> </td>
+                                <td>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('languages/{{language.id}}/edit')"><span class="md md-edit"></span></button>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!languages.$resolved || languages.length">
+                        No Language yet.
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
 </section>
+
+

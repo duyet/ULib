@@ -17,6 +17,7 @@ var ApplicationConfiguration = (function() {
 		'angularFileUpload',
 		'angular-loading-bar',
 		'toggle-switch',
+		'ui.bootstrap.datetimepicker',
 	];
 
 	// Add a new vertical module

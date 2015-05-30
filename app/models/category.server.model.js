@@ -13,6 +13,7 @@ var rules = {
 
 var Groups = Model.extend({
 	tableName: 'Categories',
+	idAttribute: 'category_id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

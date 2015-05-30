@@ -1,6 +1,6 @@
 'use strict';
 
-// Configuring the Articles module
+/*
 angular.module('user-managers').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
@@ -15,6 +15,7 @@ angular.module('user-managers').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'user-managers', 'New User manager', 'user-managers/create');
 	}
 ]);
+*/
 
 // Config HTTP Error Handling
 angular.module('user-managers').config(['$httpProvider',

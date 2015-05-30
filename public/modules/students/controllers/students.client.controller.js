@@ -9,7 +9,7 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 		$scope.create = function() {
 			// Create new Student object
 			var student = new Students ({
-				student_id: this.student_id,
+				uid: this.student_id,
 				name: this.name,
 				subject: this.subject,
 				sex: this.sex,
@@ -18,7 +18,7 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 
 			// Redirect after save
 			student.$save(function(response) {
-				$location.path('students/' + response.student_id);
+				$location.path('students');
 
 				// Clear form fields
 				$scope.name = '';

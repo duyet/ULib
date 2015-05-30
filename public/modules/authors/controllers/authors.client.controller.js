@@ -26,18 +26,39 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 
 		// Remove existing Author
 		$scope.remove = function(author) {
-			if ( author ) { 
-				author.$remove();
+			swal({
+				title: "Are you sure?",
+				type: "warning",
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, delete",   
+				cancelButtonText: "Cancel",   
+				closeOnConfirm: false,   
+				closeOnCancel: true
+			}, function(isConfirm){
+				if (isConfirm) {
+					delete_submit();
 
-				for (var i in $scope.authors) {
-					if ($scope.authors [i] === author) {
-						$scope.authors.splice(i, 1);
+					swal("Deleted!", "Your imaginary file has been deleted.", "success");   
+				} else {     
+					swal("Cancelled", "Your imaginary file is safe :)", "error");   
+				} 
+			});
+
+			var delete_submit = function() {
+				if ( author ) { 
+					author.$remove();
+
+					for (var i in $scope.authors) {
+						if ($scope.authors [i] === author) {
+							$scope.authors.splice(i, 1);
+						}
 					}
+				} else if ($scope.author) {
+					$scope.author.$remove(function() {
+						$location.path('authors');
+					});
 				}
-			} else {
-				$scope.author.$remove(function() {
-					$location.path('authors');
-				});
 			}
 		};
 
@@ -46,7 +67,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 			var author = $scope.author;
 
 			author.$update(function() {
-				$location.path('authors/' + author.id);
+				$location.path('authors');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -63,5 +84,10 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 				authorId: $stateParams.authorId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);

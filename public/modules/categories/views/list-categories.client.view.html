@@ -1,33 +1,68 @@
 <section data-ng-controller="CategoriesController" data-ng-init="find()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated ">Categories</h1>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a href="/#!/categories/import" title="Import" class="btn btn-primary">import</a>
-                        <a href="/#!/categories/create" title="Import" class="btn btn-primary">add</a>    
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Categories <small>List of categories</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/categories/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/categories/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/categories/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Thời gian mượn</td>
+                                <td style="width: 40%">Desc</td>
+                                <td style="width:15%"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="category in categories">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="category.name"></span></td>
+                                <td><span data-ng-bind="category.loan_time + ' ngày'"></span></td>
+                                <td><span data-ng-bind="category.description"></span> </td>
+                                <td>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('categories/{{category.category_id}}/edit')"><span class="md md-edit"></span></button>
 
+                                    <button type="button" class="btn btn-icon command-delete" data-ng-click="remove(category)"><span class="md md-delete"></span></button>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
+                        No Categorie yet.
                     </div>
-                </div>
-
-                <br />
-                
-                <div class="list-group">
-                    <a data-ng-repeat="category in categories" data-ng-href="#!/categories/{{category.id}}" class="list-group-item">
-                        <h2 class="list-group-item-heading" data-ng-bind="category.name"></h2>
-                        <small class="list-group-item-text">
-                            <span data-ng-bind="category.description"></span>    
-                        </small>
-                    </a>
-                </div>
-                <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
-                    No Categories yet, why don't you <a href="/#!/categories/create">create one</a>?
                 </div>
             </div>
 
         </div>
     </div>
+
 </section>

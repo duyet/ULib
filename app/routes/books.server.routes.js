@@ -9,6 +9,9 @@ module.exports = function(app) {
 		.get(books.list)
 		.post(users.requiresLogin, books.create);
 
+	app.route('/books/search')
+		.get(books.search);
+
 	app.route('/books/image_upload').post(books.upload);
 
 	app.route('/books/:bookId')

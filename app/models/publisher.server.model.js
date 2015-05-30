@@ -12,6 +12,7 @@ var rules = {
 
 var Publishers = Model.extend({
 	tableName: 'Publishers',
+	idAttribute: 'publisher_id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

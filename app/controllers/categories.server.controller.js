@@ -113,15 +113,16 @@ exports.read = function(req, res) {
  * Update a Category
  */
 exports.update = function(req, res) {
+	var id = req.category.id;
 	var category = req.category.attributes;
 
 	category.description = req.body.description;
 	category.loan_time = req.body.loan_time;
 	category.name = req.body.name;
 
-	console.log('Update category with data:', category);
+	console.log('Update category with data:', id, category);
 
-	new CategoryModel({id:req.category.id}).save(category).then(function(model) {
+	new CategoryModel({category_id:id}).save(category).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -135,8 +136,9 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var category = req.category.attributes;
+	console.log(category);
 
-	new CategoryModel({id:category.id}).then(function(model) {
+	new CategoryModel({category_id:category.category_id}).then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(category);
 		});
@@ -164,7 +166,7 @@ exports.list = function(req, res) {
  * Category middleware
  */
 exports.categoryByID = function(req, res, next, id) { 
-	new CategoryModel({id:id}).fetch().then(function(cat) { 
+	new CategoryModel({category_id:id}).fetch().then(function(cat) { 
 		if (! cat) return next(new Error('Failed to load Category ' + id));
 
 		req.category = cat;

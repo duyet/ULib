@@ -1,11 +1,44 @@
 <section data-ng-controller="LanguagesController">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a data-ng-href="/#!/languages" title="Go back" class="go-back">Back</a>
-            <h1>Create new Language</h1>
 
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Language</a></li>
+            <li class="active">Create</li>
+    </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2> <span class="md md-language"></span> Create new<small>Create new Languages</small></h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/languages">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="create()" novalidate>
                     <fieldset>
                         
                         <div data-ng-show="error" class="alert alert-danger">
@@ -13,16 +46,18 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="name">Language name</label>
+                            <label class="control-label" for="name">Name</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Vietnamese" required>
+                                <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label" for="description">Description</label>
                             <div class="controls">
-                                <textarea name="description" id="description" data-ng-model="description" class="form-control"></textarea>
+                                <textarea name="description" id="description" data-ng-model="description" class="form-control">
+                                    
+                                </textarea>
                             </div>
                         </div>
 
@@ -32,7 +67,13 @@
 
                     </fieldset>
                 </form>
+                </div>
             </div>
+
         </div>
+
+
+
     </div>
 </section>
+

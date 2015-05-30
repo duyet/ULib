@@ -1,11 +1,44 @@
 <section data-ng-controller="BooksController">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a data-ng-href="/#!/servicelogs" title="Go back" class="go-back">Back</a>
-            <h1>Create New Books</h1>
 
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Book</a></li>
+            <li class="active">Create</li>
+    </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Create new<small>Create new Books</small></h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/books">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="create()" novalidate>
                     <fieldset>
                         
                         <div data-ng-show="error" class="alert alert-danger">
@@ -13,28 +46,28 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="id">Book ID</label>
+                            <label class="control-label" for="id">Mã sách</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="book_id" id="id" class="form-control" placeholder="100121001" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="name">Book name</label>
+                            <label class="control-label" for="name">Tên sách</label>
                             <div class="controls">
                                 <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Book name..." required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="category">Category</label>
+                            <label class="control-label" for="category">Loại sách</label>
                             <div class="controls">
-                                <select ng-model="category_id" id="category" ng-options="category.id as category.name for category in categories" class="form-control" required></select>
+                                <select data-ng-model="category_id" ng-options="category.id as category.name for category in categories" class="form-control" required></select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="language">Language</label>
+                            <label class="control-label" for="language">Ngôn ngữ</label>
                             <div class="controls">
                                 <select ng-model="language_id" id="language" ng-options="language.id as language.name for language in languages" class="form-control" required></select>
                             </div>
@@ -42,16 +75,16 @@
 
 
                         <div class="form-group">
-                            <label class="control-label" for="author">Authors</label>
+                            <label class="control-label" for="book">Tác giả</label>
                             <div class="controls">
                                 
-                                <ui-select multiple data-ng-model="bookauthor" class="form-control">
+                                <ui-select multiple data-ng-model="authors" class="form-control">
                                     <ui-select-match placeholder="Select author...">
                                         {{$item.name}} 
                                     </ui-select-match>
                                     
-                                    <ui-select-choices repeat="author in authors | filter:$select.search">
-                                        <div ng-bind-html="author.name "></div>
+                                    <ui-select-choices repeat="book in authors | filter:$select.search">
+                                        <div ng-bind-html="book.name "></div>
                                     </ui-select-choices>
                                 </ui-select>
 
@@ -59,57 +92,30 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="publisher">Publisher</label>
+                            <label class="control-label" for="publisher">Nhà xuất bản</label>
                             <div class="controls">
                                 <select ng-model="publisher_id" id="publisher" ng-options="publisher.id as publisher.name for publisher in publishers" class="form-control" required></select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="description">Description</label>
+                            <label class="control-label" for="description">Mô tả</label>
                             <div class="controls">
                                 <textarea name="description" class="form-control" id="description" data-ng-model="description"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="number">Number</label>
+                            <label class="control-label" for="number">Số lượng</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="number" id="number" class="form-control" placeholder="150" step="1" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label" for="available_number">Available Number</label>
+                            <label class="control-label" for="available_number">Số lượng tồn</label>
                             <div class="controls">
                                 <input type="number" data-ng-model="available_number" id="available_number" class="form-control" placeholder="150" step="1" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="publish_date">Publish Date</label>
-                            <div class="controls">
-                                <input type="date" data-ng-model="publish_date" id="publish_date" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label" for="image">Screenshot</label>
-                            <div class="controls">
-                                <div class="btn btn-default" 
-                                    ng-file-select ng-model="image_upload"  
-                                    ng-capture="'other'" 
-                                    ng-accept="'.png,.jpg'"
-                                    accept="image/*" 
-                                    ng-accept="'image/*'"
-                                    ng-multiple="false" 
-                                    ng-file-change="generateThumb(image_upload[0], $files)">
-                                
-                                    <span data-ng-bind="uploadStatus ? uploadStatus : 'Select file ...'"></span>
-                                
-                                
-                                </div>
-                                <img ng-show="image_upload[0].dataUrl != null" ng-src="{{image_upload[0].dataUrl}}" class="screenshot img-responsive">
                             </div>
                         </div>
 
@@ -120,7 +126,43 @@
 
                     </fieldset>
                 </form>
+                </div>
             </div>
+
         </div>
+
+        <div class="col-sm-12 col-md-5">
+            <div class="card">
+                <div class="card-body card-padding">
+
+                        <div class="form-group">
+                            <label class="control-label" for="image">Screenshot</label>
+                            <div class="controls" ng-file-select ng-model="image_upload"  
+                                    ng-capture="'other'" 
+                                    ng-accept="'.png,.jpg'"
+                                    accept="image/*" 
+                                    ng-accept="'image/*'"
+                                    ng-multiple="false" 
+                                    ng-file-change="generateThumb(image_upload[0], $files)">
+                                <div class="image-drop-area" ng-hide="image_upload[0].dataUrl != null">
+                                
+                                    <span data-ng-bind="uploadStatus ? uploadStatus : 'Select file ...'"></span>
+                                
+                                
+                                </div>
+                                <img ng-show="image_upload[0].dataUrl != null" ng-src="{{image_upload[0].dataUrl}}" class="screenshot img-responsive">
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>  
+
+
     </div>
 </section>
+
+
+
+
+

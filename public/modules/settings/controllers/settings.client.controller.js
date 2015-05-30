@@ -1,16 +1,12 @@
 'use strict';
 
 // Settings controller
-angular.module('settings').controller('SettingsController', ['$scope', '$stateParams', '$location', 'cfp.loadingBar', 'Authentication', 'Settings',
-	function($scope, $stateParams, $location, $loadingBar, Authentication, Settings) {
+angular.module('settings').controller('SettingsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Settings',
+	function($scope, $resource, $stateParams, $location, Authentication, Settings) {
 		$scope.authentication = Authentication;
+//		var LibRules = $resource('settings/librules');
 
-		// Toggle debug
-		$scope.debugToggle = function() {
-			var mode = ($scope.activedebug !== true) ? false : true;
-			$loadingBar.start();
-		};
-		
+
 		// Remove existing Setting
 		$scope.remove = function(setting) {
 			if ( setting ) { 
@@ -41,10 +37,14 @@ angular.module('settings').controller('SettingsController', ['$scope', '$statePa
 
 		// Find a list of Settings
 		$scope.find = function() {
+		//	LibRules.query({}, function(data) {
+		//		$scope.librules = data;
+		//	});
+
+			console.log('Find()');
+
 			$scope.settings = Settings.query();
-			console.log($scope.settings);
-			// Parse list laguage to array
-			if ($scope.settings.languages) $scope.settings.languages = $scope.settings.languages.split(',');
+
 		};
 
 		// Find existing Setting

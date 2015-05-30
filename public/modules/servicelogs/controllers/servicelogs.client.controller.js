@@ -23,10 +23,11 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 
 			// Redirect after save
 			servicelog.$save(function(response) {
-				$location.path('servicelogs/' + response.id);
+				$location.path('servicelogs');
 
 				// Clear form fields
 				$scope.name = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -60,7 +61,7 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 			var servicelog = $scope.servicelog;
 
 			servicelog.$update(function() {
-				$location.path('servicelogs/' + servicelog._id);
+				$location.path('servicelogs');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -77,5 +78,10 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 				servicelogId: $stateParams.servicelogId
 			});
 		};
+	
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);

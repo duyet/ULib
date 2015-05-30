@@ -7,12 +7,11 @@ var bcrypt   = Promise.promisifyAll(require('bcrypt'));
 
 var rules = {
 	name: 'required',
-	//description: '',
-	status: 'numeric',
 };
 
 var Authors = Model.extend({
 	tableName: 'Authors',
+	idAttribute: 'author_id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

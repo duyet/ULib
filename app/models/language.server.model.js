@@ -12,6 +12,7 @@ var rules = {
 
 var Languages = Model.extend({
 	tableName: 'Languages',
+	idAttribute: 'langage_id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

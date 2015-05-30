@@ -9,6 +9,9 @@ module.exports = function(app) {
 		.get(settings.list)
 		.post(users.requiresLogin, settings.create);
 
+	app.route('/settings/librules')
+		.get(settings.listLibRules);
+
 	app.route('/settings/:settingId')
 		.get(settings.read)
 		.put(users.requiresLogin, settings.hasAuthorization, settings.update)

@@ -1,29 +1,65 @@
-
 <section data-ng-controller="ServicesController" data-ng-init="find()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            
-            <div class="ibox-content">
-                <h1 class="animated fadeInDown">Services</h1>
-                <p>
-                    <a href="/#!/services/report" class="btn btn-default">Report</a>
-                    <a href="/#!/services/import" class="btn btn-default">Import</a>
-                    <a href="/#!/services/create" class="btn btn-primary">Add</a>
-                </p>
 
-                <div class="list-group">
-                    <a data-ng-repeat="service in services" data-ng-href="#!/services/{{service.id}}" class="list-group-item">
-                        <h2 class="list-group-item-heading" data-ng-bind="service.name"></h2>
-                        <small class="list-group-item-text">
-                            <span data-ng-bind="service.description"></span>    
-                        </small>
-                    </a>
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Services <small>List of services</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/services/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/services/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/services/create"><i class="md md-add"></i></a>
                 </div>
-                <div class="alert alert-warning text-center" data-ng-hide="!services.$resolved || services.length">
-                    No Service yet, why don't you <a href="/#!/services/create">create one</a>?
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Desc</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="service in services">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="service.name"></span></td>
+                                <td><span data-ng-bind="service.description"></span> </td>
+                                <td>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('services/{{service.id}}/edit')"><span class="md md-edit"></span></button>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!services.$resolved || services.length">
+                        No Service yet.
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
 </section>
+

@@ -1,0 +1,189 @@
+<section data-ng-controller="ReturnsController">
+
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Categorie</a></li>
+            <li class="active">Create</li>
+    </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Trả sách<small>Nhập thông tin sinh viên cần tra cứu</small></h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/loans">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="returnSubmit()" novalidate>
+                        <fieldset>
+
+                            <div data-ng-show="success" class="alert alert-success">
+                                <span data-ng-bind="success"></span>
+                            </div>
+
+                            <div data-ng-show="error" class="alert alert-danger">
+                                <span data-ng-bind="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="student_id">
+                                    Mã số sinh viên
+                                </label>
+
+                                <div class="controls">
+                                    <input type="text" id="student_id" class="form-control" required="required" pattern="[0-9]" data-ng-model="student_id" ng-change="fetchStudentData()">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="book_ids"></label>
+                                <div class="controls">
+
+                                    <div class="alert alert-success" data-ng-hide="!isNotLoan">
+                                        Không tìm thấy phiếu mượn
+                                    </div>
+                                    
+                                    <table class="table table-bordered" style="margin-top:5px" data-ng-hide="!loan_details">
+                                        <tr>
+                                            <td colspan="4">
+                                                Thông tin phiếu mượn: <span class="label label-success">#{{loan_details.loan_id}}</span>
+                                                <br />
+                                                Ngày mượn: <span data-ng-bind="loan_details.time_created | date"></span>
+                                            </td>
+                                        </tr>
+                                        
+                                            <tr>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td>Mã sách</td>
+                                                <td>Tên sách</td>
+                                                <td></td>
+                                            </tr>
+                                        
+                                        <tbody>
+                                            <tr data-ng-repeat="book in loan_details.data">
+                                                <td>
+                                                    <label class="">
+                                                        <input type="checkbox" data-ng-model="book.is_selected" data-ng-init="book.is_selected = true" checked="checked" />
+                                                    </label>
+                                                </td>
+                                                
+                                                <td data-ng-bind="book.book_id"></td>
+                                                <td data-ng-bind="book.book_name"></td>
+                                                <td class="text-center">
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Trả sách</button>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card animated bounce" data-ng-hide="!isChooseBookActive">
+                <div class="card-header ch-alt">
+                    <h2>Nhập mã sách hoặc tên sách</h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#" data-ng-click="isChooseBookActive = false">
+                                <i class="md md-clear"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body card-padding">
+                    
+                    <form class="form-inline">
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
+                                <input type="text" class="form-control" data-ng-model="searchByKeyword" placeholder="Tên sách, mã sách ...">
+                            </div>
+                            
+                        </div>
+                        <button class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
+                    </form> 
+
+                    <div class="alert alert-warning" style="margin-top:5px" data-ng-show="isEmptyResult">Không tìm thấy dữ liệu</div>
+
+                    <div class="lv-body listview" data-ng-hide="!fiteredBooks.length">
+                        <a class="lv-item"  data-ng-repeat="b in fiteredBooks" data-ng-click="selectBook(b)">
+                            <div class="checkbox media">
+                                <div class="pull-left">
+                                    <input type="checkbox">
+                                </div>
+                                <div class="media-body">
+                                    <div class="lv-title">
+                                        <span data-ng-bind="b.book_id" class="label label-default"></span>
+                                        <span data-ng-bind="b.name"></span>
+                                    </div>
+                                    <small class="lv-small" data-ng-bind="b.description"></small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card profile-view animated bounce" data-ng-hide="!student_info">
+                <div class="pv-header">
+                    <img src="modules/loans/images/pygx.png" class="pv-main" alt="">
+                </div>
+                
+                <div class="pv-body">
+                    <h2 data-ng-bind="student_info.name"></h2>
+                
+                    <ul class="pv-follow">
+                        <li><i class="md md-room"></i> {{student_info.student_id}}</li>
+                        <li><i class="md md-phone"></i> {{student_info.subject}}</li>
+                    </ul>
+                    
+                    
+                    <a href="" class="pv-follow-btn">View info</a>
+                </div>
+            </div>
+        </div>  
+
+
+    </div>
+</section>
+
