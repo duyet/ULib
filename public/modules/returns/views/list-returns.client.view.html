@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Danh sách mượn <small>List of loans</small></h2>
+                    <h2>Danh sách sv trả sách <small>List of returns</small></h2>
                     
                     <ul class="actions actions-alt">
                         <li>
@@ -38,7 +38,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="loan in loans">
+                            <tr data-ng-repeat="loan in loans | filter:is_return==1">
                                 <td><span data-ng-bind="$index + 1"></span></td>
                                 <td><span data-ng-bind="loan.student_name"></span> <span data-ng-bind="loan.student_id" class="label label-default"></span></td>
                                 <td><span data-ng-bind="loan.time_created | date"></span> </td>

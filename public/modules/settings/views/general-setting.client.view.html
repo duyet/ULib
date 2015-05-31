@@ -1,4 +1,4 @@
-<section data-ng-controller="SettingsController" data-ng-init="find()">
+<section data-ng-controller="LibSettingsController" data-ng-init="loadGenerateSettings()">
 
     <div class="block-header">
         <ol class="breadcrumb" style="margin-bottom: 5px;">
@@ -20,14 +20,15 @@
                 </div>
 
                 <div class="card-body card-padding">
-                    <div class="row" data-ng-repeat="rule in librules">
-                        <div class="col-xs-12">
-                            <div class="fg-line form-group">
-                                <label data-ng-bind="rule.description"></label>
-                                <input type="text" data-ng-model="rule.value" class="form-control input-sm" placeholder="Name">
-                            </div>
+                    <div class="row" data-ng-repeat="rule in generalsettings">
+                        <div class="form-group">
+                            <label for="{{rule.name}}" data-ng-bind="rule.description"></label>
+                            <input type="{{type}}" class="form-control" id="{{rule.name}}" data-ng-model="rule.value">
                         </div>
+                    </div>
 
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button> 
                     </div>
 
                 </div>
