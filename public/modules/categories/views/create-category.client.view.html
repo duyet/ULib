@@ -79,13 +79,34 @@
 
         </div>
 
-        <div class="col-sm-12 col-md-6">
+      
+        <div class="col-sm-12 col-md-5">
             <div class="card">
                 <div class="card-body card-padding">
-                    Cras leo sem, egestas a accumsan eget, euismod at nunc. Praesent vel mi blandit, tempus ex gravida, accumsan dui. Sed sed aliquam augue. Nullam vel suscipit purus, eu facilisis ante. Mauris nec commodo felis. 
+
+                        <div class="form-group">
+                            <label class="control-label" for="image">Screenshot</label>
+                            <div class="controls" ng-file-select ng-model="image_upload"  
+                                    ng-capture="'other'" 
+                                    ng-accept="'.png,.jpg'"
+                                    accept="image/*" 
+                                    ng-accept="'image/*'"
+                                    ng-multiple="false" 
+                                    ng-file-change="generateThumb(image_upload[0], $files)">
+                                <div class="image-drop-area" ng-hide="image_upload[0].dataUrl != null">
+                                
+                                    <span data-ng-bind="uploadStatus ? uploadStatus : 'Select file ...'"></span>
+                                
+                                
+                                </div>
+                                <img ng-show="image_upload[0].dataUrl != null" ng-src="{{image_upload[0].dataUrl}}" class="screenshot img-responsive">
+                            </div>
+                        </div>
+
                 </div>
             </div>
         </div>  
+
 
 
     </div>

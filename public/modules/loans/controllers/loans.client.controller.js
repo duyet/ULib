@@ -119,7 +119,7 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 				return swal("", "Thành công", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
-				return swal("", $scope.error, "success");
+				return swal("", $scope.error, "error");
 			});
 		};
 

@@ -1,9 +1,10 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Categories',
-	function($scope, $stateParams, $location, $upload, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$timeout', '$location', '$upload', 'Authentication', 'Categories',
+	function($scope, $stateParams, $timeout, $location, $upload, Authentication, Categories) {
 		$scope.authentication = Authentication;
+		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
 		// Create new Category
 		$scope.create = function() {
@@ -80,7 +81,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 				if (isConfirm) {
 					delete_submit();
 
-					swal("Deleted!", "Your imaginary file has been deleted.", "success");   
+					
 				} else {     
 					//swal("Cancelled", "Your imaginary file is safe :)", "error");   
 				} 
@@ -88,13 +89,18 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 			var delete_submit = function() {
 				if ( category ) { 
-					category.$remove();
-
-					for (var i in $scope.categories) {
-						if ($scope.categories [i] === category) {
-							$scope.categories.splice(i, 1);
+					category.$remove(function() {
+						for (var i in $scope.categories) {
+							if ($scope.categories [i] === category) {
+								$scope.categories.splice(i, 1);
+							}
 						}
-					}
+						swal("", "Deleted!.", "success");   
+					}, function() {
+						swal("", "Deleted!.", "success");   
+					});
+
+					
 				} else {
 					$scope.category.$remove(function() {
 						$location.path('categories');
@@ -136,5 +142,52 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 		$scope.go = function(url) {
 			$location.path(url);
 		}
+
+		// Auto upload when select
+		$scope.$watch('image_upload', function () {
+			$scope.upload($scope.image_upload);
+		});
+		$scope.upload = function(files) {
+		    if (files && files.length) {
+		        for (var i = 0; i < files.length; i++) {
+		            var file = files[i];
+
+		            $scope.uploadStatus = false;
+		            $upload.upload({
+		                url: 'books/image_upload',
+		                fields: {
+		                
+		                },
+		                file: file
+		            }).progress(function(evt) {
+		                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+
+		                $scope.uploadStatus = 'Uploading ' + progressPercentage + '%';
+
+						console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+		            }).success(function(data, status, headers, config) {
+						console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+						
+						$scope.image_url = data;
+		            });
+		        }
+		    }
+		};
+
+		$scope.generateThumb = function(file) {
+			if (file != null) {
+				if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+					$timeout(function() {
+						var fileReader = new FileReader();
+						fileReader.readAsDataURL(file);
+						fileReader.onload = function(e) {
+							$timeout(function() {
+								file.dataUrl = e.target.result;
+							});
+						}
+					});
+				}
+			}
+		};
 	}
 ]);

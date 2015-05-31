@@ -14,6 +14,7 @@ var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
+var connection = config.connection;
 var CategoryModel = require('../models/category.server.model');
 
 /**
@@ -31,13 +32,25 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var loanTime = req.body.loan_time || 15;
 
-	new CategoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
-		res.jsonp(model);
-	}).error(function(err) { 
-		return res.status(400).send({
-			message: errorHandler.getErrorMessage(err)
-		});
-	})
+	connection.beginTransaction(function(err) {
+	    if (err) {
+	        throw err;
+	    }
+
+	    connection.query('CALL NewCategory_Delay_WithLock(?, ?, ?)', [categoryName.trim(), description.trim(), loanTime], function(err, result) {
+	        if (err) {
+	            connection.rollback(function() {
+	                throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+	            });
+	        }
+
+	        res.jsonp(result);
+	    });
+	});
 };
 
 /** 
@@ -135,18 +148,27 @@ exports.update = function(req, res) {
  * Delete an Category
  */
 exports.delete = function(req, res) {
-	var category = req.category.attributes;
-	console.log(category);
+	console.log('DELETE FROM `Categories` WHERE category_id = ?', req.category.attributes.category_id);
+	connection.query('DELETE FROM `Categories` WHERE category_id = ?', 
+	[req.category.attributes.category_id], function(err, result) {
+		if (err) {
+			return res.status(400).send({
+				message: 'Can not delete category #' + req.category.attributes.category_id
+			});
+		}
 
-	new CategoryModel({category_id:category.category_id}).then(function(model) {
-		model.destroy().then(function() {
-			res.jsonp(category);
-		});
+		res.jsonp(result);
+	});
+
+	/*
+	new CategoryModel({category_id:req.category.category_id}).destroy().then(function(model) {
+		res.jsonp(req.category);
 	}).otherwise(function(err) {
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});
 	});
+	*/
 };
 
 /**
