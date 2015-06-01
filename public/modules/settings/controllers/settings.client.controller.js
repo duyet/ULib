@@ -1,11 +1,11 @@
 'use strict';
 
 // Settings controller
-angular.module('settings').controller('SettingsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Settings',
+angular.module('settings').controller('LibSettingsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Settings',
 	function($scope, $resource, $stateParams, $location, Authentication, Settings) {
 		$scope.authentication = Authentication;
-//		var LibRules = $resource('settings/librules');
-
+		$scope.librule = [];
+		$scope.generalsettings = [];
 
 		// Remove existing Setting
 		$scope.remove = function(setting) {
@@ -29,7 +29,7 @@ angular.module('settings').controller('SettingsController', ['$scope', '$resourc
 			var setting = $scope.setting;
 
 			setting.$update(function() {
-				$location.path('settings/' + setting._id);
+				$location.path('settings/' + setting.id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -46,6 +46,19 @@ angular.module('settings').controller('SettingsController', ['$scope', '$resourc
 			$scope.settings = Settings.query();
 
 		};
+
+		$scope.loadLibRule = function() {
+			$resource('/settings/librules').query(function(data) {
+				console.log(data);
+				$scope.librules = data;
+			});
+		}
+
+		$scope.loadGenerateSettings = function() {
+			$resource('/settings').query(data) {
+				$scope.generalsettings = data;
+			}
+		}
 
 		// Find existing Setting
 		$scope.findOne = function() {

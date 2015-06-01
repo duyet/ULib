@@ -3,7 +3,7 @@
 
 angular.module('core').controller('HomeController', ['$scope', '$location', 'Authentication',
 	function($scope, $location, Authentication) {
-		if (!Authentication.isAuthorized) $location.path('signin');
+		//if (!Authentication.isAuthorized) $location.path('signin');
 		
 		// This provides Authentication context.
 		$scope.authentication = Authentication;

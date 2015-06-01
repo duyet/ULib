@@ -42,6 +42,8 @@ Date.prototype.toMysqlFormat = function() {
 exports.create = function(req, res) {
 	//req.assert('name', 'Language name is empty.').notEmpty();
 
+
+
 	var err = req.validationErrors();
 	if (err) {
 		return res.status(400).send({message: err});
@@ -88,23 +90,39 @@ exports.create = function(req, res) {
 	        var count = 0;
 
 	        data.books.forEach(function(book) {
-	        	connection.query('INSERT INTO `LoanDetails` (`loan_id`, `book_id`, `returned_time`, `is_return`) VALUES (?, ?, NULL, 0)', 
-	        		[data.loan_id, book.book_id], function(err, result) {
-	        			if (err) {
-				            connection.rollback(function() {
-				                throw err;
-				            });
-				        }
 
-				        // Update avaible book number
-				        // connection.query('UPDATE Books SET  ')
+        		var is_can_booking = 0;
+				connection.query('SELECT IsCanBooking(?) AS is_can_booking', [book.book_id], function(err, results) {
+					
+					if (!err) {
+						is_can_booking = results[0].is_can_booking || 0;
+					}
 
-				        count++;
-				        console.log('Loan detail ' + result.insertId + ' added');
-				        if (count === num_of_books) commitTransaction();
-	        	});
+					if (is_can_booking != 1) {
+						return connection.rollback(function() {
+				            return res.status(400).send({
+								message: 'Can not booking this book #' + book.book_id
+							});
+				        });
+					}
+
+					connection.query('INSERT INTO `LoanDetails` (`loan_id`, `book_id`, `returned_time`, `is_return`) VALUES (?, ?, NULL, 0)', 
+		        		[data.loan_id, book.book_id], function(err, result) {
+		        			if (err) {
+					            connection.rollback(function() {
+					                throw err;
+					            });
+					        }
+
+					        // Update avaible book number
+					        // connection.query('UPDATE Books SET  ')
+
+					        count++;
+					        console.log('Loan detail ' + result.insertId + ' added');
+					        if (count === num_of_books) commitTransaction();
+		        	});
+				});
 	        });
-
 	    });
 	});
 

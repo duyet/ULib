@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Loans <small>List of loans</small></h2>
+                    <h2>Danh sách mượn <small>List of loans</small></h2>
                     
                     <ul class="actions actions-alt">
                         <li>
@@ -42,8 +42,11 @@
                                 <td><span data-ng-bind="$index + 1"></span></td>
                                 <td><span data-ng-bind="loan.student_name"></span> <span data-ng-bind="loan.student_id" class="label label-default"></span></td>
                                 <td><span data-ng-bind="loan.time_created | date"></span> </td>
-                                <td><span data-ng-bind="loan.number"></span> </td>
-                                <td> <span class="label label-primary"> ok</span> </td>
+                                <td><span data-ng-bind="loan.number || 1"></span> </td>
+                                <td>
+                                    <span class="label label-warning" data-ng-show="loan.is_return == 1"> đã trả</span>
+                                    <span class="label label-primary" data-ng-show="loan.is_return == 0"> đang mượn</span>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-icon command-edit" data-ng-click="go('loans/{{loan.id}}')"><span class="md md-launch"></span></button>
                                     <button type="button" class="btn btn-icon command-delete waves-effect waves-button waves-float" data-ng-click="remove(loan)"><span class="md md-call-received"></span></button>
