@@ -59,27 +59,52 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label" for="book_ids"></label>
-                                <div class="controls">
-                                    <button data-ng-click="chooseBook()" type="button" class="btn btn-default">Chọn sách</button>
+                            <div class="input-group" style="margin-bottom: 5px">
+                              <input type="text" class="form-control" data-ng-model="searchByKeyword" placeholder="Tên sách, mã sách ..." >
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
+                              </span>
+                            </div><!-- /input-group -->
 
-                                    
-                                    <table class="table table-bordered" style="margin-top:5px" data-ng-hide="!selectedBook.length">
-                                        <thead>
-                                            <tr>
-                                                <td>Mã sách</td>
-                                                <td>Tên sách</td>
-                                                <td></td>
+                            <div class="form-group" >
+                                <div class="alert alert-warning" style="margin-top:5px" data-ng-show="isEmptyResult">Không tìm thấy dữ liệu</div>
+
+
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr data-ng-repeat="b in fiteredBooks" data-ng-click="selectBook(b)" data-ng-init="b.can_booking = (b.available_number <= librules.min_number_of_books) ? 0 : 1">
+                                                <td>
+                                                    <span data-ng-bind="b.book_id" class="label label-default"></span>
+                                                </td>
+                                                <td data-ng-bind="b.name">
+                                                </td>
+                                                <td>
+                                                    <span class="label label-success {{(!b.can_booking) ? 'label-warning' : ''}}" data-ng-bind="b.available_number + '/' + b.number"></span>
+                                                </td>
+                                                
                                             </tr>
-                                        </thead>
+                                        </tbody>
+                                    </table>
+
+                            </div>
+
+                            <div class="form-group" data-ng-hide="!selectedBook.length">
+                                <label class="control-label" for="book_ids">Sách đã chọn</label>
+
+                                <div class="controls">
+                                    
+                                    <table class="table" style="margin-top:5px">
                                         <tbody>
                                             <tr data-ng-repeat="book in selectedBook">
-                                                <td data-ng-bind="book.book_id"></td>
-                                                <td data-ng-bind="book.name"></td>
-                                                <td class="text-center">
-                                                    <i class="md md-clear" data-ng-click="removeBookFromSelectedList(book)" style="cursor:pointer"></i>
+                                                <td>
+                                                    <span data-ng-bind="book.book_id" class="label-label-default"></span>
                                                 </td>
+                                                <td>
+                                                     <span data-ng-bind="book.name"></span> <i class="md md-clear" data-ng-click="removeBookFromSelectedList(book)" style="cursor:pointer"></i>
+
+
+                                                </td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -99,49 +124,35 @@
         </div>
 
         <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="card animated bounce" data-ng-hide="!isChooseBookActive">
+            <!--div class="card animated bounce">
                 <div class="card-header ch-alt">
-                    <h2>Nhập mã sách hoặc tên sách</h2>
+                    <h2>Debug</h2>
 
-                    <ul class="actions actions-alt">
-                        <li>
-                            <a href="#" data-ng-click="isChooseBookActive = false">
-                                <i class="md md-clear"></i>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
-                
+
                 <div class="card-body card-padding">
-                    
-                    <form class="form-inline">
-                        <div class="form-group fg-float">
-                            <div class="fg-line">
-                                <input type="text" class="form-control" data-ng-model="searchByKeyword" placeholder="Tên sách, mã sách ...">
-                            </div>
-                            
-                        </div>
-                        <button class="btn btn-info waves-effect waves-button waves-float" data-ng-click="searchBook()">Tìm</button>
-                    </form> 
-
-                    <div class="alert alert-warning" style="margin-top:5px" data-ng-show="isEmptyResult">Không tìm thấy dữ liệu</div>
-
-                    <div class="lv-body listview" data-ng-hide="!fiteredBooks.length">
-                        <a class="lv-item"  data-ng-repeat="b in fiteredBooks" data-ng-click="selectBook(b)">
-                            <div class="checkbox media">
-                                <div class="pull-left">
-                                    <input type="checkbox">
-                                </div>
-                                <div class="media-body">
-                                    <div class="lv-title">
-                                        <span data-ng-bind="b.book_id" class="label label-default"></span>
-                                        <span data-ng-bind="b.name"></span>
-                                    </div>
-                                    <small class="lv-small" data-ng-bind="b.description"></small>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="checkbox m-b-15">
+                        <label>
+                            <input type="checkbox" value="" data-ng-model="createData.debug">
+                            <i class="input-helper"></i>
+                                debug mode
+                        </label>
                     </div>
+                </div>
+            </div-->
+
+            <div class="card" data-ng-show="listBookNotReturnedByUid">
+                <div class="card-header ch-alt bgm-deeporange">
+                    <h2>Sách chưa trả</h2>
+
+                </div>
+
+                <div class="card-body card-padding">
+                    <div data-ng-repeat="row in listBookNotReturnedByUid">
+                        - {{row.book_name}} <span class="label label-primary">{{row.created}}</span>
+                    </div>
+
+                    <br /> <button class="btn btn-primary" data-ng-click="go('/loans/' + listBookNotReturnedByUid[0].loan_id)">Xem</button>
                 </div>
             </div>
 
@@ -163,6 +174,9 @@
                     <a href="" class="pv-follow-btn">View info</a>
                 </div>
             </div>
+
+            
+
         </div>  
 
 

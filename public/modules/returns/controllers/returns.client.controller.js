@@ -70,6 +70,11 @@ angular.module('returns').controller('ReturnsController', ['$scope', '$resource'
 			});
 		}
 
+		$scope.outofdatelist = [];
+		$scope.findOutOfDateList = function() {
+			$scope.outofdatelist = $resource('loans/out_of_date').query();
+		}
+
 		$scope.create = function() {
 			if (!$scope.createData.student) {
 				return swal("", "Vui lòng nhập thông tin sinh viên", "error");  

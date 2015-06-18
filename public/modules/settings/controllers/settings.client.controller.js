@@ -49,16 +49,15 @@ angular.module('settings').controller('LibSettingsController', ['$scope', '$reso
 
 		$scope.loadLibRule = function() {
 			$resource('/settings/librules').query(function(data) {
-				console.log(data);
 				$scope.librules = data;
 			});
-		}
+		};
 
 		$scope.loadGenerateSettings = function() {
-			$resource('/settings').query(data) {
+			$resource('/settings').query(function(data) {
 				$scope.generalsettings = data;
-			}
-		}
+			});
+		};
 
 		// Find existing Setting
 		$scope.findOne = function() {

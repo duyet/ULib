@@ -12,6 +12,9 @@ module.exports = function(app) {
 	app.route('/loans/list_not_return')
 		.get(loans.listNotReturn);
 
+	app.route('/loans/out_of_date')
+		.get(loans.out_of_date);
+
 	app.route('/loans/return_book_submit')
 		.get(loans.returnBookSubmit)
 		.post(loans.returnBookSubmit);

@@ -40,9 +40,8 @@ Date.prototype.toMysqlFormat = function() {
  * Create a Loan
  */
 exports.create = function(req, res) {
-	//req.assert('name', 'Language name is empty.').notEmpty();
-
-
+	var is_lock_mode = true;
+	var lock_mode = is_lock_mode ? 'LOCK IN SHARE MODE' : '';
 
 	var err = req.validationErrors();
 	if (err) {
@@ -51,78 +50,93 @@ exports.create = function(req, res) {
 
 	var data = {};
 
+	// Debug
+	data.delay = req.body.debug ? 10 : 0;
+
+	// Lấy thông tin sinh viên, MSSV
 	data.student = req.body.student || false;
 	if (!data.student) return res.status(400).send('Please enter student info');
-	
 	data.student_id = data.student.student_id || 0;
 	if (!data.student_id) return res.status(400).send('Invalid student info');
 
+	// Lấy thông tin các sách cần mượn
 	data.books = req.body.books || false;
 	if (!data.books || !data.books.length) return res.status(400).send('Please enter book info');
 
-	data.created = new Date(req.body.created).toMysqlFormat() || new Date().toMysqlFormat();
+	// Thông tin nhân viên 
 	data.staff_id = req.user.staff_id || 0;
-
 	if (!data.staff_id) return res.status(400).send('Invalid staff info');
 
-	console.log(data);
-
+	// [1] Bắt đầu giao tác
 	connection.beginTransaction(function(err) {
-	    if (err) {
-	        throw err;
-	    }
-
+	    if (err) throw err;
 	    var numOfBookItem = 0;
 
-	    // First: Create Loan Query
-	    connection.query('INSERT INTO `Loans` (`student_id`, `staff_id`, `time_created`) VALUES (?, ?, ?)', 
-	    	[data.student_id, data.staff_id, data.created], function(err, result) {
-	        if (err) {
+	    // [2]: Truy vấn tạo phiếu mượn, từ kết quả trả về, lấy ra mã phiếu mượn vừa nhập
+	    connection.query('INSERT INTO `Loans` (`student_id`, `staff_id`) VALUES (?, ?)', 
+	    	[data.student_id, data.staff_id], function(err, result) {
+	        if (err || !result) {
 	            connection.rollback(function() {
 	                throw err;
 	            });
 	        }
 
-	        data.loan_id = result.insertId;
+	        data.loan_id = result.insertId;  // mã phiếu mượn
 	        data.loan_result = result;
 	        console.log('Loans ' + result.insertId + ' added');
 	        var num_of_books = data.books.length;
 	        var count = 0;
 
-	        data.books.forEach(function(book) {
+			connection.query('SELECT SLEEP(?)', [data.delay], function() {
+		        // dùng forEach để tạo vòng lặp trên mỗi sách cần mượn
+		        data.books.forEach(function(book) {
+					// [3] Khóa sách cần thêm vào phiếu mượn
+					connection.query('SELECT COUNT(*) FROM `Books` WHERE `book_id` = ? ' + lock_mode, [book.book_id], function(err, results) {
 
-        		var is_can_booking = 0;
-				connection.query('SELECT IsCanBooking(?) AS is_can_booking', [book.book_id], function(err, results) {
-					
-					if (!err) {
-						is_can_booking = results[0].is_can_booking || 0;
-					}
+			        	// [4] Kiểm tra sách hiện tại có khả năng cho mượn hay không
+		        		var is_can_booking = 0;
+						connection.query('SELECT IsCanBooking(?) AS is_can_booking', [book.book_id], function(err, results) {
+							if (!err) is_can_booking = results[0].is_can_booking || 0;
 
-					if (is_can_booking != 1) {
-						return connection.rollback(function() {
-				            return res.status(400).send({
-								message: 'Can not booking this book #' + book.book_id
-							});
-				        });
-					}
+							// [5.1] Nếu sách không khả mượn, rollback
+							if (is_can_booking != 1) {
+								return connection.rollback(function() {
+						            return res.status(400).send({
+										message: 'Can not booking this book #' + book.book_id
+									});
+						        });
+							}
+							
 
-					connection.query('INSERT INTO `LoanDetails` (`loan_id`, `book_id`, `returned_time`, `is_return`) VALUES (?, ?, NULL, 0)', 
-		        		[data.loan_id, book.book_id], function(err, result) {
-		        			if (err) {
-					            connection.rollback(function() {
-					                throw err;
-					            });
-					        }
+							// [5.2] Ngược lại, lập chi tiết phiếu mượn
+							connection.query('INSERT INTO `LoanDetails` (`loan_id`, `book_id`, `returned_time`, `is_return`) VALUES (?, ?, NULL, 0)', 
+				        		[data.loan_id, book.book_id], function(err, result) {
+				        			if (err) { 
+							            connection.rollback(function() {
+							                throw err;
+							            });
+							        }
 
-					        // Update avaible book number
-					        // connection.query('UPDATE Books SET  ')
+							        // [6] Sau khi lập chi tiết phiếu mượn, điều chỉnh lại số lượng available_number của sách
+							        connection.query('UPDATE Books \
+							        	SET available_number = available_number - 1 WHERE book_id = ?', [book.book_id], function(err, result) {
+										if (err) {
+									        connection.rollback(function() {
+									            throw err;
+									        });
+									    }					        		
+							        });
 
-					        count++;
-					        console.log('Loan detail ' + result.insertId + ' added');
-					        if (count === num_of_books) commitTransaction();
-		        	});
-				});
-	        });
+							        count++;
+							        // [7] Sau khi lập xong hết chi tiết phiếu mượn, commit transaction
+							        if (count === num_of_books) commitTransaction();
+				        	});
+						});
+					});
+		        });
+			});
+
+
 	    });
 	});
 
@@ -134,11 +148,9 @@ exports.create = function(req, res) {
 		        });
 		    }
 
-		    console.log( 'Inserted ---> ' + data.loan_result);
 		    res.jsonp(data.loan_result);
 		});
 	}
-
 };
 
 /**
@@ -148,6 +160,19 @@ exports.read = function(req, res) {
 
 	res.jsonp(req.loan);
 };
+
+exports.out_of_date = function(req, res) {
+	connection.query('CALL ListLoanOutOfDate()', [], function(err, result) {
+        if (err || !result) {
+            connection.rollback(function() {
+                throw err;
+            });
+        }
+
+        console.log(err, result);
+        res.jsonp(result);
+    });
+}
 
 /**
  * Update a Loan
@@ -258,7 +283,7 @@ exports.loanByID = function(req, res, next, id) {
 
 		var loan = {
 			loan_id: rows[0][0].loan_id,
-			time_created: rows[0][0].time_created,
+			created: rows[0][0].created,
 			student_id: rows[0][0].student_id,
 			student_name: rows[0][0].student_name,
 			books: []

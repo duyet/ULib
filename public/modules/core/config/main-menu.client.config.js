@@ -29,7 +29,7 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-system', 'Các quy định', 'settings/library');
 
 		Menus.addMenuItem('topbar', '<i class="md md-account-box"></i> Tài khoản', 'main-user', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-user', 'Tài khoản quản trị', 'user-managers');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý tài khoản', 'user-managers');
 		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý nhóm', 'groups');
 		Menus.addSubMenuItem('topbar', 'main-user', 'Phân quyền', 'roles');
 

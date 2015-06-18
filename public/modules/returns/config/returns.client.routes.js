@@ -20,6 +20,10 @@ angular.module('returns').config(['$stateProvider',
 		state('editReturn', {
 			url: '/returns/:loanId/edit',
 			templateUrl: 'modules/returns/views/edit-loan.client.view.html'
+		}).
+		state('listNotReturn', {
+			url: '/returns/outofdate',
+			templateUrl: 'modules/returns/views/list-outofdate.client.view.html'
 		});
 	}
 ]);

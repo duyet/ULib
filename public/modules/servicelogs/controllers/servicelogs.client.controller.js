@@ -8,14 +8,14 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 		
 		// Load services
 		$scope.services = Services.query(function(data) {
-			$scope.service_type_id = data[0].id;
+			$scope.service_id = data[0].id;
 		});
 
 		// Create new Servicelog
 		$scope.create = function() {
 			// Create new Servicelog object
 			var servicelog = new Servicelogs ({
-				service_type_id: this.service_type_id,
+				service_id: this.service_id,
 				prices: this.prices,
 				note: this.note,
 				staff_id: $scope.authentication.user.id

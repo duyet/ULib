@@ -4,13 +4,18 @@
 angular.module('loans').controller('LoansController', ['$scope', '$resource', '$filter', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
 	function($scope, $resource, $filter, $stateParams, $location, Authentication, Loans, Books, Students) {
 		$scope.authentication = Authentication;
-		$scope.books = Books.query();
+		//$scope.books = Books.query();
 
 		$scope.isChooseBookActive = false;
 		$scope.selectedBook = [];
 		
 		$scope.createData = {};
-		
+		$scope.librules = {};
+		$scope.librules.min_number_of_books = 100;
+
+		$scope.canBooking = true;
+
+		$scope.debug = false;
 
 		$scope.fetchStudentData = function() {
 			var uid = $scope.student_id || 0;
@@ -32,10 +37,23 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 			}, function(u) {
 				if (u) {
 					$scope.createData.student = $scope.student_info = u;
+					if (u) {
+						$scope.fetchNotReturnBooks(uid);
+					}
 				}
 			});
+		}
 
-			
+		$scope.fetchNotReturnBooks = function(uid) {
+			$resource('loans/list_not_return').query({
+				student_id: uid
+			}, function(data) {
+				if (data) {
+					$scope.listBookNotReturnedByUid = data;
+					$scope.canBooking = false;
+				}
+				else $scope.listBookNotReturnedByUid = false;
+			});
 		}
 
 		$scope.chooseBook = function() {
@@ -48,6 +66,10 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 			$scope.isEmptyResult = false;
 			var keyword = $scope.searchByKeyword || '';
 			
+			if (!$scope.canBooking) {
+				return swal("", "Sinh viên chưa trả sách, không thể lập phiếu mượn mới", "error"); 
+			}
+
 			if (!(keyword.toString().length > 0)) {
 				return swal("", "Vui lòng nhập mã sách hoặc tên sách", "error"); 
 			}
@@ -68,6 +90,10 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 		$scope.selectBook = function(b) {
 			if (!b) return false;
 			
+			if (!b.can_booking) {
+				return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!	", "error"); 
+			}
+
 			for (var i in $scope.fiteredBooks) {
 				if ($scope.fiteredBooks[i] === b) {
 					$scope.fiteredBooks.splice(i, 1);
@@ -76,7 +102,7 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 
 			var isExists = false;
 			for (var i in $scope.selectedBook) {
-				if ($scope.selectedBook[i] === b) {
+				if ($scope.selectedBook[i].book_id === b.book_id) {
 					isExists = true;
 				}
 			}
@@ -96,6 +122,10 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 
 
 		$scope.create = function() {
+			if (!$scope.canBooking) {
+				return swal("", "Sinh viên chưa trả sách, không thể lập phiếu mượn mới", "error"); 
+			}
+
 			if (!$scope.createData.student) {
 				return swal("", "Vui lòng nhập thông tin sinh viên", "error");  
 			}

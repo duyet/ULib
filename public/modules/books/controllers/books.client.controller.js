@@ -4,20 +4,38 @@
 angular.module('books').controller('BooksController', ['$scope', '$stateParams', '$location', '$upload', '$timeout', 'Authentication', 'Books', 'Categories', 'Languages', 'Publishers', 'Authors',
 	function($scope, $stateParams, $location, $upload, $timeout, Authentication, Books, Categories, Languages, Publishers, Authors) {
 		$scope.authentication = Authentication;
-			$scope.categories = Categories.query();
-			$scope.languages = Languages.query();
-			$scope.publishers = Publishers.query();
-			$scope.authors = Authors.query();
+		$scope.categories = Categories.query();
+		$scope.languages = Languages.query();
+		$scope.publishers = Publishers.query();
+		$scope.authors = Authors.query();
 		$scope.currentUrl = $location.absUrl();
 		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
-		$scope.available_number
+		$scope.available_number;
 		$scope.$watch('number', function () {
 			$scope.available_number = $scope.number;
 		});
 
 		$scope.initData = function() {
 
+		}
+
+		$scope.getCatNameById = function(id) {
+			for (var i in $scope.categories) {
+				if ($scope.categories[i].category_id === id) return $scope.categories[i].name;
+			}
+		}
+
+		$scope.getLangById = function(id) {
+			for (var i in $scope.languages) {
+				if ($scope.languages[i].language_id === id) return $scope.languages[i].name;
+			}
+		}
+
+		$scope.getPublisherById = function(id) {
+			for (var i in $scope.publishers) {
+				if ($scope.publishers[i].publisher_id === id) return $scope.publishers[i].name;
+			}
 		}
 
 		// Create new Book
