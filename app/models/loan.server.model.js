@@ -21,12 +21,12 @@ var Loan = Model.extend({
 	},
 
 	staff: function() {
-		return this.belongTo(Loandetail);
+		return this.bxelongTo(Loandetail);
 	},
 
 	initialize: function() {
 		//Model.apply(this, arguments);
-		//this.on('saving', this.validateSave);
+		//	this.on('saving', this.validateSave);
 	},
 
 	validateSave: function() {

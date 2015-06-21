@@ -73,7 +73,7 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 				$location.path('publishers');
 				return swal("Updated!", "", "success"); 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				return swal("", errorResponse.data.message, "error"); 
 			});
 		};
 

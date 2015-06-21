@@ -118,11 +118,13 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 			var category = $scope.category;
 
+			console.log(category);
+
 			category.$update(function() {
 				$location.path('categories');
 				return swal("Updated!", "", "success"); 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				return swal("", errorResponse.data.message, "error");
 			});
 		};
 

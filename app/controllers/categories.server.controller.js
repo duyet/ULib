@@ -122,6 +122,36 @@ exports.read = function(req, res) {
 	res.jsonp(req.category);
 };
 
+exports.canedit = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).fetch().then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
+exports.locktable = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).save({is_lock: 1}).then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
+exports.unlocktable = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).save({is_lock: 0}).then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
 /**
  * Update a Category
  */

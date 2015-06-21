@@ -15,7 +15,7 @@ var ServiceLog = Model.extend({
 	idAttribute: 'servicelog_id',
 	
 	service: function () {
-		return this.belongsTo(Service, 'service_type_id');
+		return this.belongsTo(Service, 'service_id');
 	},
 
 	staff: function() {

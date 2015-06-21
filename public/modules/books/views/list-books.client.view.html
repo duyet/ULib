@@ -29,7 +29,7 @@
                     <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/books/create"><i class="md md-add"></i></a>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover">
                             <tbody>
                                 <thead>
                                     <tr>
@@ -39,19 +39,17 @@
                                         <td>Language</td>
                                         <td>Publisher</td>
                                         <td>Number</td>
-                                        <td>Publish Date</td>
                                         <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr data-ng-repeat="book in books | orderBy: ['create_time']">
-                                        <td data-ng-bind="book.id" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
+                                        <td data-ng-bind="book.book_id" ng-click="go('/books/' + book.id)" style="cursor:pointer">{{$index+1}}</td>
                                         <td data-ng-bind="book.name" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
-                                        <td data-ng-bind="book.category.name"></td>
-                                        <td data-ng-bind="book.language.name"></td>
-                                        <td data-ng-bind="book.publisher.name"></td>
-                                        <td data-ng-bind="book.number"></td>
-                                        <td data-ng-bind="book.publish_date | date"></td>
+                                        <td data-ng-bind="getCatNameById(book.category_id)"></td>
+                                        <td data-ng-bind="getLangById(book.language_id)"></td>
+                                        <td data-ng-bind="getPublisherById(book.publisher_id)"></td>
+                                        <td data-ng-bind="book.available_number + '/' + book.number"></td>
                                         <td class="text-center">
                                            <button type="button" class="btn btn-icon command-edit" data-ng-click="go('books/{{book.id}}')"><span class="md md- md-dehaze"></span></button>
 
