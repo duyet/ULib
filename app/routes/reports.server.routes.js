@@ -11,6 +11,9 @@ module.exports = function(app) {
 	app.route('/reports/categories')
 		.all(users.requiresLogin, reports.categories);
 
+	app.route('/reports/books')
+		.all(users.requiresLogin, reports.books);
+
 	app.route('/reports/publishers')
 		.all(users.requiresLogin, reports.categories);
 

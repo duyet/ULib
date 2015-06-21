@@ -17,6 +17,10 @@ angular.module('reports').config(['$stateProvider',
 			url: '/reports/categories',
 			templateUrl: 'modules/reports/views/categories-report.client.view.html'
 		}).
+		state('reportsBooks', {
+			url: '/reports/books',
+			templateUrl: 'modules/reports/views/books-report.client.view.html'
+		}).
 		state('viewReport', {
 			url: '/reports/:reportId',
 			templateUrl: 'modules/reports/views/view-report.client.view.html'

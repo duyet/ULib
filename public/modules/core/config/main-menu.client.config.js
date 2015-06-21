@@ -38,6 +38,7 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loans');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê danh mục', 'reports/categories');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách TV', 'reports/books');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'reports/loans');
 
 		Menus.addMenuItem('topbar', '<i class="md md-info-outline"></i> Khác', 'main-other', 'dropdown', '#');

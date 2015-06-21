@@ -32,7 +32,23 @@ exports.categories = function(req, res) {
 
 	    res.jsonp(result[0] || []);
 	});
-}
+};
+
+exports.books = function(req, res) {
+	connection.query('CALL `ReportBooks`();', [], function(err, result) {
+	    if (err) {
+	        connection.rollback(function() {
+	            throw err;
+
+	            return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+	        });
+	    }
+
+	    res.jsonp(result[0] || []);
+	});
+};
 
 /**
  * Report middleware

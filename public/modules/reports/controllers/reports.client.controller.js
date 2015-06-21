@@ -10,11 +10,26 @@ angular.module('reports').controller('ReportsController', ['$scope', '$resource'
 
 		$scope.reportCategories = function() {
 			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
 			$resource('reports/categories').query(function(data) {
 				$scope.report.categories = data;
+				for (var i = 0; i < data.length; i++) {
+					$scope.report.total_book_loan += data[i].num;
+				}
 				$scope.isLoading = false;
 			});
 		};
+
+		$scope.reportBooks = function() {
+			$scope.isLoading = true;
+			$resource('reports/books').query(function(data) {
+				$scope.report.categories = data;
+				for (var i = 0; i < data.length; i++) {
+					$scope.report.total_book_loan += data[i].num;
+				}
+				$scope.isLoading = false;
+			});
+		}
 
 		// Create new Report
 		$scope.create = function() {
