@@ -55,9 +55,9 @@ angular.module('settings').controller('LibSettingsController', ['$scope', '$reso
 		}
 
 		$scope.loadGenerateSettings = function() {
-			$resource('/settings').query(data) {
+			$resource('/settings').query(function(data) {
 				$scope.generalsettings = data;
-			}
+			});
 		}
 
 		// Find existing Setting

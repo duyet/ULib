@@ -34,6 +34,11 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-user', 'Phân quyền', 'roles');
 
 		Menus.addMenuItem('topbar', '<i class="md md-assessment"></i> Báo cáo', 'main-report', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu mượn', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê danh mục', 'reports/categories');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'reports/loans');
 
 		Menus.addMenuItem('topbar', '<i class="md md-info-outline"></i> Khác', 'main-other', 'dropdown', '#');
 		Menus.addSubMenuItem('topbar', 'main-other', 'Thông tin', 'students');
