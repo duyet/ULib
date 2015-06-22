@@ -32,7 +32,7 @@
                         <div class="col-md-2"  data-ng-if="!isMonthFilter"> 
 
                             <div>
-                                <input date-range-picker class="form-control date-picker" type="text" ng-model="loanDataRange"  placeholder="From ... to ..." options="{eventHandlers: {'apply.daterangepicker': reportLoans() }}" />
+                                <input date-range-picker class="form-control date-picker" type="text" ng-model="loanDataRange"  placeholder="From ... to ..." options="{eventHandlers: {'apply.daterangepicker': function(ev, picker) { console.log(ev, picker); }}}" />
                             </div>
                         </div>
 
