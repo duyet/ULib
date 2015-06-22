@@ -134,23 +134,46 @@ angular.module('reports').controller('ReportsController', ['$scope', '$resource'
 			});
 		};
 
+		var getDateFormated = function(string) {
+			var today = new Date(string);
+			if (!today) return false;
+
+		    var dd = today.getDate();
+		    var mm = today.getMonth()+1; //January is 0!
+
+		    var yyyy = today.getFullYear();
+		    if(dd<10){
+		        dd='0'+dd
+		    } 
+		    if(mm<10){
+		        mm='0'+mm
+		    } 
+		    
+		    var today = yyyy + '-' + mm + '-' + dd;
+
+		    return today
+		}
+
+		$scope.report.income = [];
 		$scope.reportIncome = function() {
-			var param = {};
 			$scope.isLoading = true;
-			if ($scope.isMonthFilter == false) {
-				param.start_date = $scope.loanDataRange.startDate;
-				param.end_date = $scope.loanDataRange.endDate;
+			var param = {};
+			if ($scope.loanDataRange.startDate && $scope.loanDataRange.endDate) {
+				param.start_date = getDateFormated($scope.loanDataRange.startDate);
+				param.end_date = getDateFormated($scope.loanDataRange.endDate);
 			}
 			$scope.total_income = 0;
 			$resource('reports/income').query(param, function(data) {
 				$scope.report.income = data;
-				console.log($scope.report.income);
-				for (var i = 0; i < data.length; i++) {
+				for (var i = 0; i < data.length; i++)
 					$scope.total_income += data[i].prices;
-				}
 				$scope.isLoading = false;
 			});
 		};
+
+		$scope.$watch('loanDataRange', function() {
+			$scope.reportIncome();
+		}, true);
 		
 
 		// Create new Report

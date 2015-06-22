@@ -12,10 +12,17 @@
                                 <i class="md md-arrow-back"></i>
                             </a>
                         </li>
-                        <li>
-                            <a href="#!/reports/">
-                                <i class="md md-arrow-back"></i>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
                             </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
                         </li>
                     </ul>
 
@@ -30,9 +37,8 @@
                         </div>
 
                         <div class="col-md-2"  data-ng-if="!isMonthFilter"> 
-
                             <div>
-                                <input date-range-picker class="form-control date-picker" type="text" ng-model="loanDataRange"  placeholder="From ... to ..." options="{eventHandlers: {'apply.daterangepicker': function(ev, picker) { console.log(ev, picker); }}}" />
+                                <input date-range-picker class="form-control date-picker" type="text" ng-model="loanDataRange" placeholder="From ... to ..." />
                             </div>
                         </div>
 

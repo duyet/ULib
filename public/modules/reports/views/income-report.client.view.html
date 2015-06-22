@@ -3,8 +3,8 @@
         <div class="col-md-12 col-lg-12">
 
             <div class="card">
-                <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Thống kê dịch vụ </h2>
+                <div class="card-header bgm-bluegray">
+                    <h2>Thống kê dịch vụ</h2>
                     <br>
                     <ul class="actions actions-alt">
                         <li>
@@ -30,25 +30,25 @@
                         <thead>
                             <tr>
                                 <td>#</td>
-                                <td>Name</td>
-                                <td>Staff</td>
-                                <td>Note</td>
-                                <td>Price</td>
+                                <td>Thời gian</td>
+                                <td>Loại dịch vụ</td>
+                                <td>Thông tin</td>
+                                <td>Phí</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="row in reports.income">
+                            <tr data-ng-repeat="row in report.income">
                                 <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="row.created | date"></span></td>
                                 <td><span data-ng-bind="row.name"></span></td>
-                                <td><span data-ng-bind="row.staff_id"></span></td>
                                 <td><span data-ng-bind="row.note"></span></td>
-                                <td><span data-ng-bind="row.prices"></span></td>
+                                <td><span data-ng-bind="row.prices | number"></span></td>
                                 
                             </tr>
                             <tr data-ng-show="report.income.length">
                                 <td colspan="5" class="text-right">
                                     <strong>
-                                        Total: <span data-ng-bind="report.total_income"></span>
+                                        Tổng thu: <span data-ng-bind="total_income | number"></span>
                                     </strong>
                                 </td>               
                             </tr>   
