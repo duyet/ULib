@@ -1,10 +1,10 @@
-<section data-ng-controller="ReportsController" data-ng-init="reportBooks()">
+<section data-ng-controller="ReportsController" data-ng-init="reportLoanOutOfDate()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
 
             <div class="card">
                 <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Báo Cáo Thông Kê Tình Hình Mượn Sách </h2>
+                    <h2>Báo Cáo: Phiếu mượn quá hạn</h2>
                     <br>
                     <ul class="actions actions-alt">
                         <li>
@@ -16,15 +16,15 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportBooks(report_month)">
+                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportLoanOutOfDate(report_month)">
                                 <option data-ng-repeat="n in [] | range: 12" value="{{n}}" {{n == currentMonth ? 'selected="selected"' ? ''}}>
                                     Tháng {{n}}
                                 </option>
                             </select>
-                        </div>
+                        </div>    
                         <div class="col-md-6">
                             <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
-                        </div>   
+                        </div>
                     </div>
                     
 
@@ -33,23 +33,25 @@
                     <table class="table table-vmiddle bootgrid-table">
                         <thead>
                             <tr>
-                                <td>#</td>
-                                <td>Name</td>
-                                <td>Số lượt mượn</td>
-                                <td>Tỉ lệ</td>
+                                <td>Phiếu mượn</td>
+                                <td>Sinh viên</td>
+                                <td>Thời gian mượn</td>
+                                <td>Số ngày trễ</td>
+                                <td>Tiền phạt</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="book in report.books">
-                                <td><span data-ng-bind="$index + 1"></span></td>
-                                <td><span data-ng-bind="book.name"></span></td>
-                                <td><span data-ng-bind="book.num"></span></td>
-                                <td><span class="label {{if ($index < 3)}}label-primary{{endif}}">{{(book.num * 100 / report.total_book_loan) | number }}%</span></td>
+                            <tr data-ng-repeat="row in report.outofdate">
+                                <td><span data-ng-bind="row.loan_id"></span></td>
+                                <td><span data-ng-bind="row.student_name"></span></td>
+                                <td><span data-ng-bind="row.created"></span></td>
+                               	<td><span data-ng-bind="">...</span></td>
+                               	<td><span data-ng-bind="">...</span></td>
                             </tr>
-                            <tr>
-                                <td colspan="4" class="text-right">
+                            <tr data-ng-show="report.outofdate">
+                                <td colspan="5" class="text-right">
                                     <strong>
-                                        Tổng số lượt mượn: <span data-ng-bind="report.total_book_loan"></span>
+                                        
                                     </strong>
                                 </td>               
                             </tr>   
@@ -57,8 +59,8 @@
                     </table>
 
 
-                    <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
-                        No Categorie yet.
+                    <div class="alert alert-warning text-center" data-ng-hide="report.outofdate">
+                       	Không có dữ liệu
                     </div>
                 </div>
             </div>

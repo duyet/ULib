@@ -24,6 +24,8 @@ module.exports = {
 				'public/lib/material-design-iconic-font/css/material-design-iconic-font.min.css',
 				'public/lib/sweetalert/lib/sweet-alert.css',
 				'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+				'public/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+				'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.js',
@@ -44,7 +46,9 @@ module.exports = {
 				'public/lib/angular-toggle-switch/angular-toggle-switch.min.js',
 				'public/lib/sweetalert/lib/sweet-alert.min.js',
 				'public/lib/moment/moment.js',
+				'public/lib/bootstrap-daterangepicker/daterangepicker.js',
 				'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+				'public/lib/angular-daterangepicker/js/angular-daterangepicker.min.js',
 			]
 		},
 		css: [

@@ -1,10 +1,10 @@
-<section data-ng-controller="ReportsController" data-ng-init="reportBooks()">
+<section data-ng-controller="ReportsController" data-ng-init="reportPublishers()">
     <div class="row">
         <div class="col-md-12 col-lg-12">
 
             <div class="card">
                 <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Báo Cáo Thông Kê Tình Hình Mượn Sách </h2>
+                    <h2>Báo Cáo NXB</h2>
                     <br>
                     <ul class="actions actions-alt">
                         <li>
@@ -15,19 +15,10 @@
                     </ul>
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportBooks(report_month)">
-                                <option data-ng-repeat="n in [] | range: 12" value="{{n}}" {{n == currentMonth ? 'selected="selected"' ? ''}}>
-                                    Tháng {{n}}
-                                </option>
-                            </select>
-                        </div>
                         <div class="col-md-6">
                             <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
-                        </div>   
+                        </div>
                     </div>
-                    
-
                 </div>
                 <div class="card-body">
                     <table class="table table-vmiddle bootgrid-table">
@@ -35,21 +26,23 @@
                             <tr>
                                 <td>#</td>
                                 <td>Name</td>
+                                <td>Số lượng sách</td>
                                 <td>Số lượt mượn</td>
-                                <td>Tỉ lệ</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="book in report.books">
-                                <td><span data-ng-bind="$index + 1"></span></td>
-                                <td><span data-ng-bind="book.name"></span></td>
-                                <td><span data-ng-bind="book.num"></span></td>
-                                <td><span class="label {{if ($index < 3)}}label-primary{{endif}}">{{(book.num * 100 / report.total_book_loan) | number }}%</span></td>
+                            <tr data-ng-repeat="row in report.publishers">
+                                <td><span data-ng-bind="row.publisher_id"></span></td>
+                                <td><span data-ng-bind="row.name"></span></td>
+                                <td><span data-ng-bind="row.book_counter"></span></td>
+                                <td><span data-ng-bind="row.loan_counter"></span></td>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-right">
                                     <strong>
-                                        Tổng số lượt mượn: <span data-ng-bind="report.total_book_loan"></span>
+                                        Tổng số NXB: <span data-ng-bind="report.publishers.length"></span> <br>
+                                        Tổng số sách: <span data-ng-bind="publishers_total_book_counter"></span> <br>
+                                        Tổng lượt mượn: <span data-ng-bind="publishers_total_loan_counter"></span> <br>
                                     </strong>
                                 </td>               
                             </tr>   

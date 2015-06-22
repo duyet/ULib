@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header bgm-bluegray m-b-20">
-                    <h2>Báo Cáo Thông Kê Tình Hình Mượn Sách Theo Thể Loại</h2>
+                    <h2>Báo Cáo Thông Kê Tình Hình Mượn Sách Theo Thể Loại </h2>
                     <br>
                     <ul class="actions actions-alt">
                         <li>
@@ -16,12 +16,15 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <select class="form-control">
-                                <option value="">Tháng 1</option>
-                                <option value="">Tháng 2</option>
-                                <option value="">Tháng 3</option>
+                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportCategories(report_month)">
+                                <option data-ng-repeat="n in [] | range: 12" value="{{n}}" {{if (n == currentMonth)}}selected="selected"{{endif}}>
+                                    Tháng {{n}}
+                                </option>
                             </select>
-                        </div>    
+                        </div>  
+                        <div class="col-md-6">
+                            <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
+                        </div>  
                     </div>
                     
 
@@ -37,11 +40,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="category in report.categories">
+                            <tr data-ng-repeat="category in report.categories | orderBy: num">
                                 <td><span data-ng-bind="$index + 1"></span></td>
                                 <td><span data-ng-bind="category.name"></span></td>
                                 <td><span data-ng-bind="category.num"></span></td>
-                                <td><span>{{(category.num * 100 / report.total_book_loan) | number }}%</span></td>
+                                <td><span class="label {{if ($index < 3)}}label-primary{{endif}}">{{(category.num * 100 / report.total_book_loan) | number }}%</span></td>
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-right">

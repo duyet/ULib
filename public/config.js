@@ -18,6 +18,7 @@ var ApplicationConfiguration = (function() {
 		'angular-loading-bar',
 		'toggle-switch',
 		'ui.bootstrap.datetimepicker',
+		'daterangepicker'
 	];
 
 	// Add a new vertical module

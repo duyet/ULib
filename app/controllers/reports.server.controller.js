@@ -19,19 +19,37 @@ exports.all = function(req, res) {
 };
 
 exports.categories = function(req, res) {
-	connection.query('CALL `ReportCategories`();', [], function(err, result) {
-	    if (err) {
-	        connection.rollback(function() {
-	            throw err;
+	if (req.query && req.query.month) var month = req.query.month;
 
-	            return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-	        });
-	    }
+	if (month) {
+		connection.query('CALL `ReportCategoriesMonth`(?);', [month], function(err, result) {
+		    if (err) {
+		        connection.rollback(function() {
+		            throw err;
 
-	    res.jsonp(result[0] || []);
-	});
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+		        });
+		    }
+
+		    res.jsonp(result[0] || []);
+		});
+	} else {
+		connection.query('CALL `ReportCategories`();', [], function(err, result) {
+		    if (err) {
+		        connection.rollback(function() {
+		            throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+		        });
+		    }
+
+		    res.jsonp(result[0] || []);
+		});	
+	}
 };
 
 exports.books = function(req, res) {
@@ -49,6 +67,114 @@ exports.books = function(req, res) {
 	    res.jsonp(result[0] || []);
 	});
 };
+
+exports.loanOutOfDate = function(req, res) {
+	connection.query('CALL ReportBookOutOfDate()', [], function(err, result) {
+	    if (err) {
+	        connection.rollback(function() {
+	            throw err;
+
+	            return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+	        });
+	    }
+
+	    res.jsonp(result[0] || []);
+	});
+};
+
+exports.publishers = function(req, res) {
+	connection.query('CALL ReportPublishers()', [], function(err, result) {
+	    if (err) {
+	        connection.rollback(function() {
+	            throw err;
+
+	            return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+	        });
+	    }
+
+	    res.jsonp(result[0] || []);
+	});
+};
+
+exports.authors = function(req, res) {
+	connection.query('CALL ReportAuthors()', [], function(err, result) {
+	    if (err) {
+	        connection.rollback(function() {
+	            throw err;
+
+	            return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+	        });
+	    }
+
+	    res.jsonp(result[0] || []);
+	});
+};
+
+exports.loanDataChart = function(req, res) {
+
+}
+
+exports.loans = function(req, res) {
+	if (req.query && req.query.month) var month = req.query.month;
+	if (req.query && req.query.start_date && req.query.end_date) {
+		var is_in_range = true;
+		var start_date = req.query.start_date;
+		var end_date = req.query.end_date;
+	}
+
+	if (is_in_range) {
+		connection.query('CALL ReportLoansRange(?, ?)', [start_date, end_date], function(err, result) {
+		    if (err) {
+		        connection.rollback(function() {
+		            throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+		        });
+		    }
+
+		    res.jsonp(result[0] || []);
+		});
+	}
+	else if (month) {
+		connection.query('CALL ReportLoansMonth(?)', [month], function(err, result) {
+		    if (err) {
+		        connection.rollback(function() {
+		            throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+		        });
+		    }
+
+		    res.jsonp(result[0] || []);
+		});
+	} else {
+		connection.query('CALL ReportLoans()', [], function(err, result) {
+		    if (err) {
+		        connection.rollback(function() {
+		            throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+		        });
+		    }
+
+		    res.jsonp(result[0] || []);
+		});
+	}
+};
+
+
 
 /**
  * Report middleware

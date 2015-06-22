@@ -36,9 +36,11 @@ angular.module('core').run(['Menus',
 		Menus.addMenuItem('topbar', '<i class="md md-assessment"></i> Báo cáo', 'main-report', 'dropdown', '#');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu mượn', 'reports/loans');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
-		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loan_out_of_date');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê danh mục', 'reports/categories');
-		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách TV', 'reports/books');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách', 'reports/books');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê NXB', 'reports/publishers');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê tác giả', 'reports/authors');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'reports/loans');
 
 		Menus.addMenuItem('topbar', '<i class="md md-info-outline"></i> Khác', 'main-other', 'dropdown', '#');

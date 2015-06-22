@@ -37,7 +37,7 @@ exports.create = function(req, res) {
 	        throw err;
 	    }
 
-	    connection.query('CALL NewCategory_Delay_WithLock(?, ?, ?)', [categoryName.trim(), description.trim(), loanTime], function(err, result) {
+	    connection.query('CALL NewCategory(?, ?, ?)', [categoryName.trim(), description.trim(), loanTime], function(err, result) {
 	        if (err) {
 	            connection.rollback(function() {
 	                throw err;

@@ -1,5 +1,14 @@
 'use strict';
 
+angular.module('reports').filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=1; i < total; i++)
+      input.push(i);
+    return input;
+  };
+});
+
 // Reports controller
 angular.module('reports').controller('ReportsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Reports',
 	function($scope, $resource, $stateParams, $location, Authentication, Reports) {
@@ -8,10 +17,16 @@ angular.module('reports').controller('ReportsController', ['$scope', '$resource'
 		$scope.report = {};
 		$scope.isLoading = true;
 
-		$scope.reportCategories = function() {
+		$scope.currentMonth = (new Date()).getMonth() + 1;
+
+		$scope.getDatetime = new Date();
+
+		$scope.reportCategories = function(month) {
+			var param = {};
+			if (month) param.month = month;
 			$scope.isLoading = true;
 			$scope.report.total_book_loan = 0;
-			$resource('reports/categories').query(function(data) {
+			$resource('reports/categories').query(param, function(data) {
 				$scope.report.categories = data;
 				for (var i = 0; i < data.length; i++) {
 					$scope.report.total_book_loan += data[i].num;
@@ -20,16 +35,105 @@ angular.module('reports').controller('ReportsController', ['$scope', '$resource'
 			});
 		};
 
-		$scope.reportBooks = function() {
+		$scope.reportBooks = function(month) {
+			var param = {};
+			if (month) param.month = month;
 			$scope.isLoading = true;
-			$resource('reports/books').query(function(data) {
-				$scope.report.categories = data;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/books').query(param, function(data) {
+				$scope.report.books = data;
 				for (var i = 0; i < data.length; i++) {
+					console.info( data[i]);
 					$scope.report.total_book_loan += data[i].num;
 				}
+
+				// Rating 
+				$scope.rating = [];
 				$scope.isLoading = false;
 			});
-		}
+		};
+
+		$scope.reportAuthors = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/authors').query(param, function(data) {
+				$scope.report.authors = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info( data[i]);
+					$scope.report.total_book_loan += data[i].num;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportLoanOutOfDate = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/loan_out_of_date').query(param, function(data) {
+				$scope.report.books = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					$scope.report.total_book_loan += data[i].num;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportPublishers = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = $scope.publishers_total_loan_counter = $scope.publishers_total_book_counter = 0;
+			$resource('reports/publishers').query(param, function(data) {
+				$scope.report.publishers = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					$scope.publishers_total_book_counter += data[i].book_counter;
+					$scope.publishers_total_loan_counter += data[i].loan_counter;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.isMonthFilter = true;
+		$scope.loanDataRange = {startDate: null, endDate: null};
+		$scope.reportLoans = function(month) {
+			var param = {};
+			if ($scope.isMonthFilter == false) {
+				param.start_date = $scope.loanDataRange.startDate;
+				param.end_date = $scope.loanDataRange.endDate;
+			}
+			else if (month) param.month = month;
+
+
+			$scope.isLoading = true;
+			$scope.total_loans = 0;
+			$resource('reports/loans').query(param, function(data) {
+				$scope.report.loans = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+		
 
 		// Create new Report
 		$scope.create = function() {
