@@ -27,15 +27,6 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-search', 'Danh sách SV', 'students');
 		Menus.addSubMenuItem('topbar', 'main-search', 'Nhật kí hệ thống', 'systemlogs');
 
-		Menus.addMenuItem('topbar', '<i class="md md-settings"></i> Hệ thống', 'main-system', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-system', 'Thiết lập chung', 'settings/general');
-		Menus.addSubMenuItem('topbar', 'main-system', 'Các quy định', 'settings/library');
-
-		Menus.addMenuItem('topbar', '<i class="md md-account-box"></i> Tài khoản', 'main-user', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý tài khoản', 'user-managers');
-		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý nhóm', 'groups');
-		Menus.addSubMenuItem('topbar', 'main-user', 'Phân quyền', 'roles');
-
 		Menus.addMenuItem('topbar', '<i class="md md-assessment"></i> Báo cáo', 'main-report', 'dropdown', '#');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu mượn', 'reports/loans');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
@@ -45,11 +36,20 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách', 'reports/books');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê NXB', 'reports/publishers');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê tác giả', 'reports/authors');
-		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'commingsoon');
+
+		Menus.addMenuItem('topbar', '<i class="md md-settings"></i> Hệ thống', 'main-system', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-system', 'Thiết lập chung', 'settings/general');
+		Menus.addSubMenuItem('topbar', 'main-system', 'Các quy định', 'settings/library');
+
+		Menus.addMenuItem('topbar', '<i class="md md-account-box"></i> Tài khoản', 'main-user', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý tài khoản', 'user-managers');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý nhóm', 'groups');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Phân quyền', 'commingsoon');
 
 		Menus.addMenuItem('topbar', '<i class="md md-info-outline"></i> Khác', 'main-other', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-other', 'Thông tin', 'students');
-		Menus.addSubMenuItem('topbar', 'main-other', 'Trợ giúp', 'students');
+		Menus.addSubMenuItem('topbar', 'main-other', 'Thông tin', 'info');
+		Menus.addSubMenuItem('topbar', 'main-other', 'Trợ giúp', 'help');
 
 
 		

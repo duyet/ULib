@@ -60,7 +60,7 @@ angular.module('returns').controller('ReturnsController', ['$scope', '$resource'
 			if (!list_book_return)
 				return swal("", "Vui lòng chọn ít nhất 1 quyển", "error");  
 
-			$resource('loans/return_book_submit').get({
+			$resource('loans/return_book_submit').post({
 				books: list_book_return,
 				loan_id: $scope.loan_details.loan_id
 			}, function(data) {

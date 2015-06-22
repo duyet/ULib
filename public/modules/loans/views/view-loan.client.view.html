@@ -18,7 +18,7 @@
 
             <div class="card" data-ng-show="loan.student_name">
                 <div class="card-header bgm-bluegray">
-                    <h2>Phiếu mượn sách<small>Thông tin mượn sách</small></h2>
+                    <h2>Phiếu mượn sách #<span data-ng-bind="loan.loan_id"></span> <small>Thông tin mượn sách</small></h2>
 
                     <ul class="actions actions-alt">
                         <li>
@@ -41,6 +41,11 @@
                 			<div class="fg-line form-group">
                 				<label>Sinh viên</label>
                                 <input type="text" data-ng-model="loan.student_name" class="form-control input-sm" placeholder="Name">
+                            </div>
+
+                            <div class="fg-line form-group">
+                                <label>MSSV</label>
+                                <input type="text" data-ng-model="loan.student_id" class="form-control input-sm" placeholder="MSSV">
                             </div>
                 		</div>
 

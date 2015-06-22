@@ -262,7 +262,7 @@ exports.returnBookSubmit = function(req, res) {
 	var books = req.query.books || [];
 	var loan_id = req.query.loan_id || 0;
 
-	if (loan_id > 0) {
+	if (loan_id > 0 && books) {
 		books.forEach(function(book) {
 			var book_id = parseInt(book);
 			var returned_time = new Date().toMysqlFormat();

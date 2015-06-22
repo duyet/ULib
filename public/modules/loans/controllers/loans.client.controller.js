@@ -40,6 +40,7 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 			}, function(u) {
 				if (u) {
 					$scope.listBookNotReturnedByUid = false;
+					$scope.canBooking = true;
 					$scope.createData.student = $scope.student_info = u;
 					if (u) {
 						$scope.fetchNotReturnBooks(uid);
@@ -49,10 +50,11 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 		}
 
 		$scope.fetchNotReturnBooks = function(uid) {
+			$scope.canBooking = true;
 			$resource('loans/list_not_return').query({
 				student_id: uid
 			}, function(data) {
-				if (data) {
+				if (data && data.length) {
 					$scope.listBookNotReturnedByUid = data;
 					$scope.canBooking = false;
 				}
