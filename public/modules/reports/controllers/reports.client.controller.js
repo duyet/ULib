@@ -133,6 +133,24 @@ angular.module('reports').controller('ReportsController', ['$scope', '$resource'
 				$scope.isLoading = false;
 			});
 		};
+
+		$scope.reportIncome = function() {
+			var param = {};
+			$scope.isLoading = true;
+			if ($scope.isMonthFilter == false) {
+				param.start_date = $scope.loanDataRange.startDate;
+				param.end_date = $scope.loanDataRange.endDate;
+			}
+			$scope.total_income = 0;
+			$resource('reports/income').query(param, function(data) {
+				$scope.report.income = data;
+				console.log($scope.report.income);
+				for (var i = 0; i < data.length; i++) {
+					$scope.total_income += data[i].prices;
+				}
+				$scope.isLoading = false;
+			});
+		};
 		
 
 		// Create new Report

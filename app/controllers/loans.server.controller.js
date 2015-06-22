@@ -172,6 +172,20 @@ exports.out_of_date = function(req, res) {
         console.log(err, result);
         res.jsonp(result);
     });
+};
+
+exports.loan_by_student = function(req, res) {
+	var uid = req.query.student_id || 0;
+	connection.query('SELECT * FROM Loans L WHERE student_id = ?', [uid], function(err, result) {
+        if (err || !result) {
+            connection.rollback(function() {
+                throw err;
+            });
+        }
+
+        console.log(err, result);
+        res.jsonp(result);
+    });
 }
 
 /**

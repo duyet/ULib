@@ -1,0 +1,75 @@
+<section data-ng-controller="CategoriesController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Tra cứu danh mục sách </h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/categories/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/categories/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+
+                   <div class="row">
+                        <div class="col-md-4">
+                            <br />
+                            <input type="text" class="form-control" placeholder="Tìm kiếm ..." data-ng-model="filter_value">
+                        </div>
+                    </div>
+
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/categories/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Thời gian mượn</td>
+                                <td style="width: 40%">Desc</td>
+                                <td style="width:15%"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="category in categories | filter: filter_value">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td data-ng-click="go('categories/' + category.category_id)" style="cursor:pointer"><span data-ng-bind="category.name"></span></td>
+                                <td><span data-ng-bind="category.loan_time + ' ngày'"></span></td>
+                                <td><span data-ng-bind="category.description"></span> </td>
+                                <td>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('categories/{{category.category_id}}/edit')"><span class="md md-edit"></span></button>
+
+                                    <button type="button" class="btn btn-icon command-delete" data-ng-click="remove(category)"><span class="md md-delete"></span></button>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
+                        No Categorie yet.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

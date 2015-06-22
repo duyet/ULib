@@ -42,8 +42,8 @@
                         <tbody>
                             
                         <tr data-ng-repeat="servicelog in servicelogs | orderBy: ['create_time']" ng-click="viewLog(servicelog)">
-                                <td data-ng-bind="servicelog.id"></td>
-                                <td data-ng-bind="servicelog.create_time | date"></td>
+                                <td data-ng-bind="servicelog.servicelog_id"></td>
+                                <td data-ng-bind="servicelog.created | date"></td>
                                 <td data-ng-bind="servicelog.service.name"></td>
                                 <td data-ng-bind="servicelog.staff.name"></td>
                                 <td data-ng-bind="servicelog.prices | number"></td>

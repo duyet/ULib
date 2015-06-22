@@ -18,24 +18,28 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 		$scope.debug = false;
 
 		$scope.fetchStudentData = function() {
-			var uid = $scope.student_id || 0;
-			uid = parseInt(uid);
+			var uid = $scope.student_id_input;
+			// uid = parseInt(uid);
 
 			$scope.student_info = false;
 
-			console.log(typeof uid);
 			if (uid.toString().length > 8) {
+				console.error("Length > 8", uid);
 				$scope.student_info = false;
 				return false;
 			}
-			if (uid.toString().length < 6) {
+			else if (uid.toString().length < 6) {
+				console.error("Length < 6", uid);
 				return false;
 			}
+
+			console.error("Got here", uid);
 
 			Students.get({ 
 				studentId: uid
 			}, function(u) {
 				if (u) {
+					$scope.listBookNotReturnedByUid = false;
 					$scope.createData.student = $scope.student_info = u;
 					if (u) {
 						$scope.fetchNotReturnBooks(uid);

@@ -20,9 +20,12 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-categories', 'Các dịch vụ', 'services');
 
 		Menus.addMenuItem('topbar', '<i class="md md-search"></i> Tra cứu', 'main-search', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-search', 'Danh sách mượn', 'loans');
-		Menus.addSubMenuItem('topbar', 'main-search', 'Danh sách trả', 'returns');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Mượn quá hạn', 'loans/out_of_date');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin sách', 'books/search');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin mượn sách', 'loans');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Danh mục', 'categories/search');
 		Menus.addSubMenuItem('topbar', 'main-search', 'Danh sách SV', 'students');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Nhật kí hệ thống', 'systemlogs');
 
 		Menus.addMenuItem('topbar', '<i class="md md-settings"></i> Hệ thống', 'main-system', 'dropdown', '#');
 		Menus.addSubMenuItem('topbar', 'main-system', 'Thiết lập chung', 'settings/general');
@@ -36,6 +39,7 @@ angular.module('core').run(['Menus',
 		Menus.addMenuItem('topbar', '<i class="md md-assessment"></i> Báo cáo', 'main-report', 'dropdown', '#');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu mượn', 'reports/loans');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Doanh thu dịch vụ', 'reports/income');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loan_out_of_date');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê danh mục', 'reports/categories');
 		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách', 'reports/books');

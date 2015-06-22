@@ -11,7 +11,7 @@ var rules = {
 
 var Service = Model.extend({
 	tableName: 'Services',
-	idAttribute: 'service_id',
+	idAttribute: 'id',
 	
 	initialize: function() {
 		this.on('saving', this.validateSave);

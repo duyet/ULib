@@ -23,6 +23,14 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <br />
+                            <input type="text" class="form-control" placeholder="Tìm kiếm ..." data-ng-model="filter_value">
+                        </div>
+                    </div>
+
                     <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/loans/create"><i class="md md-add"></i></a>
                 </div>
                 <div class="card-body">
@@ -38,7 +46,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="loan in loans | filter:is_return==1">
+                            <tr data-ng-repeat="loan in loans | filter:filter_value" data-ng-show="is_return==1">
                                 <td><span data-ng-bind="$index + 1"></span></td>
                                 <td><span data-ng-bind="loan.student_name"></span> <span data-ng-bind="loan.student_id" class="label label-default"></span></td>
                                 <td><span data-ng-bind="loan.time_created | date"></span> </td>

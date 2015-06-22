@@ -4,7 +4,7 @@
 
             <div class="card">
                 <div class="card-header bgm-bluegray">
-                    <h2>Students <small>List of students</small></h2>
+                    <h2>Danh sách sinh viên</h2>
                     <ul class="actions actions-alt">
                         <li>
                             <a href="#!/">
@@ -26,17 +26,24 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <br />
+                            <input type="text" class="form-control" placeholder="MSSV ..." data-ng-model="filter_value">
+                        </div>
+                    </div>
+
                     <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/students/create"><i class="md md-add"></i></a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover table-bordered table-vmiddle bootgrid-table">
                         <tbody>
-                            <tr data-ng-repeat="student in students">
+                            <tr data-ng-repeat="student in students | filter: filter_value" data-ng-click="go('students/' + student.student_id)" style="cursor:pointer">
                                 <td data-ng-bind="student.student_id"></td>
                                 <td data-ng-bind="student.name"></td>
-                                <td data-ng-bind="student.email"></td>
                                 <td data-ng-bind="student.subject"></td>
-                                <td data-ng-bind="student.sex == 1 ? 'Boy' : 'Girl'"></td>
+                                <td data-ng-bind="student.sex"></td>
                             </tr>
                         </tbody>
                     </table>

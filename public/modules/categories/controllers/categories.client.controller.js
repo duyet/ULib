@@ -1,10 +1,12 @@
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$timeout', '$location', '$upload', 'Authentication', 'Categories',
-	function($scope, $stateParams, $timeout, $location, $upload, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$timeout', '$location', '$upload', 'Authentication', 'Categories', 'Books',
+	function($scope, $stateParams, $timeout, $location, $upload, Authentication, Categories, Books) {
 		$scope.authentication = Authentication;
 		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+
+		$scope.books = Books.query();
 
 		// Create new Category
 		$scope.create = function() {
@@ -138,6 +140,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 			$scope.category = Categories.get({ 
 				categoryId: $stateParams.categoryId
 			});
+
 		};
 
 		// Go to 

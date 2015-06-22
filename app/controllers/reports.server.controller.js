@@ -174,7 +174,33 @@ exports.loans = function(req, res) {
 	}
 };
 
+exports.income = function(req, res) {
+	if (req.query && req.query.start_date && req.query.end_date) {
+		var is_in_range = true;
+		var start_date = req.query.start_date;
+		var end_date = req.query.end_date;
+	}
 
+	var q = "SELECT * FROM ServiceLogs, Services WHERE ServiceLogs.service_id = Services.id";
+	if (is_in_range) {
+		q += " AND ServiceLogs.created BETWEEN " + connection.escape(start_date) + " AND " + connection.escape(end_date);
+	}
+	console.info(q);
+	connection.query(q, [], function(err, result) {
+		if (err) {
+	        connection.rollback(function() {
+	            throw err;
+
+	            return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+	        });
+	    }
+
+	    console.error(result);
+	    res.jsonp(result || []);
+	});
+}
 
 /**
  * Report middleware

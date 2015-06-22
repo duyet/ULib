@@ -26,6 +26,9 @@ module.exports = function(app) {
 	app.route('/reports/authors')
 		.all(users.requiresLogin, reports.authors);
 
+	app.route('/reports/income')
+		.all(users.requiresLogin, reports.income);
+
 	// Finish by binding the Report middleware
 	app.param('reportId', reports.reportByID);
 };

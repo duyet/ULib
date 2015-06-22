@@ -33,6 +33,10 @@ angular.module('reports').config(['$stateProvider',
 			url: '/reports/authors',
 			templateUrl: 'modules/reports/views/authors-report.client.view.html'
 		}).
+		state('reportsIncome', {
+			url: '/reports/income',
+			templateUrl: 'modules/reports/views/income-report.client.view.html'
+		}).
 		state('viewReport', {
 			url: '/reports/:reportId',
 			templateUrl: 'modules/reports/views/view-report.client.view.html'
