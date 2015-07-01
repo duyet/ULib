@@ -1,39 +1,47 @@
-<section class="row" data-ng-controller="UserManagersController" data-ng-init="findOne()">
-    <div class="col-md-8">
-        <a data-ng-href="/#!/user-managers" title="Go back" class="go-back">Back</a>
+<section data-ng-controller="UserManagersController" data-ng-init="findOne()">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
 
-        <h1 data-ng-bind="'About ' + userManager.username"></h1>
-        <div class="ibox-content text-center">
-            
-            <div class="m-b-sm">
-                <!--img alt="image" class="img-circle" src="img/a8.jpg"-->
-            </div>
-            <p class="text-left">
-                <span class="fa fa-user m-r-xs"></span><label>Name:</label>
-                        <span ng-bind="userManager.name"></span> <br />
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2> </h2>
 
-                <span class="fa fa-phone m-r-xs"></span><label>Phone number:</label>
-                        <span ng-bind="userManager.phone_number"></span> <br />
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/user-managers">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
 
-                <span class="fa fa-envelope m-r-xs"></span><label>Email:</label> 
-                        <span ng-bind="userManager.email"></span> <br />
+                <div class="card-body card-padding">
 
-                <span class="fa fa-transgender  m-r-xs"></span><label>Sex:</label> 
-                        <span ng-bind="userManager.sex == 1 ? 'Men' : 'Women'"></span> <br />
+                    <p class="text-left">
+                        <span class="fa fa-user m-r-xs"></span><label>Name:</label>
+                                <span ng-bind="userManager.name"></span> <br />
 
-                <span class="fa fa-calendar m-r-xs"></span><label>Birthday:</label> 
-                        <span ng-bind="userManager.birthday | date"></span> <br />
+                        <span class="fa fa-phone m-r-xs"></span><label>Phone number:</label>
+                                <span ng-bind="userManager.phone_number"></span> <br />
 
-                <span class="fa fa-calendar m-r-xs"></span><label>Created:</label> 
-                        <span ng-bind="userManager.create_time | date:'medium'"></span> <br />
-            </p>
-            <div class="text-right">
-                <a class="btn" data-ng-href="#!/user-managers/{{userManager.id}}/edit"></i> Edit </a>
+                        <span class="fa fa-envelope m-r-xs"></span><label>Email:</label> 
+                                <span ng-bind="userManager.email"></span> <br />
+
+                        <span class="fa fa-transgender  m-r-xs"></span><label>Sex:</label> 
+                                <span ng-bind="userManager.sex == 1 ? 'Men' : 'Women'"></span> <br />
+
+                        <span class="fa fa-calendar m-r-xs"></span><label>Birthday:</label> 
+                                <span ng-bind="userManager.birthday | date"></span> <br />
+
+                        <span class="fa fa-calendar m-r-xs"></span><label>Created:</label> 
+                                <span ng-bind="userManager.create_time | date:'medium'"></span> <br />
+                    </p>
+                    <div class="text-right">
+                        <a class="btn" data-ng-href="#!/user-managers/{{userManager.id}}/edit"></i> Edit </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="alert alert-warning text-center" data-ng-hide="!userManagers.$resolved || userManagers.length">
-        No User managers yet, why don't you <a href="/#!/user-managers/create">create one</a>?
     </div>
 </section>

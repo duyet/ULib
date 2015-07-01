@@ -1,39 +1,60 @@
-<section class="row" data-ng-controller="AuthenticationController">
-	<h1 class="col-md-12 text-center">Register</h1>
-	<div class="col-xs-12 col-md-offset-3 col-md-6">
-		<form name="userForm" data-ng-submit="signup()" class="signin form-horizontal ibox-content" novalidate autocomplete="off">
-			<fieldset>
-				<div data-ng-show="error" class="alert alert-danger" role="alert">
-					<span data-ng-bind="error"></span>
-				</div>
+<section data-ng-controller="AuthenticationController">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
 
-				<div class="form-group">
-					<label for="yourName">Your name</label>
-					<input type="text" required id="yourName" name="yourName" class="form-control" data-ng-model="credentials.yourName" placeholder="Your Name">
-				</div>
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>New user</h2>
 
-				<div class="form-group">
-					<label for="username">Username</label>
-					<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
-				</div>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/user-managers">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
 
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
-				</div>
+                <div class="card-body card-padding">
+					<form name="userForm" data-ng-submit="signup()" novalidate autocomplete="off">
+						<fieldset>
+							<div data-ng-show="error" class="alert alert-danger" role="alert">
+								<span data-ng-bind="error"></span>
+							</div>
 
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
-				</div>
+							<div class="form-group">
+								<label for="yourName">Your name</label>
+								<input type="text" required id="yourName" name="yourName" class="form-control" data-ng-model="credentials.yourName" placeholder="Your Name">
+							</div>
 
-				<div class="text-center form-group">
-					<button type="submit" class="btn btn-large btn-primary">Sign up</button>&nbsp; or&nbsp;
-					<a href="/#!/signin" class="show-signup">Sign in</a>
-				</div>
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+							</div>
+
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+							</div>
+
+							<div class="text-center form-group">
+								<button type="submit" class="btn btn-large btn-primary">Create</button>
+							</div>
 
 
-			</fieldset>
-		</form>
-	</div>
+						</fieldset>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
+
