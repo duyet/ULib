@@ -13,6 +13,10 @@ angular.module('loans').config(['$stateProvider',
 			url: '/loans/create',
 			templateUrl: 'modules/loans/views/create-loan.client.view.html'
 		}).
+		state('preoderLoan', {
+			url: '/loans/preoder',
+			templateUrl: 'modules/loans/views/preoder-loan.client.view.html'
+		}).
 		state('viewLoan', {
 			url: '/loans/:loanId',
 			templateUrl: 'modules/loans/views/view-loan.client.view.html'

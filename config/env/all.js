@@ -25,7 +25,9 @@ module.exports = {
 				'public/lib/sweetalert/lib/sweet-alert.css',
 				'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
 				'public/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
-				'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
+				'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+				'//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en',
+				'public/lib/fontawesome/css/font-awesome.min.css'
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.js',
@@ -49,6 +51,7 @@ module.exports = {
 				'public/lib/bootstrap-daterangepicker/daterangepicker.js',
 				'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
 				'public/lib/angular-daterangepicker/js/angular-daterangepicker.min.js',
+				'public/angular-drag-and-drop-lists.min.js',
 			]
 		},
 		css: [

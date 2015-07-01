@@ -16,6 +16,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			url: '/commingsoon',
 			templateUrl: 'modules/core/views/commingsoon.client.view.html'
 		}).
+		state('searches', {
+			url: '/searches',
+			templateUrl: 'modules/core/views/searches.client.view.html'
+		}).
 		state('info', {
 			url: '/info',
 			templateUrl: 'modules/core/views/info.client.view.html'

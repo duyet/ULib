@@ -7,7 +7,7 @@
 				<h1 data-ng-bind="'Group: ' + group.name"></h1>
 
 				<div>
-					Content
+					{{modelAsJson}}
 				</div>
 			</div>
 		</div>
@@ -16,13 +16,18 @@
 			<div class="ibox-content">
 			<h1>List of users</h1>
 				<div class="chat-users">
-					<div class="users-list">
-						<div class="chat-user" data-ng-repeat="staff in staffs">
-							<div class="chat-user-name">
-								<a href="#" ng-bind="staff.name"></a> 
-							</div>
-						</div>
-					</div>
+					<ul class="users-list" dnd-list="staffs">
+
+
+						<li class="chat-user" data-ng-repeat="staff in staffs" 
+							dnd-draggable="staff"
+					        dnd-moved="staffs.splice($index, 1)"
+					        dnd-effect-allowed="move"
+					        dnd-selected="staff.selected = item"
+					        ng-class="{'selected': staff.selected === item}">
+							{{staff}}
+						</li>
+					</ul>
 				</div>
 				
 			</div>

@@ -20,7 +20,7 @@ angular.module('core').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'main-categories', 'Các dịch vụ', 'services');
 
 		Menus.addMenuItem('topbar', '<i class="md md-search"></i> Tra cứu', 'main-search', 'dropdown', '#');
-		Menus.addSubMenuItem('topbar', 'main-search', 'Mượn quá hạn', 'loans/out_of_date');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Mượn quá hạn', 'reports/loan_out_of_date');
 		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin sách', 'books/search');
 		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin mượn sách', 'loans');
 		Menus.addSubMenuItem('topbar', 'main-search', 'Danh mục', 'categories/search');

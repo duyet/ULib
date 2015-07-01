@@ -4,15 +4,36 @@
 
             <div class="card">
                 <div class="card-header bgm-bluegray">
-                    <h2>Books <small>List of books</small></h2>
+                    <h2>Books <small>Tìm kiếm</small></h2>
                     <ul class="actions actions-alt">
                         <li>
                             <a href="#!/">
                                 <i class="md md-arrow-back"></i>
                             </a>
                         </li>
-                        
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/books/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/books/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
                     </ul>
+
+                   <div class="row">
+                        <div class="col-md-4">
+                            <br />
+                            <input type="text" class="form-control" placeholder="Tìm kiếm ..." data-ng-model="filter_value">
+                        </div>
+                    </div>
+
                     <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/books/create"><i class="md md-add"></i></a>
                 </div>
                 <div class="card-body">
@@ -30,7 +51,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr data-ng-repeat="book in books | orderBy: ['create_time']">
+                                    <tr data-ng-repeat="book in books | orderBy: ['create_time'] | filter: filter_value">
                                         <td data-ng-bind="book.book_id" ng-click="go('/books/' + book.id)" style="cursor:pointer">{{$index+1}}</td>
                                         <td data-ng-bind="book.name" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
                                         <td data-ng-bind="getCatNameById(book.category_id)"></td>

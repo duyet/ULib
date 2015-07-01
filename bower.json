@@ -24,6 +24,7 @@
     "sweetalert": "~0.5.0",
     "angular-bootstrap-datetimepicker": "~0.3.12",
     "moment": "~2.10.3",
-    "angular-daterangepicker": "~0.1.16"
+    "angular-daterangepicker": "~0.1.16",
+    "fontawesome": "~4.3.0"
   }
 }

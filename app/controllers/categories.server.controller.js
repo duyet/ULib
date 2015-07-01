@@ -83,6 +83,7 @@ exports.importCategories = function(req, res) {
 
 			console.log('The import data is: ', result);
 
+			var line = 0;
 			for (var row in result) {
 				if (result[row] !== null && typeof result[row] === 'object') {
 					console.log('The current data of row ' + row + ' is: ', result[row]);
@@ -103,12 +104,14 @@ exports.importCategories = function(req, res) {
 							console.log(err);
 						});
 					}
+					line++;
 
 					console.log('Imported ' + numOfLineImported);
 
 				}
 			}
 
+			if (line == 0) return res.status(500).send('Imported error.');
 			return res.status(200).send('Imported success.');
 
 		});

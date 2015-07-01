@@ -1,0 +1,94 @@
+<section data-ng-controller="LoansController">
+
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Loans</a></li>
+            <li class="active">Pre-Order</li>
+    </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Đặt trước</h2>
+
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/loans">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                   
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <!--div class="card animated bounce">
+                <div class="card-header ch-alt">
+                    <h2>Debug</h2>
+
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="checkbox m-b-15">
+                        <label>
+                            <input type="checkbox" value="" data-ng-model="createData.debug">
+                            <i class="input-helper"></i>
+                                debug mode
+                        </label>
+                    </div>
+                </div>
+            </div-->
+
+            <div class="card" data-ng-show="listBookNotReturnedByUid">
+                <div class="card-header ch-alt bgm-deeporange">
+                    <h2>Sách chưa trả</h2>
+
+                </div>
+
+                <div class="card-body card-padding">
+                    <div data-ng-repeat="row in listBookNotReturnedByUid">
+                        - {{row.book_name}} <span class="label label-primary">{{row.created}}</span>
+                    </div>
+
+                    <br /> <button class="btn btn-primary" data-ng-click="go('/loans/' + listBookNotReturnedByUid[0].loan_id)">Xem</button>
+                </div>
+            </div>
+
+
+            <div class="card profile-view animated bounce" data-ng-hide="!student_info">
+                <div class="pv-header">
+                    <img src="modules/loans/images/pygx.png" class="pv-main" alt="">
+                </div>
+                
+                <div class="pv-body">
+                    <h2 data-ng-bind="student_info.name"></h2>
+                
+                    <ul class="pv-follow">
+                        <li><i class="md md-room"></i> {{student_info.student_id}}</li>
+                        <li><i class="md md-phone"></i> {{student_info.subject}}</li>
+                    </ul>
+                    
+                    
+                    <a href="" class="pv-follow-btn">View info</a>
+                </div>
+            </div>
+
+            
+
+        </div>  
+
+
+    </div>
+</section>
+

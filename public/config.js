@@ -5,9 +5,9 @@ var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'ulib';
 	var applicationModuleVendorDependencies = [
-		'ngResource', 
-		'ngCookies',  
-		'ngAnimate',  
+		'ngResource',
+		'ngCookies',
+		'ngAnimate',
 		'ngTouch', 
 		'ngSanitize',
 		'ui.router', 
@@ -18,7 +18,8 @@ var ApplicationConfiguration = (function() {
 		'angular-loading-bar',
 		'toggle-switch',
 		'ui.bootstrap.datetimepicker',
-		'daterangepicker'
+		'daterangepicker',
+		'dndLists'
 	];
 
 	// Add a new vertical module

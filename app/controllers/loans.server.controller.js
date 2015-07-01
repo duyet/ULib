@@ -76,6 +76,7 @@ exports.create = function(req, res) {
 	    connection.query('INSERT INTO `Loans` (`student_id`, `staff_id`) VALUES (?, ?)', 
 	    	[data.student_id, data.staff_id], function(err, result) {
 	        if (err || !result) {
+	        	console.error(err);
 	            connection.rollback(function() {
 	                throw err;
 	            });
@@ -247,6 +248,17 @@ exports.listNotReturn = function(req, res) {
 
 	var procedureString = 'CALL GetLoanNotReturn()';
 	if (uid > 0)  procedureString = 'CALL GetLoanNotReturnByUid(?)';
+
+	if (uid == 0) {
+		return connection.query(procedureString, [], function(err, rows, fields) {
+			if (err || !rows[0]) {
+				console.log(err);
+		        return res.jsonp([]);
+		    }
+
+		    return res.jsonp(rows[0]);
+		})
+	}
 
 	return connection.query(procedureString, [uid], function(err, rows, fields) {
 		if (err || !rows[0]) {

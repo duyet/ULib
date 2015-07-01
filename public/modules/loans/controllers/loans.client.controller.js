@@ -97,7 +97,25 @@ angular.module('loans').controller('LoansController', ['$scope', '$resource', '$
 			if (!b) return false;
 			
 			if (!b.can_booking) {
-				return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!	", "error"); 
+				// return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!	", "error"); 
+			
+				return swal({
+					title: "Lập phiếu đặt trước?",
+					text: "Sách dưới ngưỡng tồn nên k thể mượn, lập phiếu đặt trước cho sách này?",   
+					type: "warning",   
+					showCancelButton: true,   
+					confirmButtonColor: "#11ABEF",   
+					confirmButtonText: "Đặt",   
+					cancelButtonText: "Hủy",   
+					closeOnConfirm: false,   
+					closeOnCancel: false 
+				}, function(isConfirm){   
+					if (isConfirm) {     
+						$location.path('loans/preoder');
+					} else {     
+						return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!", "error");   
+					} 
+				});
 			}
 
 			for (var i in $scope.fiteredBooks) {

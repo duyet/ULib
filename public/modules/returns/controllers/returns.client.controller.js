@@ -41,6 +41,7 @@ angular.module('returns').controller('ReturnsController', ['$scope', '$resource'
 				student_id: student_id
 			}, function(data) {
 				if (data) {
+					console.error(data);
 					$scope.loan_details.loan_id = data[0].loan_id || 0;
 					$scope.loan_details.time_created = data[0].time_created || '';
 					$scope.loan_details.data = data;

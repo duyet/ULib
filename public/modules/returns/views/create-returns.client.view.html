@@ -67,12 +67,12 @@
                                         Không tìm thấy phiếu mượn
                                     </div>
                                     
-                                    <table class="table table-bordered" style="margin-top:5px" data-ng-hide="!loan_details">
+                                    <table class="table" style="margin-top:5px" data-ng-hide="!loan_details">
                                         <tr>
                                             <td colspan="4">
-                                                Thông tin phiếu mượn: <span class="label label-success">#{{loan_details.loan_id}}</span>
-                                                <br />
-                                                Ngày mượn: <span data-ng-bind="loan_details.time_created | date"></span>
+                                                Thông tin phiếu mượn: <span class="label label-primary">#{{loan_details.loan_id}}</span>
+                                                
+                                                <span class="label label-default" data-ng-bind="loan_details.time_created | date"></span>
                                             </td>
                                         </tr>
                                         

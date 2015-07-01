@@ -47,6 +47,7 @@ exports.signup = function(req, res) {
 			user.password = undefined;
 			user.salt = undefined;
 
+			/*
 			req.login(user, function(err) {
 				if (err) {
 					res.status(400).send(err);
@@ -54,6 +55,7 @@ exports.signup = function(req, res) {
 					res.json(user);
 				}
 			});
+			*/
 		}
 	});
 };
