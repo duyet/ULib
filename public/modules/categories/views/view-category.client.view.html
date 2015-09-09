@@ -1,15 +1,57 @@
 <section data-ng-controller="CategoriesController" data-ng-init="findOne()">
 	<div class="row">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<h1 data-ng-bind="category.name"></h1>
+		<div class="col-md-12">
 
-			<div class="ibox-content">
-				<label>Name</label> <span data-ng-bind="category.name"></span> <br>
-				<label>Description</label> <span data-ng-bind="category.description"></span> <br>
-				<label>Loan time</label> <span data-ng-bind="category.loan_time"></span><br>
-				
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Thông tin danh mục</h2>
 
-				<a href="/#!/categories/{{category.id}}/edit" class="btn btn-primary">edit</a>
+					<ul class="actions actions-alt">
+						<li>
+							<a href="#!/categories">
+								<i class="md md-arrow-back"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="card-body">
+					<div class="ibox-content">
+						<label>Name</label> <span data-ng-bind="category.name"></span> <br>
+						<label>Description</label> <span data-ng-bind="category.description"></span> <br>
+						<label>Loan time</label> <span data-ng-bind="category.loan_time"></span><br>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2></h2>
+				</div>
+
+				<div class="card-body">
+					<table class="table table-hover">
+                        <tbody>
+                            <tr data-ng-repeat="book in books | orderBy: ['create_time']">
+                                <td data-ng-bind="book.book_id" ng-click="go('/books/' + book.id)" style="cursor:pointer">{{$index+1}}</td>
+                                <td data-ng-bind="book.name" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
+                                <td><span data-ng-bind="category.name"></span></td>
+                                <td>Tiếng Việt</td>
+                                <td data-ng-bind="getPublisherById(book.publisher_id)"></td>
+                                <td>Số lượng: <span data-ng-bind="book.available_number + ' / ' + book.number"></span></td>
+                                <td class="text-center">
+                                   <button type="button" class="btn btn-icon command-edit" data-ng-click="go('books/{{book.id}}')"><span class="md md- md-dehaze"></span></button>
+
+                                   
+                                </td>
+                            </tr>
+                    	</tbody>
+                    </table>
+				</div>
 			</div>
 		</div>
 	</div>

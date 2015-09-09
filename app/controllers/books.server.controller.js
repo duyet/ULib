@@ -32,7 +32,7 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: err});
 	}
 
-	var id = req.body.book_id || 0;
+	var book_id = req.body.book_id || 0;
 	var category_id = req.body.category_id || 0;
 	var language_id = req.body.language_id || 0;
 	var name = req.body.name || '';
@@ -40,7 +40,6 @@ exports.create = function(req, res) {
 	var number = parseInt(req.body.number) || 0;
 	var description = req.body.description || '';
 	var available_number = parseInt(req.body.available_number) || number;
-	var publish_date = req.body.publish_date || null;
 	var image_url = req.body.image || '';
 	var status = req.body.status || 1;	
 
@@ -49,7 +48,7 @@ exports.create = function(req, res) {
 	}
 
 	new BookModel({
-		id: id,
+		book_id: book_id,
 		category_id: category_id,
 		language_id: language_id,
 		name: name,
@@ -57,9 +56,7 @@ exports.create = function(req, res) {
 		number: number,
 		description: description,
 		available_number: available_number,
-		publish_date: publish_date,
-		image: image_url,
-		status: status
+		image: image_url
 	}).save({},  {method: "insert"}).then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
@@ -77,6 +74,26 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
 	res.jsonp(req.book);
 };
+
+exports.search = function(req, res) {
+	var keyword = req.query.keyword || '';
+
+	console.log(req.query);
+
+	if (!keyword.length) return res.jsonp([]);
+
+	console.log('Query with keyword ' + keyword);
+
+	BookModel.query(function(qb) {
+		qb.where('book_id', '=', keyword)
+			.orWhere('name', 'LIKE', '%' + keyword + '%')
+			.orWhere('description', 'LIKE', '%' + keyword + '%')
+	}).fetchAll().then(function(model) {
+		res.jsonp(model);
+	}).error(function() {
+		res.jsonp([]);
+	});
+}
 
 /**
  * Update a Service
@@ -131,7 +148,10 @@ exports.delete = function(req, res) {
  * List of Service
  */
 exports.list = function(req, res) { 
-	new BookModel({status:1}).fetchAll({withRelated: ['category', 'publisher', 'language']}).then(function(book){ 
+	console.log('Loading list of book');
+	
+	BookModel.fetchAll(/*{withRelated: ['category', 'publisher', 'language']}*/).then(function(book){ 
+		console.log(book);
 		res.jsonp(book);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -144,8 +164,8 @@ exports.list = function(req, res) {
  * Service middleware
  */
 exports.bookByID = function(req, res, next, id) { 
-	new BookModel({id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
-		if (! model) {
+	new BookModel({book_id:id}).fetch({withRelated: ['category', 'language', 'publisher']}).then(function(book) { 
+		if (! book) {
 			return res.status(400).send({message: 'Not found!'});
 		}
 

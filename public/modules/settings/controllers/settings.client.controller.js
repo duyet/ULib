@@ -1,16 +1,12 @@
 'use strict';
 
 // Settings controller
-angular.module('settings').controller('SettingsController', ['$scope', '$stateParams', '$location', 'cfp.loadingBar', 'Authentication', 'Settings',
-	function($scope, $stateParams, $location, $loadingBar, Authentication, Settings) {
+angular.module('settings').controller('LibSettingsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Settings',
+	function($scope, $resource, $stateParams, $location, Authentication, Settings) {
 		$scope.authentication = Authentication;
+		$scope.librule = [];
+		$scope.generalsettings = [];
 
-		// Toggle debug
-		$scope.debugToggle = function() {
-			var mode = ($scope.activedebug !== true) ? false : true;
-			$loadingBar.start();
-		};
-		
 		// Remove existing Setting
 		$scope.remove = function(setting) {
 			if ( setting ) { 
@@ -33,7 +29,7 @@ angular.module('settings').controller('SettingsController', ['$scope', '$statePa
 			var setting = $scope.setting;
 
 			setting.$update(function() {
-				$location.path('settings/' + setting._id);
+				$location.path('settings/' + setting.id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -41,10 +37,26 @@ angular.module('settings').controller('SettingsController', ['$scope', '$statePa
 
 		// Find a list of Settings
 		$scope.find = function() {
+		//	LibRules.query({}, function(data) {
+		//		$scope.librules = data;
+		//	});
+
+			console.log('Find()');
+
 			$scope.settings = Settings.query();
-			console.log($scope.settings);
-			// Parse list laguage to array
-			if ($scope.settings.languages) $scope.settings.languages = $scope.settings.languages.split(',');
+
+		};
+
+		$scope.loadLibRule = function() {
+			$resource('/settings/librules').query(function(data) {
+				$scope.librules = data;
+			});
+		};
+
+		$scope.loadGenerateSettings = function() {
+			$resource('/settings').query(function(data) {
+				$scope.generalsettings = data;
+			});
 		};
 
 		// Find existing Setting

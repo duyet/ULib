@@ -1,45 +1,82 @@
 <section data-ng-controller="ServicelogsController">
+
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Servicelog</a></li>
+            <li class="active">Create</li>
+    </ol>
+    </div>
+
+
     <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <a data-ng-href="/#!/servicelogs" title="Go back" class="go-back">Back</a>
-            <h1>Service Logs</h1>
+        <div class="col-sm-12 col-md-6">
 
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="create()" novalidate>
-                    <fieldset>
-                        
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Create new<small>Create new Servicelogs</small></h2>
 
-                        <div class="form-group">
-                            <label class="control-label" for="description">Service</label>
-                            <div class="controls">
-                                <select ng-model="service_type_id" ng-options="service.id as service.name for service in services" class="form-control"></select>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/servicelogs">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown" aria-expanded="false">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Help</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                        <fieldset>
+                            
+                            <div data-ng-show="error" class="alert alert-danger">
+                                <span data-ng-bind="error"></span>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="prices">Prices</label>
-                            <div class="controls">
-                                <input type="number" data-ng-model="prices" id="prices" class="form-control" placeholder="15000" step="1000" required>
+                            <div class="form-group">
+                                <label class="control-label" for="description">Service</label>
+                                <div class="controls">
+                                    <select ng-model="service_id" ng-options="service.id as service.name for service in services" class="form-control"></select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label" for="note">Note</label>
-                            <div class="controls">
-                                <input type="text" data-ng-model="note" id="note" class="form-control" placeholder="note..." required>
+                            <div class="form-group">
+                                <label class="control-label" for="prices">Prices</label>
+                                <div class="controls">
+                                    <input type="number" data-ng-model="prices" id="prices" class="form-control" placeholder="15000" step="1000" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Create</button>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label" for="note">Note</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="note" id="note" class="form-control" placeholder="note..." required>
+                                </div>
+                            </div>
 
-                    </fieldset>
-                </form>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
+                </div>
             </div>
+
         </div>
+
     </div>
 </section>

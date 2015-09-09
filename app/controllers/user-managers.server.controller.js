@@ -142,7 +142,7 @@ exports.list = function(req, res) {
  * User manager middleware
  */
 exports.userManagerByID = function(req, res, next, id) { 
-	return new staff({id:id}).fetch().then(function(userManager) { 
+	return new staff({staff_id:id}).fetch().then(function(userManager) { 
 		if (! userManager) return next(new Error('Failed to load User manager ' + id));
 		req.userManager = userManager ;
 		next();

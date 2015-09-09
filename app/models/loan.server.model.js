@@ -12,19 +12,21 @@ var rules = {
 	//description: 'maxLength:250'
 };
 
-var Languages = Model.extend({
+var Loan = Model.extend({
 	tableName: 'Loans',
+	idAttribute: 'loan_id',
 	
 	student: function() {
 		return this.belongTo(Author);
 	},
 
 	staff: function() {
-		return this.belongTo(Loandetail);
+		return this.bxelongTo(Loandetail);
 	},
 
 	initialize: function() {
-		this.on('saving', this.validateSave);
+		//Model.apply(this, arguments);
+		//	this.on('saving', this.validateSave);
 	},
 
 	validateSave: function() {
@@ -33,4 +35,4 @@ var Languages = Model.extend({
 
 })
 
-module.exports = Languages;
+module.exports = Loan;

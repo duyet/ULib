@@ -4,12 +4,13 @@
 angular.module('students').controller('StudentsController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Students',
 	function($scope, $stateParams, $location, $upload, Authentication, Students) {
 		$scope.authentication = Authentication;
+		$scope.currentUrl = $location.absUrl();
 
 		// Create new Student
 		$scope.create = function() {
 			// Create new Student object
 			var student = new Students ({
-				student_id: this.student_id,
+				uid: this.student_id,
 				name: this.name,
 				subject: this.subject,
 				sex: this.sex,
@@ -18,7 +19,7 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 
 			// Redirect after save
 			student.$save(function(response) {
-				$location.path('students/' + response.student_id);
+				$location.path('students');
 
 				// Clear form fields
 				$scope.name = '';
@@ -102,5 +103,20 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 				studentId: $stateParams.studentId
 			});
 		};
+
+		$scope.loanByStudent = function() {
+			$scope.loans = [];
+			if (!$scope.student ) return false;
+			var uid = $scope.student.student_id;
+
+			$resource('loans/loan_by_student').query({student_id: uid}, function(data) {
+				$scope.loans = data;
+			})
+		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);

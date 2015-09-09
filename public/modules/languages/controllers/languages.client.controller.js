@@ -15,7 +15,7 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 
 			// Redirect after save
 			language.$save(function(response) {
-				$location.path('languages/' + response.id);
+				$location.path('languages');
 
 				// Clear form fields
 				$scope.name = '';
@@ -46,7 +46,7 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 			var language = $scope.language;
 
 			language.$update(function() {
-				$location.path('languages/' + language.id);
+				$location.path('languages');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -63,5 +63,10 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 				languageId: $stateParams.languageId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);

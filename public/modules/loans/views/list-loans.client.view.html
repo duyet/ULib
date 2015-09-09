@@ -1,19 +1,76 @@
 <section data-ng-controller="LoansController" data-ng-init="find()">
-    <div class="page-header">
-        <h1>Loans</h1>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Danh sách mượn <small>List of loans</small></h2>
+                    
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Report</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <br />
+                            <input type="text" class="form-control" placeholder="Tìm kiếm ..." data-ng-model="filter_value">
+                        </div>
+                    </div>
+
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/loans/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Sinh viên</td>
+                                <td>Ngày mượn</td>
+                                <td>Số lượng</td>
+                                <td>Tình trạng</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="loan in loans | filter: filter_value" data-ng-click="go('loans/' + loan.loan_id)">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="loan.student_name"></span> <span data-ng-bind="loan.student_id" class="label label-default"></span></td>
+                                <td><span data-ng-bind="loan.time_created | date"></span> </td>
+                                <td><span data-ng-bind="loan.number || 1"></span> </td>
+                                <td>
+                                    <span class="label label-warning" data-ng-show="loan.is_return == 1"> đã trả</span>
+                                    <span class="label label-primary" data-ng-show="loan.is_return == 0"> đang mượn</span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('loans/{{loan.id}}')"><span class="md md-launch"></span></button>
+                                    <button type="button" class="btn btn-icon command-delete waves-effect waves-button waves-float" data-ng-click="remove(loan)"><span class="md md-call-received"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!loans.$resolved || loans.length">
+                        No loan yet.
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="loan in loans" data-ng-href="#!/loans/{{loan._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="loan.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="loan.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="loan.name"></h4>
-        </a>
-    </div>
-    <div class="alert alert-warning text-center" data-ng-hide="!loans.$resolved || loans.length">
-    	No Loans yet, why don't you <a href="/#!/loans/create">create one</a>?
-    </div>
+
 </section>

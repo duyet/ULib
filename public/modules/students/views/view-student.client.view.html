@@ -1,17 +1,120 @@
 <section data-ng-controller="StudentsController" data-ng-init="findOne()">
-	<div class="row">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<h1 data-ng-bind="student.student_id"></h1>
+    <div class="row">
+        <div class="col-md-6">
 
-			<div class="ibox-content">
-				<label>Name</label> <span data-ng-bind="student.name"></span> <br>
-				<label>Subject</label> <span data-ng-bind="student.subject"></span> <br>
-				<label>Email</label> <span data-ng-bind="student.email"></span> <br>
-				<label>Sex</label> <span data-ng-bind="student.sex == 1 ? 'Boy' : 'Girl'"></span> <br>
-				
-				<a href="/#!/students/{{student.student_id}}/edit" class="btn btn-primary">edit</a>
-				<a class="btn btn-warning"data-ng-click="remove();"><i class="glyphicon glyphicon-trash"></i></a>
-			</div>
-		</div>
-	</div>
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Danh sách sinh viên</h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/students">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="/#!/students/import">Import</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/students/report">Report</a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                	<table class="table">
+                		<tbody>
+                			<tr>
+                				<td style="width:30%">Name</td>
+                				<td><span data-ng-bind="student.name"></span></td>
+                			</tr>
+
+                			<tr>
+                				<td>Subject</td>
+                				<td><span data-ng-bind="student.subject"></span></td>
+                			</tr>
+
+                			<tr>
+                				<td>Email</td>
+                				<td><span data-ng-bind="student.email"></span></td>
+                			</tr>
+
+                			<tr>
+                				<td>Sex</td>
+                				<td><span data-ng-bind="student.sex == 1 ? 'Boy' : 'Girl'"></span></td>
+                			</tr>
+                		</tbody>
+                	</table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+        	<div class="card-header bgm-bluegray">
+
+        	</div>
+
+        	<div class="card-body">
+    			<img data-ng-src="https://api.qrserver.com/v1/create-qr-code/?size=300&amp;data={{currentUrl}}" class="img-responsive">
+    		</div>
+        </div>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-6">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Phiếu mượn của <span data-ng-bind="student.name"></span></h2>
+                </div>
+
+                <div class="card-body">
+                	<br /><br />
+                	<center>Không có dữ liệu</center>
+                	<br />
+                	<br />
+                	<table class="table">
+                		<tbody>
+                			<tr data-ng-repeat="loan in loans">
+                				
+                			</tr>
+                		</tbody>
+                	</table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Phiếu phạt của <span data-ng-bind="student.name"></span></h2>
+                </div>
+
+                <div class="card-body">
+                	<br /><br />
+                	<center>Không có dữ liệu</center>
+                	<br />
+                	<br />
+                	<table class="table">
+                		<tbody>
+                			<tr data-ng-repeat="loan in loans">
+                				
+                			</tr>
+                		</tbody>
+                	</table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            
+        </div>
+    </div>
 </section>
+

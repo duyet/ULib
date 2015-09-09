@@ -1,24 +1,37 @@
-<section data-ng-controller="SettingsController" data-ng-init="find()">
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            <h1 class="animated fadeInDown">Library Option</h1>
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="setting_debug_save()" novalidate>
-                    <fieldset>
-                        
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
+<section data-ng-controller="LibSettingsController" data-ng-init="loadLibRule()">
 
+    <div class="block-header">
+        <ol class="breadcrumb" style="margin-bottom: 5px;">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Setting</a></li>
+                <li class="active">LibRule</li>
+        </ol>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Các quy định chung<small></small></h2>
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="row" data-ng-repeat="rule in librules">
                         <div class="form-group">
-                            <label class="control-label" for="name">Active debug</label>
-                            <div class="controls">
-                                
-                            </div>
+                            <label for="{{rule.name}}" data-ng-bind="rule.description"></label>
+                            <input type="{{type}}" class="form-control" id="{{rule.name}}" data-ng-model="rule.value">
                         </div>
-                    </fieldset>
-                </form>
+                    </div>
+
+                    <div>
+                        <!--button type="submit" class="btn btn-primary">Update</button--> 
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </section>
+

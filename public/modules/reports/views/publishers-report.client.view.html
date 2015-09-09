@@ -1,0 +1,61 @@
+<section data-ng-controller="ReportsController" data-ng-init="reportPublishers()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Báo Cáo NXB</h2>
+                    <br>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/reports">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Số lượng sách</td>
+                                <td>Số lượt mượn</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="row in report.publishers">
+                                <td><span data-ng-bind="row.publisher_id"></span></td>
+                                <td><span data-ng-bind="row.name"></span></td>
+                                <td><span data-ng-bind="row.book_counter"></span></td>
+                                <td><span data-ng-bind="row.loan_counter"></span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">
+                                    <strong>
+                                        Tổng số NXB: <span data-ng-bind="report.publishers.length"></span> <br>
+                                        Tổng số sách: <span data-ng-bind="publishers_total_book_counter"></span> <br>
+                                        Tổng lượt mượn: <span data-ng-bind="publishers_total_loan_counter"></span> <br>
+                                    </strong>
+                                </td>               
+                            </tr>   
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
+                        No Categorie yet.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

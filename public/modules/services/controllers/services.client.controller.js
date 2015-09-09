@@ -15,11 +15,12 @@ angular.module('services').controller('ServicesController', ['$scope', '$statePa
 
 			// Redirect after save
 			service.$save(function(response) {
-				$location.path('services/' + response.id);
+				$location.path('services');
 
 				// Clear form fields
 				$scope.name = '';
 				$scope.description = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -47,7 +48,8 @@ angular.module('services').controller('ServicesController', ['$scope', '$statePa
 			var service = $scope.service;
 
 			service.$update(function() {
-				$location.path('services/' + service.id);
+				$location.path('services');
+				return swal("Updated!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

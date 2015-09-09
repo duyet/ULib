@@ -5,6 +5,11 @@ angular.module('groups').controller('GroupsController', ['$scope', '$stateParams
 	function($scope, $stateParams, $location, Authentication, Groups, UserManagers) {
 		$scope.authentication = Authentication;
 
+		// Model to JSON for demo purpose
+	    $scope.$watch('models', function(model) {
+	        $scope.modelAsJson = angular.toJson(model, true);
+	    }, true);
+
 		$scope.go = function (path) {
 			$location.path(path);
 		};

@@ -44,8 +44,8 @@
                                 <td><span data-ng-bind="author.name"></span></td>
                                 <td><span data-ng-bind="author.description"></span> </td>
                                 <td>
-                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="#!/authors/{{author.id}}"><span class="md md-edit"></span></button>
-                                    <button type="button" class="btn btn-icon command-delete"><span class="md md-delete"></span></button>
+                                    <button type="button" class="btn btn-icon command-edit" data-ng-click="go('authors/{{author.id}}/edit')"><span class="md md-edit"></span></button>
+                                    <button type="button" class="btn btn-icon command-delete waves-effect waves-button waves-float" data-ng-click="remove(author)"><span class="md md-delete"></span></button>
                                 </td>
                             </tr>
                         </tbody>

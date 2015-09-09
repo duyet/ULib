@@ -1,43 +1,64 @@
-<div data-ng-controller="BooksController" data-ng-init="find()">
-    <section>
-        <div class="row">
-            <div class="col-md-12 col-lg-12">
-                
-                <div class="ibox-content">
-                    <h1 class="animated fadeInDown">List of Books</h1>
-                    <p>
-                        <a href="/#!/books/report" class="btn btn-default">Report</a>
-                        <a href="/#!/books/import" class="btn btn-default">Import</a>
-                        <a href="/#!/books/create" class="btn btn-primary">Add</a>
-                    </p>
+<section data-ng-controller="BooksController" data-ng-init="find()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
 
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered">
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Books <small>List of books</small></h2>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <a class="btn bgm-red btn-float waves-effect waves-effect waves-button waves-float" href="/#!/books/create"><i class="md md-add"></i></a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
                             <tbody>
-                                <tr data-ng-repeat="book in books | orderBy: ['create_time']">
-                                    <td data-ng-bind="book.id" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
-                                    <td data-ng-bind="book.name"></td>
-                                    <td data-ng-bind="book.category.name"></td>
-                                    <td data-ng-bind="book.language.name"></td>
-                                    <td data-ng-bind="book.publisher.name"></td>
-                                    <td data-ng-bind="book.number"></td>
-                                    <td data-ng-bind="book.publish_date | date"></td>
-                                    <td>
-                                       <a href="javascript:void(0)" title="Edit">edit</a> 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Book name</td>
+                                        <td>Category</td>
+                                        <td>Language</td>
+                                        <td>Publisher</td>
+                                        <td>Number</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="book in books | orderBy: ['create_time']">
+                                        <td data-ng-bind="book.book_id" ng-click="go('/books/' + book.id)" style="cursor:pointer">{{$index+1}}</td>
+                                        <td data-ng-bind="book.name" ng-click="go('/books/' + book.id)" style="cursor:pointer"></td>
+                                        <td data-ng-bind="getCatNameById(book.category_id)"></td>
+                                        <td data-ng-bind="getLangById(book.language_id)"></td>
+                                        <td data-ng-bind="getPublisherById(book.publisher_id)"></td>
+                                        <td data-ng-bind="book.available_number + '/' + book.number"></td>
+                                        <td class="text-center">
+                                           <button type="button" class="btn btn-icon command-edit" data-ng-click="go('books/{{book.id}}')"><span class="md md- md-dehaze"></span></button>
 
-                    <div class="alert alert-warning text-center" data-ng-hide="!books.$resolved || books.length">
-                        No record!
+                                           <button type="button" class="btn btn-icon command-edit" data-ng-click="go('books/{{book.id}}/edit')"><span class="md md-edit"></span></button>
+                                           
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </tbody>
+                    </table>
+
+
+                    <div class="alert alert-default text-center" data-ng-hide="!books.$resolved || books.length">
+                        No Books yet.
                     </div>
                 </div>
-
             </div>
+
         </div>
-    </section>
+    </div>
+
+</section>
 
 
-</div>
+

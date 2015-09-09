@@ -19,7 +19,7 @@ var ServicelogModel = require('../models/servicelog.server.model');
  * Create a Service
  */
 exports.create = function(req, res) {
-	req.assert('service_type_id', 'Service is empty.').notEmpty();
+	req.assert('service_id', 'Service is empty.').notEmpty();
 	req.assert('prices', 'Prices is wrong.').notEmpty().isInt();
 
 	var err = req.validationErrors();
@@ -27,21 +27,24 @@ exports.create = function(req, res) {
 		return res.status(400).send({message: err});
 	}
 
-	var service_type_id = req.body.service_type_id || 0;
-	var staff_id = req.body.staff_id || req.user.id;
+	var service_id = req.body.service_id || 0;
+	var staff_id = req.user.staff_id || 0;
 	var prices = req.body.prices || 0;
 	var note = req.body.note || '';
 
-	if (service_type_id == 0) {
+	if (service_id == 0) {
 		return res.status(400).send({message: 'Please select service type.'});
 	}
 
-	new ServicelogModel({
-		service_type_id: service_type_id,
+	var data = {
+		service_id: service_id,
 		staff_id: staff_id, 
 		prices: prices,
 		note: note
-	}).save().then(function(model) { 
+	};
+
+	
+	new ServicelogModel(data).save().then(function(model) { 
 		res.jsonp(model);
 	}).error(function(err) { 
 		console.log(err);
@@ -103,6 +106,7 @@ exports.list = function(req, res) {
 	new ServicelogModel({status:1}).fetchAll({withRelated: ['staff', 'service']}).then(function(servicelog){ 
 		res.jsonp(servicelog);
 	}).error(function(err) { 
+		console.error(err);
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});

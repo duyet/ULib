@@ -1,3 +1,57 @@
+<section data-ng-controller="UserManagersController" data-ng-init="find()">
+    <div class="block-header">
+    <ol class="breadcrumb" style="margin-bottom: 5px;">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">User Managers</a></li>
+            <li class="active">List</li>
+    </ol>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-lg-4" data-ng-repeat="userManager in userManagers">
+
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h2>Quản lý User<small></small></h2>
+                    <ul class="actions">
+                        <li>
+                            <a href="/#!/user-managers/{{userManager.staff_id}}">
+                                <i class="md md-center-focus-strong"></i>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="md md-more-vert"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body card-padding" style="background: #fff">
+
+                    <div>
+                        <h2 data-ng-bind="userManager.name + ' (@'+ userManager.username +')'"></h2>
+
+                        <ul class="pv-follow">
+                            <li data-ng-if="userManager.phone_number"><i class="md md-room"></i> <span data-ng-bind="userManager.phone_number"></span></li>
+                            
+                        </ul>
+                        
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+
+
+
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1>Staffs</h1>
@@ -5,30 +59,7 @@
 </div>
 
 <section class="row" data-ng-controller="UserManagersController" data-ng-init="find()">
-    <div class="col-md-4 userManagerBox" data-ng-repeat="userManager in userManagers">
-        <div class="ibox-content text-center">
-            <h3 class="text-left" ng-click="go('/user-managers/{{userManager.id}}')">
-                <span ng-bind="userManager.name"></span>
-                (<span ng-bind="userManager.username"></span>)
-            </h3>
-            <div class="m-b-sm">
-                <!--img alt="image" class="img-circle" src="img/a8.jpg"-->
-            </div>
-            <p class="text-left">
-                <span class="fa fa-phone m-r-xs"></span><label>Phone number:</label>
-                        <span ng-bind="userManager.phone_number"></span> <br />
 
-                <span class="fa fa-envelope m-r-xs"></span><label>Email:</label> 
-                        <span ng-bind="userManager.email"></span> <br />
-
-                <span class="fa fa-calendar m-r-xs"></span><label>Created:</label> 
-                        <span ng-bind="userManager.create_time | date:'medium'"></span> <br />
-            </p>
-            <div class="text-right">
-                <a class="btn" data-ng-href="#!/user-managers/{{userManager.id}}/edit"></i> Edit </a>
-            </div>
-        </div>
-    </div>
 
     <div class="alert alert-warning text-center" data-ng-hide="!userManagers.$resolved || userManagers.length">
         No User managers yet, why don't you <a href="/#!/user-managers/create">create one</a>?

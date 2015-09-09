@@ -9,6 +9,10 @@ angular.module('categories').config(['$stateProvider',
 			url: '/categories',
 			templateUrl: 'modules/categories/views/list-categories.client.view.html'
 		}).
+		state('searchCategories', {
+			url: '/categories/search',
+			templateUrl: 'modules/categories/views/search-categories.client.view.html'
+		}).
 		state('createCategory', {
 			url: '/categories/create',
 			templateUrl: 'modules/categories/views/create-category.client.view.html'

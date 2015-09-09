@@ -9,6 +9,16 @@ module.exports = function(app) {
 		.get(users.requiresLogin, categories.list)
 		.post(users.requiresLogin, categories.create);
 
+	app.route('/categories/canedit/:categoryId')
+		.get(users.requiresLogin, categories.canedit);
+
+	app.route('/categories/locktable/:categoryId')
+		.get(users.requiresLogin, categories.canedit);
+
+	app.route('/categories/unlocktable/:categoryId')
+		.get(users.requiresLogin, categories.canedit);
+
+
 	app.route('/categories/import')
 		.get(function(req, res) { res.status(404); })
 		.post(users.requiresLogin, categories.importCategories);

@@ -13,6 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
+var connection = config.connection;
 var SettingModel = require('../models/setting.server.model');
 
 /**
@@ -96,6 +97,24 @@ exports.list = function(req, res) {
 		});
 	});
 };
+
+/**
+ * List library rule
+ */
+exports.listLibRules = function(req, res) {
+	connection.query('SELECT * FROM LibRules', function(errs, rows) {
+		if (errs) return res.jsonp([]);
+
+		var data = [];
+		rows.forEach(function(row) {
+			if (row && row['type'] === 'number') row['value'] = parseInt(row['value']);
+
+			data.push(row);
+		});
+
+		return res.jsonp(data);
+	});
+} 
 
 /**
  * Setting middleware

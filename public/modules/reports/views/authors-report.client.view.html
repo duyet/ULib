@@ -1,0 +1,71 @@
+<section data-ng-controller="ReportsController" data-ng-init="reportAuthors()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Báo Cáo Thông Kê Tác Giả</h2>
+                    <br>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/reports">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportAuthors(report_month)">
+                                <option data-ng-repeat="n in [] | range: 12" value="{{n}}" {{n == currentMonth ? 'selected="selected"' ? ''}}>
+                                    Tháng {{n}}
+                                </option>
+                            </select>
+                        </div>    
+                        <div class="col-md-6">
+                            <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <div class="card-body">
+                    <table class="table table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Tên tác giả</td>
+                                <td>Số sách</td>
+                                <td>Số lượt mượn</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="row in report.authors | orderBy: book_counter">
+                                <td><span data-ng-bind="row.author_id"></span></td>
+                                <td><span data-ng-bind="row.name"></span></td>
+                                <td><span data-ng-bind="row.book_counter"></span></td>
+                                <td><span data-ng-bind="row.loan_counter"></span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    <strong>
+                                        Số lượng tác giả: <span data-ng-bind="report.total_book_loan"></span> <br>
+                                        Tổng số lượt mượn: <span data-ng-bind="report.total_book_loan"></span> <br>
+                                    </strong>
+                                </td>               
+                            </tr>   
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="report.authors">
+                        Không có dữ liệu.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

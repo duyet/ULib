@@ -13,6 +13,10 @@ angular.module('books').config(['$stateProvider',
 			url: '/books/create',
 			templateUrl: 'modules/books/views/create-book.client.view.html'
 		}).
+		state('searchBook', {
+			url: '/books/search',
+			templateUrl: 'modules/books/views/search-books.client.view.html'
+		}).
 		state('bookReport', {
 			url: '/books/report',
 			templateUrl: 'modules/books/views/create-report-book.client.view.html'

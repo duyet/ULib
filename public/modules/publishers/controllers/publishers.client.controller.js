@@ -20,6 +20,7 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 				// Clear form fields
 				$scope.name = '';
 				$scope.description = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -27,19 +28,41 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 
 		// Remove existing Publisher
 		$scope.remove = function(publisher) {
-			if ( publisher ) { 
-				publisher.$remove();
+			swal({
+				title: "Are you sure?",
+				type: "warning",
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, delete",   
+				cancelButtonText: "Cancel",   
+				closeOnConfirm: false,   
+				closeOnCancel: true
+			}, function(isConfirm){
+				if (isConfirm) {
+					delete_submit();
 
-				for (var i in $scope.publishers) {
-					if ($scope.publishers [i] === publisher) {
-						$scope.publishers.splice(i, 1);
+					swal("Deleted!", "Your imaginary file has been deleted.", "success");   
+				} else {     
+					//swal("Cancelled", "Your imaginary file is safe :)", "error");   
+				} 
+			});
+
+			var delete_submit = function() {
+				if ( publisher ) { 
+					publisher.$remove();
+
+					for (var i in $scope.publishers) {
+						if ($scope.publishers [i] === publisher) {
+							$scope.publishers.splice(i, 1);
+						}
 					}
+				} else {
+					$scope.publisher.$remove(function() {
+						$location.path('publishers');
+					});
 				}
-			} else {
-				$scope.publisher.$remove(function() {
-					$location.path('publishers');
-				});
 			}
+
 		};
 
 		// Update existing Publisher
@@ -47,9 +70,10 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 			var publisher = $scope.publisher;
 
 			publisher.$update(function() {
-				$location.path('publishers/' + publisher.id);
+				$location.path('publishers');
+				return swal("Updated!", "", "success"); 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				return swal("", errorResponse.data.message, "error"); 
 			});
 		};
 
@@ -64,5 +88,10 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 				publisherId: $stateParams.publisherId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);

@@ -13,6 +13,7 @@ var async = require('async');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
+var connection = config.connection;
 var PublisherModel = require('../models/publisher.server.model');
 
 /**
@@ -51,20 +52,35 @@ exports.read = function(req, res) {
  * Update a Publisher
  */
 exports.update = function(req, res) {
+	var is_lock_mode = true;
+	var lock_mode = is_lock_mode ? 'LOCK IN SHARE MODE' : '';
+	var delay = req.body.debug ? 10 : 0;
+	var timeout = delay > 0 ? 0 : 1000;
+
+	console.log('timeout is ' + timeout);
+
 	var publisher = req.publisher.attributes;
 
 	publisher.description = req.body.description;
 	publisher.name = req.body.name;
 
-	console.log('Update publisher with data:', publisher);
+	connection.query('SELECT SLEEP(?)', [delay], function() {
+		connection.query('SELECT COUNT(*) FROM `Publishers` WHERE `publisher_id` = ? ' + lock_mode, 
+		[publisher.publisher_id], 
+		function(err, results) {
+			connection.query({sql: 'UPDATE Publishers SET `name` = ?, `description` = ? WHERE `publisher_id` = ?', timeout: timeout}, 
+			[publisher.name, publisher.description, publisher.publisher_id], 
+			function(err, results) {
+				if (!delay) {
+					return res.status(400).send({
+						message: 'Can not update, please refresh and try again later'
+					});
+				}
 
-	new PublisherModel({id:req.publisher.id}).save(publisher).then(function(model) {
-		res.jsonp(model);
-	}).error(function(err) {
-		return res.status(400).send({
-			message: errorHandler.getErrorMessage(err)
-		});
-	});
+				res.jsonp(results);
+			});
+		})
+	})
 };
 
 /**
@@ -73,7 +89,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	console.log(req.publisher);
 
-	new PublisherModel({id:req.publisher.id}).fetch().then(function(model) {
+	new PublisherModel({publisher_id:req.publisher.publisher_id}).fetch().then(function(model) {
 		model.destroy().then(function() {
 			res.jsonp(model);
 		});
@@ -88,7 +104,7 @@ exports.delete = function(req, res) {
  * List of Publisher
  */
 exports.list = function(req, res) { 
-	new PublisherModel({status:1}).fetchAll().then(function(publisher){ 
+	new PublisherModel().fetchAll().then(function(publisher){ 
 		res.jsonp(publisher);
 	}).error(function(err) { 
 		return res.status(400).send({
@@ -101,7 +117,7 @@ exports.list = function(req, res) {
  * Publisher middleware
  */
 exports.publisherByID = function(req, res, next, id) { 
-	new PublisherModel({id:id}).fetch().then(function(publisher) { 
+	new PublisherModel({publisher_id:id}).fetch().then(function(publisher) { 
 		if (! publisher) return next(new Error('Failed to load publisher ' + id));
 
 		req.publisher = publisher;

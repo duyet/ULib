@@ -1,27 +1,122 @@
-<section data-ng-controller="SettingsController" data-ng-init="find()">
-    <div class="row">
-        <div class="col-md-12 col-lg-12">
-            <h1 class="animated fadeInDown">System Settings</h1>
-            <div class="ibox-content">
-                <form class="form-horizontal" data-ng-submit="setting_debug_save()">
-                    <fieldset>
-                        
-                        <div data-ng-show="error" class="alert alert-danger">
-                            <span data-ng-bind="error"></span>
-                        </div>
+<section data-ng-controller="LibSettingsController" data-ng-init="loadGenerateSettings()">
 
+    <div class="block-header">
+        <ol class="breadcrumb" style="margin-bottom: 5px;">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Setting</a></li>
+                <li class="active">LibRule</li>
+        </ol>
+    </div>
+
+    <div class="row">   
+        <div class="col-sm-12 col-md-6">
+            
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>System Settings<small></small></h2>                
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="row">
                         <div class="form-group">
-                            <label class="control-label" for="name">Language</label>
-                            <div class="controls">
-                                <div class="form-group">
-                                        <select ng-model="setting_language" ng-options="language as language for language in settings.languages" class="form-control"></select>{{settings}}
-                                    </div>
+                            <label>Ngôn ngữ</label>
+                            <select class="form-control">
+                                <option>Vietnamese</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button> 
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Sao lưu phục hồi<small></small></h2>                
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="row">
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="name">Tự động sao lưu mỗi</label>
+                                <div class="input-group">
+                                  <input type="text" class="form-control" value="5 ngày">
+                                  
                                 </div>
                             </div>
                         </div>
-                    </fieldset>
-                </form>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="name">Sao lưu CSDL</label>
+                                <div class="controls">
+                                    <a class="btn btn-primary" href="modules/settings/backups/backup_full_01-06-2015.sql">Download Backup</a>
+                                </div>
+                            </div>    
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="name">Phục hồi</label>
+                                <div class="controls">
+                                    <a class="btn btn-warning">Upload Restore File (*.sql)</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Lịch sử sao lưu</label>
+                            <table class="table">
+                                <tr>
+                                    <td>backup_full_15_05_2015.sql</td>
+                                    <td><i>15/05/2015</i></td>
+                                    <td>
+                                        <a href="#">Download</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>backup_full_20_05_2015.sql</td>
+                                    <td><i>20/05/2015</i></td>
+                                    <td>
+                                        <a href="#">Download</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>backup_full_25_05_2015.sql</td>
+                                    <td><i>25/05/2015</i></td>
+                                    <td>
+                                        <a href="#">Download</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
+
+
+
     </div>
 </section>
+

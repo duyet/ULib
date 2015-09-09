@@ -14,6 +14,7 @@ var path = require('path');
 
 var errorHandler = require('./errors.server.controller');
 var config = require('../../config/config');
+var connection = config.connection;
 var CategoryModel = require('../models/category.server.model');
 
 /**
@@ -31,13 +32,25 @@ exports.create = function(req, res) {
 	var description = req.body.description || '';
 	var loanTime = req.body.loan_time || 15;
 
-	new CategoryModel({name:categoryName.trim(), description:description.trim(), loan_time:loanTime}).save().then(function(model) { 
-		res.jsonp(model);
-	}).error(function(err) { 
-		return res.status(400).send({
-			message: errorHandler.getErrorMessage(err)
-		});
-	})
+	connection.beginTransaction(function(err) {
+	    if (err) {
+	        throw err;
+	    }
+
+	    connection.query('CALL NewCategory(?, ?, ?)', [categoryName.trim(), description.trim(), loanTime], function(err, result) {
+	        if (err) {
+	            connection.rollback(function() {
+	                throw err;
+
+		            return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+	            });
+	        }
+
+	        res.jsonp(result);
+	    });
+	});
 };
 
 /** 
@@ -70,6 +83,7 @@ exports.importCategories = function(req, res) {
 
 			console.log('The import data is: ', result);
 
+			var line = 0;
 			for (var row in result) {
 				if (result[row] !== null && typeof result[row] === 'object') {
 					console.log('The current data of row ' + row + ' is: ', result[row]);
@@ -90,12 +104,14 @@ exports.importCategories = function(req, res) {
 							console.log(err);
 						});
 					}
+					line++;
 
 					console.log('Imported ' + numOfLineImported);
 
 				}
 			}
 
+			if (line == 0) return res.status(500).send('Imported error.');
 			return res.status(200).send('Imported success.');
 
 		});
@@ -109,19 +125,50 @@ exports.read = function(req, res) {
 	res.jsonp(req.category);
 };
 
+exports.canedit = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).fetch().then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
+exports.locktable = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).save({is_lock: 1}).then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
+exports.unlocktable = function(req, res) {
+	new CategoryModel({category_id: req.category.id}).save({is_lock: 0}).then(function(categories){ 
+		res.jsonp(categories);
+	}).error(function(err) { 
+		return res.status(400).send({
+			message: errorHandler.getErrorMessage(err)
+		});
+	});
+}
+
 /**
  * Update a Category
  */
 exports.update = function(req, res) {
+	var id = req.category.id;
 	var category = req.category.attributes;
 
 	category.description = req.body.description;
 	category.loan_time = req.body.loan_time;
 	category.name = req.body.name;
 
-	console.log('Update category with data:', category);
+	console.log('Update category with data:', id, category);
 
-	new CategoryModel({id:req.category.id}).save(category).then(function(model) {
+	new CategoryModel({category_id:id}).save(category).then(function(model) {
 		res.jsonp(model);
 	}).error(function(err) {
 		return res.status(400).send({
@@ -134,17 +181,27 @@ exports.update = function(req, res) {
  * Delete an Category
  */
 exports.delete = function(req, res) {
-	var category = req.category.attributes;
+	console.log('DELETE FROM `Categories` WHERE category_id = ?', req.category.attributes.category_id);
+	connection.query('DELETE FROM `Categories` WHERE category_id = ?', 
+	[req.category.attributes.category_id], function(err, result) {
+		if (err) {
+			return res.status(400).send({
+				message: 'Can not delete category #' + req.category.attributes.category_id
+			});
+		}
 
-	new CategoryModel({id:category.id}).then(function(model) {
-		model.destroy().then(function() {
-			res.jsonp(category);
-		});
+		res.jsonp(result);
+	});
+
+	/*
+	new CategoryModel({category_id:req.category.category_id}).destroy().then(function(model) {
+		res.jsonp(req.category);
 	}).otherwise(function(err) {
 		return res.status(400).send({
 			message: errorHandler.getErrorMessage(err)
 		});
 	});
+	*/
 };
 
 /**
@@ -164,7 +221,7 @@ exports.list = function(req, res) {
  * Category middleware
  */
 exports.categoryByID = function(req, res, next, id) { 
-	new CategoryModel({id:id}).fetch().then(function(cat) { 
+	new CategoryModel({category_id:id}).fetch().then(function(cat) { 
 		if (! cat) return next(new Error('Failed to load Category ' + id));
 
 		req.category = cat;

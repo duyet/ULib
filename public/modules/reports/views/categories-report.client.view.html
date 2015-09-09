@@ -1,0 +1,68 @@
+<section data-ng-controller="ReportsController" data-ng-init="reportCategories()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray m-b-20">
+                    <h2>Báo Cáo Thông Kê Tình Hình Mượn Sách Theo Thể Loại </h2>
+                    <br>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/reports">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-control" data-ng-model="report_month" data-ng-change="reportCategories(report_month)">
+                                <option data-ng-repeat="n in [] | range: 12" value="{{n}}" {{if (n == currentMonth)}}selected="selected"{{endif}}>
+                                    Tháng {{n}}
+                                </option>
+                            </select>
+                        </div>  
+                        <div class="col-md-6">
+                            <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
+                        </div>  
+                    </div>
+                    
+
+                </div>
+                <div class="card-body">
+                    <table class="table table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Name</td>
+                                <td>Số lượt mượn</td>
+                                <td>Tỉ lệ</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="category in report.categories | orderBy: num">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="category.name"></span></td>
+                                <td><span data-ng-bind="category.num"></span></td>
+                                <td><span class="label {{if ($index < 3)}}label-primary{{endif}}">{{(category.num * 100 / report.total_book_loan) | number }}%</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">
+                                    <strong>
+                                        Tổng số lượt mượn: <span data-ng-bind="report.total_book_loan"></span>
+                                    </strong>
+                                </td>               
+                            </tr>   
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="!categories.$resolved || categories.length">
+                        No Categorie yet.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

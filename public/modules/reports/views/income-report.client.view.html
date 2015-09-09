@@ -1,0 +1,67 @@
+<section data-ng-controller="ReportsController" data-ng-init="reportIncome()">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                    <h2>Thống kê dịch vụ</h2>
+                    <br>
+                    <ul class="actions actions-alt">
+                        <li>
+                            <a href="#!/reports">
+                                <i class="md md-arrow-back"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input date-range-picker class="form-control date-picker" type="text" ng-model="loanDataRange"  placeholder="From ... to ..." />
+                        </div>  
+                        <div class="col-md-6">
+                            <h3 style="color:#fff">Ngày xuất báo cáo: <span data-ng-bind="getDatetime | date:'medium'"></span></h3>
+                        </div>  
+                    </div>
+                    
+
+                </div>
+                <div class="card-body">
+                    <table class="table table-vmiddle bootgrid-table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Thời gian</td>
+                                <td>Loại dịch vụ</td>
+                                <td>Thông tin</td>
+                                <td>Phí</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="row in report.income">
+                                <td><span data-ng-bind="$index + 1"></span></td>
+                                <td><span data-ng-bind="row.created | date"></span></td>
+                                <td><span data-ng-bind="row.name"></span></td>
+                                <td><span data-ng-bind="row.note"></span></td>
+                                <td><span data-ng-bind="row.prices | number"></span></td>
+                                
+                            </tr>
+                            <tr data-ng-show="report.income.length">
+                                <td colspan="5" class="text-right">
+                                    <strong>
+                                        Tổng thu: <span data-ng-bind="total_income | number"></span>
+                                    </strong>
+                                </td>               
+                            </tr>   
+                        </tbody>
+                    </table>
+
+
+                    <div class="alert alert-warning text-center" data-ng-hide="report.income.length">
+                        No Data.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

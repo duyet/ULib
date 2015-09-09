@@ -12,9 +12,10 @@ var Staff = require('./staff.server.model');
 
 var ServiceLog = Model.extend({
 	tableName: 'ServiceLogs',
+	idAttribute: 'servicelog_id',
 	
 	service: function () {
-		return this.belongsTo(Service, 'service_type_id');
+		return this.belongsTo(Service, 'service_id');
 	},
 
 	staff: function() {

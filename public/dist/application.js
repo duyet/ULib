@@ -5,9 +5,9 @@ var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'ulib';
 	var applicationModuleVendorDependencies = [
-		'ngResource', 
-		'ngCookies',  
-		'ngAnimate',  
+		'ngResource',
+		'ngCookies',
+		'ngAnimate',
 		'ngTouch', 
 		'ngSanitize',
 		'ui.router', 
@@ -15,7 +15,11 @@ var ApplicationConfiguration = (function() {
 		'ui.utils', 
 		'ui.select',
 		'angularFileUpload',
-		'angular-loading-bar'
+		'angular-loading-bar',
+		'toggle-switch',
+		'ui.bootstrap.datetimepicker',
+		'daterangepicker',
+		'dndLists'
 	];
 
 	// Add a new vertical module
@@ -98,11 +102,24 @@ ApplicationConfiguration.registerModule('publishers');
 'use strict';
 
 // Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('reports');
+'use strict';
+
+// Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('returns');
+
+'use strict';
+
+// Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('servicelogs');
 'use strict';
 
 // Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('services');
+'use strict';
+
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('settings');
 'use strict';
 
 // Use applicaion configuration module to register a new module
@@ -138,17 +155,6 @@ angular.module('about').controller('AboutController', ['$scope',
 	function($scope) {
 		// Controller Logic
 		// ...
-	}
-]);
-'use strict';
-
-// Configuring the Articles module
-angular.module('authors').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Authors', 'authors', 'dropdown', '/authors(/create)?');
-		Menus.addSubMenuItem('topbar', 'authors', 'List Authors', 'authors');
-		Menus.addSubMenuItem('topbar', 'authors', 'New Author', 'authors/create');
 	}
 ]);
 'use strict';
@@ -193,7 +199,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 
 			// Redirect after save
 			author.$save(function(response) {
-				$location.path('authors/' + response.id);
+				$location.path('authors');
 
 				// Clear form fields
 				$scope.name = '';
@@ -204,18 +210,39 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 
 		// Remove existing Author
 		$scope.remove = function(author) {
-			if ( author ) { 
-				author.$remove();
+			swal({
+				title: "Are you sure?",
+				type: "warning",
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, delete",   
+				cancelButtonText: "Cancel",   
+				closeOnConfirm: false,   
+				closeOnCancel: true
+			}, function(isConfirm){
+				if (isConfirm) {
+					delete_submit();
 
-				for (var i in $scope.authors) {
-					if ($scope.authors [i] === author) {
-						$scope.authors.splice(i, 1);
+					swal("Deleted!", "Your imaginary file has been deleted.", "success");   
+				} else {     
+					swal("Cancelled", "Your imaginary file is safe :)", "error");   
+				} 
+			});
+
+			var delete_submit = function() {
+				if ( author ) { 
+					author.$remove();
+
+					for (var i in $scope.authors) {
+						if ($scope.authors [i] === author) {
+							$scope.authors.splice(i, 1);
+						}
 					}
+				} else if ($scope.author) {
+					$scope.author.$remove(function() {
+						$location.path('authors');
+					});
 				}
-			} else {
-				$scope.author.$remove(function() {
-					$location.path('authors');
-				});
 			}
 		};
 
@@ -224,7 +251,7 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 			var author = $scope.author;
 
 			author.$update(function() {
-				$location.path('authors/' + author.id);
+				$location.path('authors');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -241,6 +268,11 @@ angular.module('authors').controller('AuthorsController', ['$scope', '$statePara
 				authorId: $stateParams.authorId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -258,17 +290,6 @@ angular.module('authors').factory('Authors', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('books').run(['Menus', 
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Books', 'books', 'dropdown', '/books(/create)?');
-		Menus.addSubMenuItem('topbar', 'books', 'List Books', 'books');
-		Menus.addSubMenuItem('topbar', 'books', 'New Book', 'books/create');
-	}
-]);
-'use strict';
-
 //Setting up route
 angular.module('books').config(['$stateProvider',
 	function($stateProvider) {
@@ -281,6 +302,10 @@ angular.module('books').config(['$stateProvider',
 		state('createBook', {
 			url: '/books/create',
 			templateUrl: 'modules/books/views/create-book.client.view.html'
+		}).
+		state('searchBook', {
+			url: '/books/search',
+			templateUrl: 'modules/books/views/search-books.client.view.html'
 		}).
 		state('bookReport', {
 			url: '/books/report',
@@ -306,14 +331,35 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 		$scope.languages = Languages.query();
 		$scope.publishers = Publishers.query();
 		$scope.authors = Authors.query();
-
 		$scope.currentUrl = $location.absUrl();
 		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 
-		$scope.available_number
+		$scope.available_number;
 		$scope.$watch('number', function () {
 			$scope.available_number = $scope.number;
 		});
+
+		$scope.initData = function() {
+
+		}
+
+		$scope.getCatNameById = function(id) {
+			for (var i in $scope.categories) {
+				if ($scope.categories[i].category_id === id) return $scope.categories[i].name;
+			}
+		}
+
+		$scope.getLangById = function(id) {
+			for (var i in $scope.languages) {
+				if ($scope.languages[i].language_id === id) return $scope.languages[i].name;
+			}
+		}
+
+		$scope.getPublisherById = function(id) {
+			for (var i in $scope.publishers) {
+				if ($scope.publishers[i].publisher_id === id) return $scope.publishers[i].name;
+			}
+		}
 
 		// Create new Book
 		$scope.create = function() {
@@ -327,14 +373,13 @@ angular.module('books').controller('BooksController', ['$scope', '$stateParams',
 				number: this.number,
 				description: this.description,
 				available_number: this.available_number,
-				publish_date: this.publish_date,
 				image: $scope.image_url || '',
 				status: this.status,
 			});
 
 			// Redirect after save
 			book.$save(function(response) {
-				$location.path('books/' + response.id);
+				$location.path('books');
 
 				// Clear form fields
 				$scope.name = '';
@@ -459,18 +504,6 @@ angular.module('books').factory('Books', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('categories').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Categories', 'categories', 'dropdown', '/categories(/create)?');
-		Menus.addSubMenuItem('topbar', 'categories', 'List Categories', 'categories');
-		Menus.addSubMenuItem('topbar', 'categories', 'New Category', 'categories/create');
-		Menus.addSubMenuItem('topbar', 'categories', 'Import Category', 'categories/import');
-	}
-]);
-'use strict';
-
 //Setting up route
 angular.module('categories').config(['$stateProvider',
 	function($stateProvider) {
@@ -479,6 +512,10 @@ angular.module('categories').config(['$stateProvider',
 		state('listCategories', {
 			url: '/categories',
 			templateUrl: 'modules/categories/views/list-categories.client.view.html'
+		}).
+		state('searchCategories', {
+			url: '/categories/search',
+			templateUrl: 'modules/categories/views/search-categories.client.view.html'
 		}).
 		state('createCategory', {
 			url: '/categories/create',
@@ -501,25 +538,34 @@ angular.module('categories').config(['$stateProvider',
 'use strict';
 
 // Categories controller
-angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Categories',
-	function($scope, $stateParams, $location, $upload, Authentication, Categories) {
+angular.module('categories').controller('CategoriesController', ['$scope', '$stateParams', '$timeout', '$location', '$upload', 'Authentication', 'Categories', 'Books',
+	function($scope, $stateParams, $timeout, $location, $upload, Authentication, Categories, Books) {
 		$scope.authentication = Authentication;
+		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+
+		$scope.books = Books.query();
 
 		// Create new Category
 		$scope.create = function() {
+			var loanTime = Number.parseInt($scope.loan_time);
+
+			if (!this.name) return swal("Error", "Vui lòng điền loại danh mục", "error"); 
+			if (!loanTime || loanTime <= 0) return swal("Error", "Vui lòng điền chính xác thời hạn mượn", "error");
+
 			// Create new Category object
 			var category = new Categories ({
 				name: this.name,
 				description: this.description,
-				loan_time: this.loan_time
+				loan_time: loanTime
 			});
 
 			// Redirect after save
 			category.$save(function(response) {
-				$location.path('categories/' + response.id);
+				$location.path('categories');
 
 				// Clear form fields
 				$scope.name = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -561,29 +607,63 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 
 		// Remove existing Category
 		$scope.remove = function(category) {
-			if ( category ) { 
-				category.$remove();
+			swal({
+				title: "Are you sure?",
+				type: "warning",
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, delete",   
+				cancelButtonText: "Cancel",   
+				closeOnConfirm: false,   
+				closeOnCancel: true
+			}, function(isConfirm){
+				if (isConfirm) {
+					delete_submit();
 
-				for (var i in $scope.categories) {
-					if ($scope.categories [i] === category) {
-						$scope.categories.splice(i, 1);
-					}
+					
+				} else {     
+					//swal("Cancelled", "Your imaginary file is safe :)", "error");   
+				} 
+			});
+
+			var delete_submit = function() {
+				if ( category ) { 
+					category.$remove(function() {
+						for (var i in $scope.categories) {
+							if ($scope.categories [i] === category) {
+								$scope.categories.splice(i, 1);
+							}
+						}
+						swal("", "Deleted!.", "success");   
+					}, function() {
+						swal("", "Deleted!.", "success");   
+					});
+
+					
+				} else {
+					$scope.category.$remove(function() {
+						$location.path('categories');
+					});
 				}
-			} else {
-				$scope.category.$remove(function() {
-					$location.path('categories');
-				});
 			}
 		};
 
 		// Update existing Category
 		$scope.update = function() {
+			var loanTime = Number.parseInt($scope.category.loan_time);
+
+			if (!this.category.name) return swal("Error", "Vui lòng điền loại danh mục", "error"); 
+			if (!loanTime || loanTime <= 0) return swal("Error", "Vui lòng điền chính xác thời hạn mượn", "error");
+
 			var category = $scope.category;
 
+			console.log(category);
+
 			category.$update(function() {
-				$location.path('categories/' + category.id);
+				$location.path('categories');
+				return swal("Updated!", "", "success"); 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				return swal("", errorResponse.data.message, "error");
 			});
 		};
 
@@ -597,6 +677,59 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 			$scope.category = Categories.get({ 
 				categoryId: $stateParams.categoryId
 			});
+
+		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
+
+		// Auto upload when select
+		$scope.$watch('image_upload', function () {
+			$scope.upload($scope.image_upload);
+		});
+		$scope.upload = function(files) {
+		    if (files && files.length) {
+		        for (var i = 0; i < files.length; i++) {
+		            var file = files[i];
+
+		            $scope.uploadStatus = false;
+		            $upload.upload({
+		                url: 'books/image_upload',
+		                fields: {
+		                
+		                },
+		                file: file
+		            }).progress(function(evt) {
+		                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+
+		                $scope.uploadStatus = 'Uploading ' + progressPercentage + '%';
+
+						console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+		            }).success(function(data, status, headers, config) {
+						console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+						
+						$scope.image_url = data;
+		            });
+		        }
+		    }
+		};
+
+		$scope.generateThumb = function(file) {
+			if (file != null) {
+				if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+					$timeout(function() {
+						var fileReader = new FileReader();
+						fileReader.readAsDataURL(file);
+						fileReader.onload = function(e) {
+							$timeout(function() {
+								file.dataUrl = e.target.result;
+							});
+						}
+					});
+				}
+			}
 		};
 	}
 ]);
@@ -605,7 +738,7 @@ angular.module('categories').controller('CategoriesController', ['$scope', '$sta
 //Categories service used to communicate Categories REST endpoints
 angular.module('categories').factory('Categories', ['$resource',
 	function($resource) {
-		return $resource('categories/:categoryId', { categoryId: '@id'
+		return $resource('categories/:categoryId', { categoryId: '@category_id'
 		}, {
 			update: {
 				method: 'PUT'
@@ -626,9 +759,91 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		state('home', {
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
+		}).
+		state('commingSoon', {
+			url: '/commingsoon',
+			templateUrl: 'modules/core/views/commingsoon.client.view.html'
+		}).
+		state('searches', {
+			url: '/searches',
+			templateUrl: 'modules/core/views/searches.client.view.html'
+		}).
+		state('info', {
+			url: '/info',
+			templateUrl: 'modules/core/views/info.client.view.html'
+		}).
+		state('help', {
+			url: '/help',
+			templateUrl: 'modules/core/views/help.client.view.html'
 		});
 	}
 ]);
+'use strict';
+
+angular.module('core').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', '<i class="md md-home"></i> Home', 'main-page', '/');
+
+		Menus.addMenuItem('topbar', '<i class="md md-loop"></i> Nghiệp vụ', 'main-service', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-service', 'Mượn sách', 'loans/create');
+		Menus.addSubMenuItem('topbar', 'main-service', 'Trả sách', 'returns/create');
+		Menus.addSubMenuItem('topbar', 'main-service', 'Tra cứu', 'searches');
+		Menus.addSubMenuItem('topbar', 'main-service', 'Dịch vụ', 'servicelogs/create');
+
+		Menus.addMenuItem('topbar', '<i class="md md-book"></i> Quản lý danh mục', 'main-categories', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Books', 'books');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Authors', 'authors');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Publishers', 'publishers');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Book Categories', 'categories');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Book Languages', 'languages');
+		Menus.addSubMenuItem('topbar', 'main-categories', 'Các dịch vụ', 'services');
+
+		Menus.addMenuItem('topbar', '<i class="md md-search"></i> Tra cứu', 'main-search', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Mượn quá hạn', 'reports/loan_out_of_date');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin sách', 'books/search');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Thông tin mượn sách', 'loans');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Danh mục', 'categories/search');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Danh sách SV', 'students');
+		Menus.addSubMenuItem('topbar', 'main-search', 'Nhật kí hệ thống', 'systemlogs');
+
+		Menus.addMenuItem('topbar', '<i class="md md-assessment"></i> Báo cáo', 'main-report', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu mượn', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu trả', 'reports/loans');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Doanh thu dịch vụ', 'reports/income');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Mượn quá hạn', 'reports/loan_out_of_date');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê danh mục', 'reports/categories');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê sách', 'reports/books');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê NXB', 'reports/publishers');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Thống kê tác giả', 'reports/authors');
+		Menus.addSubMenuItem('topbar', 'main-report', 'Phiếu phạt', 'commingsoon');
+
+		Menus.addMenuItem('topbar', '<i class="md md-settings"></i> Hệ thống', 'main-system', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-system', 'Thiết lập chung', 'settings/general');
+		Menus.addSubMenuItem('topbar', 'main-system', 'Các quy định', 'settings/library');
+
+		Menus.addMenuItem('topbar', '<i class="md md-account-box"></i> Tài khoản', 'main-user', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý tài khoản', 'user-managers');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Quản lý nhóm', 'groups');
+		Menus.addSubMenuItem('topbar', 'main-user', 'Phân quyền', 'commingsoon');
+
+		Menus.addMenuItem('topbar', '<i class="md md-info-outline"></i> Khác', 'main-other', 'dropdown', '#');
+		Menus.addSubMenuItem('topbar', 'main-other', 'Thông tin', 'info');
+		Menus.addSubMenuItem('topbar', 'main-other', 'Trợ giúp', 'help');
+
+
+		
+	}
+]);
+
+
+angular.module('core').run(['$rootScope', '$location', 'Authentication', function ($rootScope, $location, Authentication) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+
+        if (!Authentication.isAuthorized) $location.path('signin');
+        
+    });
+}]);
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
@@ -654,10 +869,20 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 'use strict';
 
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
+angular.module('core').controller('HomeController', ['$scope', '$location', 'Authentication',
+	function($scope, $location, Authentication) {
+		//if (!Authentication.isAuthorized) $location.path('signin');
+		
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
+
+		console.log(Authentication);
+
+		$scope.go = function(url) {
+			$location.path(url);
+		}
+
+		
 	}
 ]);
 
@@ -859,6 +1084,11 @@ angular.module('groups').controller('GroupsController', ['$scope', '$stateParams
 	function($scope, $stateParams, $location, Authentication, Groups, UserManagers) {
 		$scope.authentication = Authentication;
 
+		// Model to JSON for demo purpose
+	    $scope.$watch('models', function(model) {
+	        $scope.modelAsJson = angular.toJson(model, true);
+	    }, true);
+
 		$scope.go = function (path) {
 			$location.path(path);
 		};
@@ -966,17 +1196,6 @@ angular.module('import').controller('ImportController', ['$scope',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('languages').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Languages', 'languages', 'dropdown', '/languages(/create)?');
-		Menus.addSubMenuItem('topbar', 'languages', 'List Languages', 'languages');
-		Menus.addSubMenuItem('topbar', 'languages', 'New Language', 'languages/create');
-	}
-]);
-'use strict';
-
 //Setting up route
 angular.module('languages').config(['$stateProvider',
 	function($stateProvider) {
@@ -1017,7 +1236,7 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 
 			// Redirect after save
 			language.$save(function(response) {
-				$location.path('languages/' + response.id);
+				$location.path('languages');
 
 				// Clear form fields
 				$scope.name = '';
@@ -1048,7 +1267,7 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 			var language = $scope.language;
 
 			language.$update(function() {
-				$location.path('languages/' + language.id);
+				$location.path('languages');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1065,6 +1284,11 @@ angular.module('languages').controller('LanguagesController', ['$scope', '$state
 				languageId: $stateParams.languageId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -1082,17 +1306,6 @@ angular.module('languages').factory('Languages', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('loans').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Loans', 'loans', 'dropdown', '/loans(/create)?');
-		Menus.addSubMenuItem('topbar', 'loans', 'List Loans', 'loans');
-		Menus.addSubMenuItem('topbar', 'loans', 'New Loan', 'loans/create');
-	}
-]);
-'use strict';
-
 //Setting up route
 angular.module('loans').config(['$stateProvider',
 	function($stateProvider) {
@@ -1105,6 +1318,10 @@ angular.module('loans').config(['$stateProvider',
 		state('createLoan', {
 			url: '/loans/create',
 			templateUrl: 'modules/loans/views/create-loan.client.view.html'
+		}).
+		state('preoderLoan', {
+			url: '/loans/preoder',
+			templateUrl: 'modules/loans/views/preoder-loan.client.view.html'
 		}).
 		state('viewLoan', {
 			url: '/loans/:loanId',
@@ -1119,29 +1336,179 @@ angular.module('loans').config(['$stateProvider',
 'use strict';
 
 // Loans controller
-angular.module('loans').controller('LoansController', ['$scope', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
-	function($scope, $stateParams, $location, Authentication, Loans, Books, Students) {
+angular.module('loans').controller('LoansController', ['$scope', '$resource', '$filter', '$stateParams', '$location', 'Authentication', 'Loans', 'Books', 'Students',
+	function($scope, $resource, $filter, $stateParams, $location, Authentication, Loans, Books, Students) {
 		$scope.authentication = Authentication;
-		$scope.books = Books.query();
-		$scope.students = Students.query();
+		//$scope.books = Books.query();
 
-		// Create new Loan
-		$scope.create = function() {
-			// Create new Loan object
-			var loan = new Loans ({
-				student_id: this.student_id,
-				staff_id: this.user.id,
-				book_id: this.book_ids
+		$scope.isChooseBookActive = false;
+		$scope.selectedBook = [];
+		
+		$scope.createData = {};
+		$scope.librules = {};
+		$scope.librules.min_number_of_books = 100;
+
+		$scope.canBooking = true;
+
+		$scope.debug = false;
+
+		$scope.fetchStudentData = function() {
+			var uid = $scope.student_id_input;
+			// uid = parseInt(uid);
+
+			$scope.student_info = false;
+
+			if (uid.toString().length > 8) {
+				console.error("Length > 8", uid);
+				$scope.student_info = false;
+				return false;
+			}
+			else if (uid.toString().length < 6) {
+				console.error("Length < 6", uid);
+				return false;
+			}
+
+			console.error("Got here", uid);
+
+			Students.get({ 
+				studentId: uid
+			}, function(u) {
+				if (u) {
+					$scope.listBookNotReturnedByUid = false;
+					$scope.canBooking = true;
+					$scope.createData.student = $scope.student_info = u;
+					if (u) {
+						$scope.fetchNotReturnBooks(uid);
+					}
+				}
 			});
+		}
+
+		$scope.fetchNotReturnBooks = function(uid) {
+			$scope.canBooking = true;
+			$resource('loans/list_not_return').query({
+				student_id: uid
+			}, function(data) {
+				if (data && data.length) {
+					$scope.listBookNotReturnedByUid = data;
+					$scope.canBooking = false;
+				}
+				else $scope.listBookNotReturnedByUid = false;
+			});
+		}
+
+		$scope.chooseBook = function() {
+			return $scope.isChooseBookActive = true;
+		}
+
+		$scope.isEmptyResult = false;
+		$scope.searchBook = function() {
+			$scope.fiteredBooks = [];
+			$scope.isEmptyResult = false;
+			var keyword = $scope.searchByKeyword || '';
+			
+			if (!$scope.canBooking) {
+				return swal("", "Sinh viên chưa trả sách, không thể lập phiếu mượn mới", "error"); 
+			}
+
+			if (!(keyword.toString().length > 0)) {
+				return swal("", "Vui lòng nhập mã sách hoặc tên sách", "error"); 
+			}
+
+			$resource('books/search').query({
+				keyword: keyword
+			}, function(books) {
+				console.log(books);
+				
+				if (books && books.length == 0) {
+					$scope.isEmptyResult = true;
+				}
+				$scope.fiteredBooks = books;
+			});
+
+		}
+
+		$scope.selectBook = function(b) {
+			if (!b) return false;
+			
+			if (!b.can_booking) {
+				// return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!	", "error"); 
+			
+				return swal({
+					title: "Lập phiếu đặt trước?",
+					text: "Sách dưới ngưỡng tồn nên k thể mượn, lập phiếu đặt trước cho sách này?",   
+					type: "warning",   
+					showCancelButton: true,   
+					confirmButtonColor: "#11ABEF",   
+					confirmButtonText: "Đặt",   
+					cancelButtonText: "Hủy",   
+					closeOnConfirm: false,   
+					closeOnCancel: false 
+				}, function(isConfirm){   
+					if (isConfirm) {     
+						$location.path('loans/preoder');
+					} else {     
+						return swal("", "Không thể mượn, số lượng sách đang dưới mức tồn kho quy định!", "error");   
+					} 
+				});
+			}
+
+			for (var i in $scope.fiteredBooks) {
+				if ($scope.fiteredBooks[i] === b) {
+					$scope.fiteredBooks.splice(i, 1);
+				}
+			}
+
+			var isExists = false;
+			for (var i in $scope.selectedBook) {
+				if ($scope.selectedBook[i].book_id === b.book_id) {
+					isExists = true;
+				}
+			}
+
+			if (!isExists) $scope.selectedBook.push(b);
+		}
+
+		$scope.removeBookFromSelectedList = function(b) {
+			if (!b) return false;
+
+			for (var i in $scope.selectedBook) {
+				if ($scope.selectedBook[i] === b) {
+					$scope.selectedBook.splice(i, 1);
+				}
+			}
+		}
+
+
+		$scope.create = function() {
+			if (!$scope.canBooking) {
+				return swal("", "Sinh viên chưa trả sách, không thể lập phiếu mượn mới", "error"); 
+			}
+
+			if (!$scope.createData.student) {
+				return swal("", "Vui lòng nhập thông tin sinh viên", "error");  
+			}
+
+			if (!$scope.selectedBook.length) {
+				return swal("", "Vui lòng chọn sách cần mượn", "error");  	
+			}
+
+			$scope.createData.books = $scope.selectedBook;
+
+			// Init time when submit
+			$scope.createData.created = new Date();
+
+			console.log('Init to create with data: ', $scope.createData);
+			// Create new Loan object
+			var loan = new Loans ($scope.createData);
 
 			// Redirect after save
 			loan.$save(function(response) {
-				$location.path('loans/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
+				$location.path('loans/' + response.insertId);
+				return swal("", "Thành công", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+				return swal("", $scope.error, "error");
 			});
 		};
 
@@ -1183,7 +1550,14 @@ angular.module('loans').controller('LoansController', ['$scope', '$stateParams',
 			$scope.loan = Loans.get({ 
 				loanId: $stateParams.loanId
 			});
+
+			console.log($scope.loan);
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -1191,23 +1565,12 @@ angular.module('loans').controller('LoansController', ['$scope', '$stateParams',
 //Loans service used to communicate Loans REST endpoints
 angular.module('loans').factory('Loans', ['$resource',
 	function($resource) {
-		return $resource('loans/:loanId', { loanId: '@_id'
+		return $resource('loans/:loanId', { loanId: '@id'
 		}, {
 			update: {
 				method: 'PUT'
 			}
 		});
-	}
-]);
-'use strict';
-
-// Configuring the Articles module
-angular.module('publishers').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Publishers', 'publishers', 'dropdown', '/publishers(/create)?');
-		Menus.addSubMenuItem('topbar', 'publishers', 'List Publishers', 'publishers');
-		Menus.addSubMenuItem('topbar', 'publishers', 'New Publisher', 'publishers/create');
 	}
 ]);
 'use strict';
@@ -1252,11 +1615,12 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 
 			// Redirect after save
 			publisher.$save(function(response) {
-				$location.path('publishers/' + response.id);
+				$location.path('publishers');
 
 				// Clear form fields
 				$scope.name = '';
 				$scope.description = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1264,19 +1628,41 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 
 		// Remove existing Publisher
 		$scope.remove = function(publisher) {
-			if ( publisher ) { 
-				publisher.$remove();
+			swal({
+				title: "Are you sure?",
+				type: "warning",
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Yes, delete",   
+				cancelButtonText: "Cancel",   
+				closeOnConfirm: false,   
+				closeOnCancel: true
+			}, function(isConfirm){
+				if (isConfirm) {
+					delete_submit();
 
-				for (var i in $scope.publishers) {
-					if ($scope.publishers [i] === publisher) {
-						$scope.publishers.splice(i, 1);
+					swal("Deleted!", "Your imaginary file has been deleted.", "success");   
+				} else {     
+					//swal("Cancelled", "Your imaginary file is safe :)", "error");   
+				} 
+			});
+
+			var delete_submit = function() {
+				if ( publisher ) { 
+					publisher.$remove();
+
+					for (var i in $scope.publishers) {
+						if ($scope.publishers [i] === publisher) {
+							$scope.publishers.splice(i, 1);
+						}
 					}
+				} else {
+					$scope.publisher.$remove(function() {
+						$location.path('publishers');
+					});
 				}
-			} else {
-				$scope.publisher.$remove(function() {
-					$location.path('publishers');
-				});
 			}
+
 		};
 
 		// Update existing Publisher
@@ -1284,9 +1670,10 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 			var publisher = $scope.publisher;
 
 			publisher.$update(function() {
-				$location.path('publishers/' + publisher.id);
+				$location.path('publishers');
+				return swal("Updated!", "", "success"); 
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				return swal("", errorResponse.data.message, "error"); 
 			});
 		};
 
@@ -1301,6 +1688,11 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 				publisherId: $stateParams.publisherId
 			});
 		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -1308,7 +1700,7 @@ angular.module('publishers').controller('PublishersController', ['$scope', '$sta
 //Publishers service used to communicate Publishers REST endpoints
 angular.module('publishers').factory('Publishers', ['$resource',
 	function($resource) {
-		return $resource('publishers/:publisherId', { publisherId: '@id'
+		return $resource('publishers/:publisherId', { publisherId: '@publisher_id'
 		}, {
 			update: {
 				method: 'PUT'
@@ -1318,13 +1710,474 @@ angular.module('publishers').factory('Publishers', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('servicelogs').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Servicelogs', 'servicelogs', 'dropdown', '/servicelogs(/create)?');
-		Menus.addSubMenuItem('topbar', 'servicelogs', 'List Servicelogs', 'servicelogs');
-		Menus.addSubMenuItem('topbar', 'servicelogs', 'New Servicelog', 'servicelogs/create');
+//Setting up route
+angular.module('reports').config(['$stateProvider',
+	function($stateProvider) {
+		// Reports state routing
+		$stateProvider.
+		state('listReports', {
+			url: '/reports',
+			templateUrl: 'modules/reports/views/list-reports.client.view.html'
+		}).
+		state('loanReports', {
+			url: '/reports/loans',
+			templateUrl: 'modules/reports/views/loans-reports.client.view.html'
+		}).
+		state('reportLoanOutOfDate', {
+			url: '/reports/loan_out_of_date',
+			templateUrl: 'modules/reports/views/loanoutofdate-report.client.view.html'
+		}).
+		state('reportsCategories', {
+			url: '/reports/categories',
+			templateUrl: 'modules/reports/views/categories-report.client.view.html'
+		}).
+		state('reportsBooks', {
+			url: '/reports/books',
+			templateUrl: 'modules/reports/views/books-report.client.view.html'
+		}).
+		state('reportsPublisher', {
+			url: '/reports/publishers',
+			templateUrl: 'modules/reports/views/publishers-report.client.view.html'
+		}).
+		state('reportsAuthor', {
+			url: '/reports/authors',
+			templateUrl: 'modules/reports/views/authors-report.client.view.html'
+		}).
+		state('reportsIncome', {
+			url: '/reports/income',
+			templateUrl: 'modules/reports/views/income-report.client.view.html'
+		}).
+		state('viewReport', {
+			url: '/reports/:reportId',
+			templateUrl: 'modules/reports/views/view-report.client.view.html'
+		}).
+		state('editReport', {
+			url: '/reports/:reportId/edit',
+			templateUrl: 'modules/reports/views/edit-report.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+angular.module('reports').filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=1; i < total; i++)
+      input.push(i);
+    return input;
+  };
+});
+
+// Reports controller
+angular.module('reports').controller('ReportsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Reports',
+	function($scope, $resource, $stateParams, $location, Authentication, Reports) {
+		$scope.authentication = Authentication;
+
+		$scope.report = {};
+		$scope.isLoading = true;
+
+		$scope.currentMonth = (new Date()).getMonth() + 1;
+
+		$scope.getDatetime = new Date();
+
+		$scope.reportCategories = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/categories').query(param, function(data) {
+				$scope.report.categories = data;
+				for (var i = 0; i < data.length; i++) {
+					$scope.report.total_book_loan += data[i].num;
+				}
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportBooks = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/books').query(param, function(data) {
+				$scope.report.books = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info( data[i]);
+					$scope.report.total_book_loan += data[i].num;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportAuthors = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/authors').query(param, function(data) {
+				$scope.report.authors = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info( data[i]);
+					$scope.report.total_book_loan += data[i].num;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportLoanOutOfDate = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = 0;
+			$resource('reports/loan_out_of_date').query(param, function(data) {
+				$scope.report.books = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					$scope.report.total_book_loan += data[i].num;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.reportPublishers = function(month) {
+			var param = {};
+			if (month) param.month = month;
+			$scope.isLoading = true;
+			$scope.report.total_book_loan = $scope.publishers_total_loan_counter = $scope.publishers_total_book_counter = 0;
+			$resource('reports/publishers').query(param, function(data) {
+				$scope.report.publishers = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					$scope.publishers_total_book_counter += data[i].book_counter;
+					$scope.publishers_total_loan_counter += data[i].loan_counter;
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.isMonthFilter = true;
+		$scope.loanDataRange = {startDate: null, endDate: null};
+		$scope.reportLoans = function(month) {
+			var param = {};
+			if ($scope.isMonthFilter == false) {
+				param.start_date = $scope.loanDataRange.startDate;
+				param.end_date = $scope.loanDataRange.endDate;
+			}
+			else if (month) param.month = month;
+
+
+			$scope.isLoading = true;
+			$scope.total_loans = 0;
+			$resource('reports/loans').query(param, function(data) {
+				$scope.report.loans = data;
+				for (var i = 0; i < data.length; i++) {
+					console.info(data[i]);
+					
+				}
+
+				// Rating 
+				$scope.rating = [];
+				$scope.isLoading = false;
+			});
+		};
+
+		var getDateFormated = function(string) {
+			var today = new Date(string);
+			if (!today) return false;
+
+		    var dd = today.getDate();
+		    var mm = today.getMonth()+1; //January is 0!
+
+		    var yyyy = today.getFullYear();
+		    if(dd<10){
+		        dd='0'+dd
+		    } 
+		    if(mm<10){
+		        mm='0'+mm
+		    } 
+		    
+		    var today = yyyy + '-' + mm + '-' + dd;
+
+		    return today
+		}
+
+		$scope.report.income = [];
+		$scope.reportIncome = function() {
+			$scope.isLoading = true;
+			var param = {};
+			if ($scope.loanDataRange.startDate && $scope.loanDataRange.endDate) {
+				param.start_date = getDateFormated($scope.loanDataRange.startDate);
+				param.end_date = getDateFormated($scope.loanDataRange.endDate);
+			}
+			$scope.total_income = 0;
+			$resource('reports/income').query(param, function(data) {
+				$scope.report.income = data;
+				for (var i = 0; i < data.length; i++)
+					$scope.total_income += data[i].prices;
+				$scope.isLoading = false;
+			});
+		};
+
+		$scope.$watch('loanDataRange', function() {
+			$scope.reportIncome();
+		}, true);
+		
+
+		// Create new Report
+		$scope.create = function() {
+			// Create new Report object
+			var report = new Reports ({
+				name: this.name
+			});
+
+			// Redirect after save
+			report.$save(function(response) {
+				$location.path('reports/' + response._id);
+
+				// Clear form fields
+				$scope.name = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Remove existing Report
+		$scope.remove = function(report) {
+			if ( report ) { 
+				report.$remove();
+
+				for (var i in $scope.reports) {
+					if ($scope.reports [i] === report) {
+						$scope.reports.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.report.$remove(function() {
+					$location.path('reports');
+				});
+			}
+		};
+
+		// Update existing Report
+		$scope.update = function() {
+			var report = $scope.report;
+
+			report.$update(function() {
+				$location.path('reports/' + report._id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Find a list of Reports
+		$scope.find = function() {
+			$scope.reports = Reports.query();
+		};
+
+		// Find existing Report
+		$scope.findOne = function() {
+			$scope.report = Reports.get({ 
+				reportId: $stateParams.reportId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Reports service used to communicate Reports REST endpoints
+angular.module('reports').factory('Reports', ['$resource',
+	function($resource) {
+		return $resource('reports/:reportId', { reportId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
+'use strict';
+
+//Setting up route
+angular.module('returns').config(['$stateProvider',
+	function($stateProvider) {
+		// Returns state routing
+		$stateProvider.
+		state('listReturns', {
+			url: '/returns',
+			templateUrl: 'modules/returns/views/list-returns.client.view.html'
+		}).
+		state('createReturn', {
+			url: '/returns/create',
+			templateUrl: 'modules/returns/views/create-returns.client.view.html'
+		}).
+		state('viewReturn', {
+			url: '/returns/:loanId',
+			templateUrl: 'modules/returns/views/view-loan.client.view.html'
+		}).
+		state('editReturn', {
+			url: '/returns/:loanId/edit',
+			templateUrl: 'modules/returns/views/edit-loan.client.view.html'
+		}).
+		state('listNotReturn', {
+			url: '/returns/outofdate',
+			templateUrl: 'modules/returns/views/list-outofdate.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+// Returns controller
+angular.module('returns').controller('ReturnsController', ['$scope', '$resource', '$filter', '$stateParams', '$location', 'Authentication', 'Returns', 'Books', 'Students',
+	function($scope, $resource, $filter, $stateParams, $location, Authentication, Returns, Books, Students) {
+		$scope.authentication = Authentication;
+		$scope.student_info = false;
+		$scope.createData = {};
+		$scope.loan_detail = false;
+		$scope.isNotLoan = false;
+
+		$scope.fetchStudentData = function() {
+			var uid = $scope.student_id || 0;
+			//uid = parseInt(uid);
+
+			$scope.student_info = false;
+
+			if (uid.toString().length > 8) {
+				$scope.student_info = false;
+				return false;
+			}
+			if (uid.toString().length < 6) {
+				return false;
+			}
+
+			Students.get({ 
+				studentId: uid
+			}, function(u) {
+				if (u) {
+					$scope.createData.student = $scope.student_info = u;
+					$scope.fetchLoanDetail(u.student_id);
+				}
+			});
+		}
+
+		$scope.fetchLoanDetail = function(student_id) {
+			$scope.loan_details = {};
+			$scope.isNotLoan = false;
+
+			$resource('loans/list_not_return').query({
+				student_id: student_id
+			}, function(data) {
+				if (data) {
+					console.error(data);
+					$scope.loan_details.loan_id = data[0].loan_id || 0;
+					$scope.loan_details.time_created = data[0].time_created || '';
+					$scope.loan_details.data = data;
+				}
+				else $scope.isNotLoan = true;
+			});
+		}
+
+		$scope.returnSubmit = function() {
+			$scope.success = false;
+
+			var list_book_return = [];
+			$scope.loan_details.data.forEach(function(loan) {
+				if (loan.is_selected === true) list_book_return.push(loan.book_id);
+			});
+
+			if (!list_book_return)
+				return swal("", "Vui lòng chọn ít nhất 1 quyển", "error");  
+
+			$resource('loans/return_book_submit').post({
+				books: list_book_return,
+				loan_id: $scope.loan_details.loan_id
+			}, function(data) {
+				if (data) $scope.success = "Thành công";
+				else $scope.error = "Some thing was wrong~~";
+			});
+		}
+
+		$scope.outofdatelist = [];
+		$scope.findOutOfDateList = function() {
+			$scope.outofdatelist = $resource('loans/out_of_date').query();
+		}
+
+		$scope.create = function() {
+			if (!$scope.createData.student) {
+				return swal("", "Vui lòng nhập thông tin sinh viên", "error");  
+			}
+
+			if (!$scope.selectedBook.length) {
+				return swal("", "Vui lòng chọn sách cần mượn", "error");  	
+			}
+
+			$scope.createData.books = $scope.selectedBook;
+
+			// Init time when submit
+			$scope.createData.created = new Date();
+
+			console.log('Init to create with data: ', $scope.createData);
+			// Create new Return object
+			//var return = new Returns ($scope.createData);
+
+			// Redirect after save
+			//return.$save(function(response) {
+			//	$location.path('returns/' + response.insertId);
+			//	return swal("", "Thành công", "success");
+			//}, function(errorResponse) {
+			//	$scope.error = errorResponse.data.message;
+			//	return swal("", $scope.error, "success");
+			//});
+		};
+
+		// Remove existing Return
+		$scope.remove = function() {
+			
+		};
+
+		// Update existing Return
+		$scope.update = function() {
+			
+		};
+
+		// Find a list of Returns
+		$scope.find = function() {
+			//$scope.returns = Returns.query();
+		};
+
+		// Find existing Return
+		$scope.findOne = function() {
+			
+		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
+	}
+]);
+'use strict';
+
+//Returns service used to communicate Returns REST endpoints
+angular.module('returns').factory('Returns', ['$resource',
+	function($resource) {
+		return $resource('returns/:returnId', { returnId: '@id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
 	}
 ]);
 'use strict';
@@ -1362,14 +2215,14 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 		
 		// Load services
 		$scope.services = Services.query(function(data) {
-			$scope.service_type_id = data[0].id;
+			$scope.service_id = data[0].id;
 		});
 
 		// Create new Servicelog
 		$scope.create = function() {
 			// Create new Servicelog object
 			var servicelog = new Servicelogs ({
-				service_type_id: this.service_type_id,
+				service_id: this.service_id,
 				prices: this.prices,
 				note: this.note,
 				staff_id: $scope.authentication.user.id
@@ -1377,10 +2230,11 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 
 			// Redirect after save
 			servicelog.$save(function(response) {
-				$location.path('servicelogs/' + response.id);
+				$location.path('servicelogs');
 
 				// Clear form fields
 				$scope.name = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1414,7 +2268,7 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 			var servicelog = $scope.servicelog;
 
 			servicelog.$update(function() {
-				$location.path('servicelogs/' + servicelog._id);
+				$location.path('servicelogs');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1431,6 +2285,11 @@ angular.module('servicelogs').controller('ServicelogsController', ['$scope', '$s
 				servicelogId: $stateParams.servicelogId
 			});
 		};
+	
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -1444,17 +2303,6 @@ angular.module('servicelogs').factory('Servicelogs', ['$resource',
 				method: 'PUT'
 			}
 		});
-	}
-]);
-'use strict';
-
-// Configuring the Articles module
-angular.module('services').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Services', 'services', 'dropdown', '/services(/create)?');
-		Menus.addSubMenuItem('topbar', 'services', 'List Services', 'services');
-		Menus.addSubMenuItem('topbar', 'services', 'New Service', 'services/create');
 	}
 ]);
 'use strict';
@@ -1499,11 +2347,12 @@ angular.module('services').controller('ServicesController', ['$scope', '$statePa
 
 			// Redirect after save
 			service.$save(function(response) {
-				$location.path('services/' + response.id);
+				$location.path('services');
 
 				// Clear form fields
 				$scope.name = '';
 				$scope.description = '';
+				return swal("Success!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1531,7 +2380,8 @@ angular.module('services').controller('ServicesController', ['$scope', '$statePa
 			var service = $scope.service;
 
 			service.$update(function() {
-				$location.path('services/' + service.id);
+				$location.path('services');
+				return swal("Updated!", "", "success");
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -1565,13 +2415,109 @@ angular.module('services').factory('Services', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
-angular.module('students').run(['Menus',
-	function(Menus) {
-		// Set top bar menu items
-		Menus.addMenuItem('topbar', 'Students', 'students', 'dropdown', '/students(/create)?');
-		Menus.addSubMenuItem('topbar', 'students', 'List Students', 'students');
-		Menus.addSubMenuItem('topbar', 'students', 'New Student', 'students/create');
+//Setting up route
+angular.module('settings').config(['$stateProvider',
+	function($stateProvider) {
+		// Settings state routing
+		$stateProvider.
+		state('listSettings', {
+			url: '/settings',
+			templateUrl: 'modules/settings/views/list-settings.client.view.html'
+		}).
+		state('generalSetting', {
+			url: '/settings/general',
+			templateUrl: 'modules/settings/views/general-setting.client.view.html'
+		}).
+		state('libSetting', {
+			url: '/settings/library',
+			templateUrl: 'modules/settings/views/library-setting.client.view.html'
+		}).
+		state('debugSetting', {
+			url: '/settings/debug',
+			templateUrl: 'modules/settings/views/debug-setting.client.view.html'
+		});	
+	}
+]);
+'use strict';
+
+// Settings controller
+angular.module('settings').controller('LibSettingsController', ['$scope', '$resource', '$stateParams', '$location', 'Authentication', 'Settings',
+	function($scope, $resource, $stateParams, $location, Authentication, Settings) {
+		$scope.authentication = Authentication;
+		$scope.librule = [];
+		$scope.generalsettings = [];
+
+		// Remove existing Setting
+		$scope.remove = function(setting) {
+			if ( setting ) { 
+				setting.$remove();
+
+				for (var i in $scope.settings) {
+					if ($scope.settings [i] === setting) {
+						$scope.settings.splice(i, 1);
+					}
+				}
+			} else {
+				$scope.setting.$remove(function() {
+					$location.path('settings');
+				});
+			}
+		};
+
+		// Update existing Setting
+		$scope.update = function() {
+			var setting = $scope.setting;
+
+			setting.$update(function() {
+				$location.path('settings/' + setting.id);
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+		// Find a list of Settings
+		$scope.find = function() {
+		//	LibRules.query({}, function(data) {
+		//		$scope.librules = data;
+		//	});
+
+			console.log('Find()');
+
+			$scope.settings = Settings.query();
+
+		};
+
+		$scope.loadLibRule = function() {
+			$resource('/settings/librules').query(function(data) {
+				$scope.librules = data;
+			});
+		};
+
+		$scope.loadGenerateSettings = function() {
+			$resource('/settings').query(function(data) {
+				$scope.generalsettings = data;
+			});
+		};
+
+		// Find existing Setting
+		$scope.findOne = function() {
+			$scope.setting = Settings.get({ 
+				settingId: $stateParams.settingId
+			});
+		};
+	}
+]);
+'use strict';
+
+//Settings service used to communicate Settings REST endpoints
+angular.module('settings').factory('Settings', ['$resource',
+	function($resource) {
+		return $resource('settings/:settingId', { settingId: '@id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
 	}
 ]);
 'use strict';
@@ -1609,12 +2555,13 @@ angular.module('students').config(['$stateProvider',
 angular.module('students').controller('StudentsController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Students',
 	function($scope, $stateParams, $location, $upload, Authentication, Students) {
 		$scope.authentication = Authentication;
+		$scope.currentUrl = $location.absUrl();
 
 		// Create new Student
 		$scope.create = function() {
 			// Create new Student object
 			var student = new Students ({
-				student_id: this.student_id,
+				uid: this.student_id,
 				name: this.name,
 				subject: this.subject,
 				sex: this.sex,
@@ -1623,7 +2570,7 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 
 			// Redirect after save
 			student.$save(function(response) {
-				$location.path('students/' + response.student_id);
+				$location.path('students');
 
 				// Clear form fields
 				$scope.name = '';
@@ -1707,6 +2654,21 @@ angular.module('students').controller('StudentsController', ['$scope', '$statePa
 				studentId: $stateParams.studentId
 			});
 		};
+
+		$scope.loanByStudent = function() {
+			$scope.loans = [];
+			if (!$scope.student ) return false;
+			var uid = $scope.student.student_id;
+
+			$resource('loans/loan_by_student').query({student_id: uid}, function(data) {
+				$scope.loans = data;
+			})
+		};
+
+		// Go to 
+		$scope.go = function(url) {
+			$location.path(url);
+		}
 	}
 ]);
 'use strict';
@@ -1724,7 +2686,7 @@ angular.module('students').factory('Students', ['$resource',
 ]);
 'use strict';
 
-// Configuring the Articles module
+/*
 angular.module('user-managers').run(['Menus',
 	function(Menus) {
 		// Set top bar menu items
@@ -1739,6 +2701,7 @@ angular.module('user-managers').run(['Menus',
 		Menus.addSubMenuItem('topbar', 'user-managers', 'New User manager', 'user-managers/create');
 	}
 ]);
+*/
 
 // Config HTTP Error Handling
 angular.module('user-managers').config(['$httpProvider',
@@ -1967,7 +2930,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 		$scope.authentication = Authentication;
 
 		// If user is signed in then redirect back home
-		if ($scope.authentication.user) $location.path('/');
+		// if ($scope.authentication.user) $location.path('/');
 
 		$scope.signup = function() {
 			$http.post('/auth/signup', $scope.credentials).success(function(response) {
@@ -1975,7 +2938,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/');
+				$location.path('user-managers');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

@@ -3,8 +3,9 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash'),
-	glob = require('glob');
+var _ = require('lodash');
+var glob = require('glob');
+var mysql = require('mysql');
 
 /**
  * Load app configurations
@@ -14,6 +15,8 @@ module.exports = _.extend(
 	require('./db'),
 	require('./env/' + process.env.NODE_ENV) || {}
 );
+
+module.exports.connection = mysql.createConnection(require('./db').db);
 
 /**
  * Get files by glob patterns
