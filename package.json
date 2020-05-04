@@ -10,7 +10,9 @@
   "scripts": {
     "start": "grunt",
     "test": "grunt test",
-    "postinstall": "bower install --config.interactive=false"
+    "postinstall": "bower install --config.interactive=false",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "async": "~0.9.0",
@@ -18,7 +20,7 @@
     "bluebird": "^2.9.14",
     "body-parser": "~1.9.0",
     "bookshelf": "^0.7.9",
-    "bower": "~1.3.8",
+    "bower": "~1.7.5",
     "chalk": "~0.5",
     "checkit": "^0.5.1",
     "compression": "~1.2.0",
@@ -52,7 +54,8 @@
     "passport-local": "~1.0.0",
     "passport-twitter": "~1.0.2",
     "swig": "~1.4.1",
-    "xls-to-json": "^0.3.2"
+    "xls-to-json": "^0.3.2",
+    "snyk": "^1.317.0"
   },
   "devDependencies": {
     "supertest": "~0.14.0",
@@ -76,5 +79,6 @@
     "karma-chrome-launcher": "~0.1.2",
     "karma-firefox-launcher": "~0.1.3",
     "karma-phantomjs-launcher": "~0.1.2"
-  }
+  },
+  "snyk": true
 }
