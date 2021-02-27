@@ -5,7 +5,7 @@
   "author": "Van-Duyet Le",
   "engines": {
     "node": "0.10.x",
-    "npm": "1.4.x"
+    "npm": "7.6.x"
   },
   "scripts": {
     "start": "grunt",
