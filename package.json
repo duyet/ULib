@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "Van-Duyet Le",
   "engines": {
-    "node": "0.10.x",
+    "node": "14.18.x",
     "npm": "1.4.x"
   },
   "scripts": {
