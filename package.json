@@ -40,7 +40,7 @@
     "knex": "^0.7.6",
     "lodash": "~2.4.1",
     "method-override": "~2.3.0",
-    "mongoose": "~4.10.2",
+    "mongoose": "4.10.8",
     "morgan": "1.8.2",
     "mysql": "^2.6.2",
     "nodemailer": "~6.6.0",
