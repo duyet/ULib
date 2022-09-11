@@ -38,7 +38,7 @@
     "grunt-cli": "~0.1.13",
     "helmet": "~3.6.1",
     "knex": "^0.7.6",
-    "lodash": "~2.4.1",
+    "lodash": "~4.17.0",
     "method-override": "~2.3.0",
     "mongoose": "4.10.8",
     "morgan": "1.8.2",
