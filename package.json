@@ -37,7 +37,7 @@
     "glob": "~4.0.5",
     "grunt-cli": "~0.1.13",
     "helmet": "~3.6.1",
-    "knex": "^0.7.6",
+    "knex": "0.7.6",
     "lodash": "~4.17.0",
     "method-override": "~2.3.0",
     "mongoose": "4.10.8",
